@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta
+            name="description"
+            content="CivicPulse Smart Governance Management Platform">
+
+    <title>Login | CivicPulse</title>
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+            rel="stylesheet">
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet">
+
+
+    <!-- =====================================================
+         CIVICPULSE LOGIN CSS
+    ====================================================== -->
+
+    <link
+            rel="stylesheet"
+            th:href="@{/css/login.css}">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     LOGIN PAGE
+========================================================= -->
+
+<div class="login-page">
+
+
+    <!-- =====================================================
+         LEFT BRANDING SECTION
+    ====================================================== -->
+
+    <section class="login-brand-section">
+
+
+        <!-- Brand -->
+
+        <div class="login-brand">
+
+            <div class="login-brand-icon">
+
+                <i class="bi bi-buildings"></i>
+
+            </div>
+
+            <span>
+                CivicPulse
+            </span>
+
+        </div>
+
+
+        <!-- Main Content -->
+
+        <div class="login-brand-content">
+
+            <span class="login-eyebrow">
+                SMART GOVERNANCE
+            </span>
+
+
+            <h1>
+                Smarter Governance.<br>
+                Better Communities.
+            </h1>
+
+
+            <p>
+                A unified platform for managing civic services,
+                citizen complaints, government departments,
+                and public administration.
+            </p>
+
+
+            <!-- Feature List -->
+
+            <div class="login-features">
+
+
+                <div class="login-feature">
+
+                    <div class="login-feature-icon">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Secure Access
+                        </strong>
+
+                        <span>
+                            Role-based access for authorized users.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="login-feature">
+
+                    <div class="login-feature-icon">
+
+                        <i class="bi bi-clipboard-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Complaint Management
+                        </strong>
+
+                        <span>
+                            Track and resolve civic complaints efficiently.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="login-feature">
+
+                    <div class="login-feature-icon">
+
+                        <i class="bi bi-bar-chart-line"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Smart Administration
+                        </strong>
+
+                        <span>
+                            Data-driven tools for better decision making.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- Footer -->
+
+        <div class="login-brand-footer">
+
+            <span>
+                © <span id="currentYear">2026</span> CivicPulse
+            </span>
+
+            <span>
+                Smart Governance Management Platform
+            </span>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         RIGHT LOGIN SECTION
+    ====================================================== -->
+
+    <section class="login-form-section">
+
+
+        <div class="login-form-wrapper">
+
+
+            <!-- Mobile Logo -->
+
+            <div class="login-mobile-brand">
+
+                <div class="login-brand-icon">
+
+                    <i class="bi bi-buildings"></i>
+
+                </div>
+
+                <span>
+                    CivicPulse
+                </span>
+
+            </div>
+
+
+            <!-- Login Header -->
+
+            <div class="login-header">
+
+                <span class="login-header-label">
+                    WELCOME BACK
+                </span>
+
+                <h2>
+                    Sign in to your account
+                </h2>
+
+                <p>
+                    Enter your credentials to access the CivicPulse platform.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 LOGIN ERROR
+            ================================================== -->
+
+            <div
+                    id="loginError"
+                    class="login-message login-error d-none"
+                    role="alert">
+
+                <i class="bi bi-exclamation-circle"></i>
+
+                <span id="loginErrorMessage">
+                    Invalid username or password.
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 LOGOUT MESSAGE
+            ================================================== -->
+
+            <div
+                    id="logoutMessage"
+                    class="login-message login-success d-none"
+                    role="status">
+
+                <i class="bi bi-check-circle"></i>
+
+                <span>
+                    You have been successfully signed out.
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 LOGIN FORM
+            ================================================== -->
+
+            <form
+                    id="loginForm"
+                    method="post"
+                    action="/login"
+                    novalidate>
+
+
+                <!-- =================================================
+                     USERNAME
+                ================================================== -->
+
+                <div class="login-form-group">
+
+                    <label
+                            for="username"
+                            class="login-label">
+
+                        Username
+
+                    </label>
+
+
+                    <div class="login-input-wrapper">
+
+                        <i class="bi bi-person login-input-icon"></i>
+
+
+                        <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                class="login-input"
+                                placeholder="Enter your username"
+                                autocomplete="username"
+                                required>
+
+
+                    </div>
+
+
+                    <small
+                            id="usernameError"
+                            class="login-field-error d-none">
+
+                        Please enter your username.
+
+                    </small>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PASSWORD
+                ================================================== -->
+
+                <div class="login-form-group">
+
+                    <div class="login-label-row">
+
+                        <label
+                                for="password"
+                                class="login-label">
+
+                            Password
+
+                        </label>
+
+
+                        <a
+                                href="#"
+                                id="forgotPasswordLink"
+                                class="forgot-password">
+
+                            Forgot password?
+
+                        </a>
+
+                    </div>
+
+
+                    <div class="login-input-wrapper">
+
+                        <i class="bi bi-lock login-input-icon"></i>
+
+
+                        <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="login-input password-input"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required>
+
+
+                        <button
+                                type="button"
+                                id="togglePassword"
+                                class="password-toggle"
+                                aria-label="Show password">
+
+                            <i class="bi bi-eye"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <small
+                            id="passwordError"
+                            class="login-field-error d-none">
+
+                        Please enter your password.
+
+                    </small>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     REMEMBER ME
+                ================================================== -->
+
+                <div class="login-options">
+
+                    <label class="remember-me">
+
+                        <input
+                                type="checkbox"
+                                id="rememberMe"
+                                name="remember-me">
+
+                        <span class="custom-checkbox"></span>
+
+                        <span>
+                            Remember me
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     LOGIN BUTTON
+                ================================================== -->
+
+                <button
+                        type="submit"
+                        id="loginButton"
+                        class="login-button">
+
+                    <span
+                            id="loginButtonText">
+
+                        Sign In
+
+                    </span>
+
+
+                    <span
+                            id="loginButtonLoading"
+                            class="d-none">
+
+                        <span
+                                class="spinner-border spinner-border-sm"
+                                aria-hidden="true">
+                        </span>
+
+                        Signing in...
+
+                    </span>
+
+
+                    <i
+                            id="loginButtonIcon"
+                            class="bi bi-arrow-right">
+                    </i>
+
+                </button>
+
+
+            </form>
+
+
+            <!-- =================================================
+                 SECURITY INFORMATION
+            ================================================== -->
+
+            <div class="login-security-note">
+
+                <i class="bi bi-shield-lock"></i>
+
+                <span>
+                    Your account is protected with secure authentication.
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 SUPPORT
+            ================================================== -->
+
+            <div class="login-support">
+
+                <span>
+                    Need help accessing your account?
+                </span>
+
+                <a href="#">
+                    Contact System Administrator
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+</div>
+
+
+
+<!-- =========================================================
+     FORGOT PASSWORD MODAL
+========================================================= -->
+
+<div
+        class="modal fade"
+        id="forgotPasswordModal"
+        tabindex="-1"
+        aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content login-modal">
+
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h5 class="modal-title">
+                        Reset Password
+                    </h5>
+
+                    <p>
+                        Contact the system administrator to reset your password.
+                    </p>
+
+                </div>
+
+
+                <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <div class="forgot-password-icon">
+
+                    <i class="bi bi-key"></i>
+
+                </div>
+
+
+                <h6>
+                    Password reset required?
+                </h6>
+
+
+                <p>
+                    For security reasons, password resets are handled
+                    through the CivicPulse administration system.
+                </p>
+
+
+                <button
+                        type="button"
+                        class="login-modal-button"
+                        data-bs-dismiss="modal">
+
+                    Close
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     BOOTSTRAP JS
+========================================================= -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- =========================================================
+     LOGIN JS
+========================================================= -->
+
+<script
+        th:src="@{/js/login.js}">
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- =========================================================
+     CIVICPULSE NAVBAR FRAGMENT
+
+     Usage:
+
+     <header
+         th:replace="~{fragments/navbar :: navbar(
+             'Officer Dashboard',
+             'Monitor and manage assigned civic grievances'
+         )}">
+     </header>
+
+     Parameters:
+     1. pageTitle
+     2. pageSubtitle
+========================================================= -->
+
+<header
+        class="top-navbar"
+        th:fragment="navbar(pageTitle, pageSubtitle)">
+
+    <!-- =====================================================
+         LEFT SECTION
+    ====================================================== -->
+
+    <div class="navbar-left">
+
+        <!-- Sidebar Toggle -->
+
+        <button
+                type="button"
+                class="sidebar-toggle"
+                id="sidebarToggle"
+                aria-label="Toggle sidebar"
+                title="Toggle sidebar">
+
+            <i class="bi bi-list"></i>
+
+        </button>
+
+
+        <!-- Page Heading -->
+
+        <div class="page-heading">
+
+            <h4
+                    th:text="${pageTitle}">
+                Page Title
+            </h4>
+
+            <p
+                    th:text="${pageSubtitle}">
+                Page description
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         RIGHT SECTION
+    ====================================================== -->
+
+    <div class="navbar-right">
+
+
+        <!-- =================================================
+             SEARCH
+        ================================================== -->
+
+        <div class="navbar-search d-none d-md-flex">
+
+            <i class="bi bi-search"></i>
+
+            <input
+                    type="search"
+                    id="globalSearch"
+                    placeholder="Search..."
+                    aria-label="Search">
+
+        </div>
+
+
+        <!-- =================================================
+             MOBILE SEARCH BUTTON
+        ================================================== -->
+
+        <button
+                type="button"
+                class="icon-button d-md-none"
+                id="mobileSearchButton"
+                aria-label="Search">
+
+            <i class="bi bi-search"></i>
+
+        </button>
+
+
+        <!-- =================================================
+             NOTIFICATIONS
+        ================================================== -->
+
+        <div class="dropdown">
+
+            <button
+                    type="button"
+                    class="icon-button"
+                    id="notificationButton"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    aria-label="Notifications"
+                    title="Notifications">
+
+                <i class="bi bi-bell"></i>
+
+                <!-- Notification Indicator -->
+
+                <span
+                        class="notification-dot"
+                        th:if="${unreadNotificationCount != null and unreadNotificationCount > 0}">
+                </span>
+
+            </button>
+
+
+            <!-- Notification Dropdown -->
+
+            <ul
+                    class="dropdown-menu dropdown-menu-end notification-menu">
+
+
+                <!-- Header -->
+
+                <li class="notification-header">
+
+                    <strong>
+                        Notifications
+                    </strong>
+
+                    <span
+                            th:text="${unreadNotificationCount ?: 0} + ' New'">
+                        0 New
+                    </span>
+
+                </li>
+
+
+                <li>
+
+                    <hr class="dropdown-divider">
+
+                </li>
+
+
+                <!-- =================================================
+                     NOTIFICATION LIST
+
+                     Backend will populate this later.
+                ================================================== -->
+
+                <th:block
+                        th:if="${notifications != null and !notifications.isEmpty()}">
+
+                    <li
+                            th:each="notification : ${notifications}"
+                            class="notification-item">
+
+                        <a
+                                href="#"
+                                class="dropdown-item">
+
+                            <div class="notification-item-icon">
+
+                                <i
+                                        class="bi bi-bell-fill">
+                                </i>
+
+                            </div>
+
+                            <div class="notification-item-content">
+
+                                <strong
+                                        th:text="${notification.title}">
+                                    Notification
+                                </strong>
+
+                                <span
+                                        th:text="${notification.message}">
+                                    Notification message
+                                </span>
+
+                                <small
+                                        th:text="${notification.createdAt}">
+                                    Time
+                                </small>
+
+                            </div>
+
+                        </a>
+
+                    </li>
+
+                </th:block>
+
+
+                <!-- Empty State -->
+
+                <li
+                        th:if="${notifications == null or notifications.isEmpty()}"
+                        class="empty-notification">
+
+                    <i class="bi bi-bell-slash"></i>
+
+                    <p>
+                        No new notifications
+                    </p>
+
+                </li>
+
+
+                <!-- Footer -->
+
+                <li>
+
+                    <hr class="dropdown-divider">
+
+                </li>
+
+                <li>
+
+                    <a
+                            href="/officer/notifications"
+                            class="notification-footer">
+
+                        View all notifications
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- =================================================
+             USER PROFILE
+        ================================================== -->
+
+        <div class="dropdown">
+
+            <button
+                    type="button"
+                    class="profile-button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+
+
+                <!-- Avatar -->
+
+                <div class="top-profile-avatar">
+
+                    <i class="bi bi-person-fill"></i>
+
+                </div>
+
+
+                <!-- User Information -->
+
+                <div class="top-profile-info d-none d-md-flex">
+
+                    <strong
+                            th:text="${loggedInUserName ?: 'User'}">
+                        User
+                    </strong>
+
+                    <span
+                            th:text="${loggedInUserRole ?: 'Account'}">
+                        Account
+                    </span>
+
+                </div>
+
+
+                <i class="bi bi-chevron-down"></i>
+
+            </button>
+
+
+            <!-- =================================================
+                 PROFILE DROPDOWN
+            ================================================== -->
+
+            <ul
+                    class="dropdown-menu dropdown-menu-end profile-menu">
+
+
+                <!-- User Header -->
+
+                <li>
+
+                    <div class="dropdown-profile">
+
+                        <div class="dropdown-avatar">
+
+                            <i class="bi bi-person-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong
+                                    th:text="${loggedInUserName ?: 'User'}">
+                                User
+                            </strong>
+
+                            <small
+                                    th:text="${loggedInUserRole ?: 'Account'}">
+                                Account
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </li>
+
+
+                <li>
+
+                    <hr class="dropdown-divider">
+
+                </li>
+
+
+                <!-- Profile -->
+
+                <li>
+
+                    <a
+                            class="dropdown-item"
+                            href="/officer/profile">
+
+                        <i class="bi bi-person"></i>
+
+                        My Profile
+
+                    </a>
+
+                </li>
+
+
+                <!-- Change Password -->
+
+                <li>
+
+                    <a
+                            class="dropdown-item"
+                            href="/officer/change-password">
+
+                        <i class="bi bi-shield-lock"></i>
+
+                        Change Password
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <hr class="dropdown-divider">
+
+                </li>
+
+
+                <!-- Logout -->
+
+                <button
+                        type="button"
+                        class="sidebar-logout"
+                        id="logoutButton">
+
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    <span>Sign Out</span>
+
+                </button>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</header>
+
+</body>
+
+</html>

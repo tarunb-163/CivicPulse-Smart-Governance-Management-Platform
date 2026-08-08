@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<!-- =========================================================
+     CIVICPULSE FOOTER FRAGMENT
+
+     Reusable across:
+     - Officer Module
+     - Admin Module
+     - Department Module
+     - Citizen Module
+     - Other modules
+========================================================= -->
+
+<footer
+        class="dashboard-footer"
+        th:fragment="footer">
+
+    <!-- =====================================================
+         LEFT SECTION
+    ====================================================== -->
+
+    <div class="footer-left">
+
+        <span>
+            ©
+            <span id="currentYear"></span>
+            CivicPulse
+        </span>
+
+        <span class="footer-separator">
+            •
+        </span>
+
+        <span>
+            Smart Governance Management Platform
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         RIGHT SECTION
+    ====================================================== -->
+
+    <div class="footer-right">
+
+        <span>
+            <i class="bi bi-shield-check"></i>
+            Secure Government Platform
+        </span>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     CURRENT YEAR
+========================================================= -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const yearElement = document.getElementById("currentYear");
+
+        if (yearElement) {
+            yearElement.textContent = new Date().getFullYear();
+        }
+
+    });
+</script>
+
+</body>
+
+</html>

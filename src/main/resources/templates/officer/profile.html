@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | CivicPulse</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+            rel="stylesheet">
+
+
+    <!-- Google Font -->
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet">
+
+
+    <!-- CivicPulse CSS -->
+
+    <link
+            rel="stylesheet"
+            th:href="@{/css/main.css}">
+
+    <link
+            rel="stylesheet"
+            th:href="@{/css/sidebar.css}">
+
+    <link
+            rel="stylesheet"
+            th:href="@{/css/dashboard.css}">
+
+    <link
+            rel="stylesheet"
+            th:href="@{/css/profile.css}">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     DASHBOARD WRAPPER
+========================================================= -->
+
+<div class="dashboard-wrapper">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+            th:replace="~{fragments/sidebar :: sidebar('profile')}">
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             NAVBAR
+        ================================================== -->
+
+        <header
+                th:replace="~{fragments/navbar :: navbar(
+                    'My Profile',
+                    'View and manage your officer profile'
+                )}">
+
+        </header>
+
+
+        <!-- =================================================
+             PAGE BODY
+        ================================================== -->
+
+        <div class="dashboard-body">
+
+
+            <!-- =================================================
+                 PAGE HEADER
+            ================================================== -->
+
+            <section class="profile-page-header">
+
+                <div>
+
+                    <div class="breadcrumb-custom">
+
+                        <a href="/officer/dashboard">
+                            Dashboard
+                        </a>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                        <span>
+                            My Profile
+                        </span>
+
+                    </div>
+
+
+                    <span class="welcome-label">
+                        ACCOUNT
+                    </span>
+
+                    <h2>
+                        My Profile
+                    </h2>
+
+                    <p>
+                        Manage your personal and official account information.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PROFILE LAYOUT
+            ================================================== -->
+
+            <div class="row g-4">
+
+
+                <!-- =================================================
+                     LEFT PROFILE CARD
+                ================================================== -->
+
+                <div class="col-xl-4 col-lg-5">
+
+                    <section class="dashboard-card profile-card">
+
+
+                        <!-- Profile Header -->
+
+                        <div class="profile-card-header">
+
+                            <div
+                                    class="profile-avatar"
+                                    id="profileAvatar">
+
+                                <span id="profileInitials">
+                                    O
+                                </span>
+
+                            </div>
+
+
+                            <h4 id="profileDisplayName">
+                                Officer
+                            </h4>
+
+                            <span
+                                    class="profile-role"
+                                    id="profileRole">
+
+                                Officer
+
+                            </span>
+
+                            <span class="profile-status">
+
+                                <i class="bi bi-circle-fill"></i>
+
+                                Active
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- Profile Summary -->
+
+                        <div class="profile-summary">
+
+
+                            <div class="profile-summary-item">
+
+                                <div class="profile-summary-icon">
+
+                                    <i class="bi bi-person-badge"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Officer ID
+                                    </span>
+
+                                    <strong id="profileOfficerId">
+                                        —
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="profile-summary-item">
+
+                                <div class="profile-summary-icon">
+
+                                    <i class="bi bi-building"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Department
+                                    </span>
+
+                                    <strong id="profileDepartment">
+                                        —
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="profile-summary-item">
+
+                                <div class="profile-summary-icon">
+
+                                    <i class="bi bi-geo-alt"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Assigned Area
+                                    </span>
+
+                                    <strong id="profileArea">
+                                        —
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="profile-summary-item">
+
+                                <div class="profile-summary-icon">
+
+                                    <i class="bi bi-calendar3"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <span>
+                                        Joined Date
+                                    </span>
+
+                                    <strong id="profileJoinedDate">
+                                        —
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </section>
+
+
+                    <!-- Account Security -->
+
+                    <section class="dashboard-card security-card mt-4">
+
+                        <div class="card-header-custom">
+
+                            <div>
+
+                                <h5>
+                                    Account Security
+                                </h5>
+
+                                <p>
+                                    Manage your account security.
+                                </p>
+
+                            </div>
+
+                            <div class="section-header-icon blue">
+
+                                <i class="bi bi-shield-lock"></i>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="security-card-body">
+
+                            <button
+                                    type="button"
+                                    class="profile-action-link"
+                                    id="changePasswordButton">
+
+                                <div class="profile-action-icon">
+
+                                    <i class="bi bi-key"></i>
+
+                                </div>
+
+                                <span>
+                                    Change Password
+                                </span>
+
+                                <i class="bi bi-chevron-right"></i>
+
+                            </button>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+
+                <!-- =================================================
+                     RIGHT CONTENT
+                ================================================== -->
+
+                <div class="col-xl-8 col-lg-7">
+
+
+                    <!-- =================================================
+                         PERSONAL INFORMATION
+                    ================================================== -->
+
+                    <section class="dashboard-card profile-form-card">
+
+                        <div class="card-header-custom">
+
+                            <div>
+
+                                <h5>
+                                    Personal Information
+                                </h5>
+
+                                <p>
+                                    Your basic account information.
+                                </p>
+
+                            </div>
+
+                            <div class="section-header-icon blue">
+
+                                <i class="bi bi-person"></i>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="profile-form-body">
+
+                            <form
+                                    id="profileForm"
+                                    novalidate>
+
+
+                                <div class="row g-3">
+
+
+                                    <!-- Full Name -->
+
+                                    <div class="col-md-6">
+
+                                        <label
+                                                for="fullName"
+                                                class="form-label">
+
+                                            Full Name
+
+                                        </label>
+
+                                        <input
+                                                type="text"
+                                                id="fullName"
+                                                name="fullName"
+                                                class="form-control"
+                                                placeholder="Enter full name"
+                                                autocomplete="name">
+
+                                    </div>
+
+
+                                    <!-- Employee ID -->
+
+                                    <div class="col-md-6">
+
+                                        <label
+                                                for="employeeId"
+                                                class="form-label">
+
+                                            Employee ID
+
+                                        </label>
+
+                                        <input
+                                                type="text"
+                                                id="employeeId"
+                                                name="employeeId"
+                                                class="form-control"
+                                                placeholder="Employee ID"
+                                                readonly>
+
+                                    </div>
+
+
+                                    <!-- Email -->
+
+                                    <div class="col-md-6">
+
+                                        <label
+                                                for="email"
+                                                class="form-label">
+
+                                            Email Address
+
+                                        </label>
+
+                                        <input
+                                                type="email"
+                                                id="email"
+                                                name="email"
+                                                class="form-control"
+                                                placeholder="Enter email address"
+                                                autocomplete="email">
+
+                                    </div>
+
+
+                                    <!-- Phone -->
+
+                                    <div class="col-md-6">
+
+                                        <label
+                                                for="phone"
+                                                class="form-label">
+
+                                            Phone Number
+
+                                        </label>
+
+                                        <input
+                                                type="tel"
+                                                id="phone"
+                                                name="phone"
+                                                class="form-control"
+                                                placeholder="Enter phone number"
+                                                autocomplete="tel">
+
+                                    </div>
+
+
+                                    <!-- Designation -->
+
+                                    <div class="col-md-6">
+
+                                        <label
+                                                for="designation"
+                                                class="form-label">
+
+                                            Designation
+
+                                        </label>
+
+                                        <input
+                                                type="text"
+                                                id="designation"
+                                                name="designation"
+                                                class="form-control"
+                                                placeholder="Officer designation">
+
+                                    </div>
+
+
+                                    <!-- Department -->
+
+                                    <div class="col-md-6">
+
+                                        <label
+                                                for="department"
+                                                class="form-label">
+
+                                            Department
+
+                                        </label>
+
+                                        <input
+                                                type="text"
+                                                id="department"
+                                                name="department"
+                                                class="form-control"
+                                                placeholder="Department">
+
+                                    </div>
+
+
+                                    <!-- Assigned Area -->
+
+                                    <div class="col-md-6">
+
+                                        <label
+                                                for="assignedArea"
+                                                class="form-label">
+
+                                            Assigned Area
+
+                                        </label>
+
+                                        <input
+                                                type="text"
+                                                id="assignedArea"
+                                                name="assignedArea"
+                                                class="form-control"
+                                                placeholder="Assigned ward / area">
+
+                                    </div>
+
+
+                                    <!-- Office Location -->
+
+                                    <div class="col-md-6">
+
+                                        <label
+                                                for="officeLocation"
+                                                class="form-label">
+
+                                            Office Location
+
+                                        </label>
+
+                                        <input
+                                                type="text"
+                                                id="officeLocation"
+                                                name="officeLocation"
+                                                class="form-control"
+                                                placeholder="Office location">
+
+                                    </div>
+
+
+                                    <!-- Address -->
+
+                                    <div class="col-12">
+
+                                        <label
+                                                for="address"
+                                                class="form-label">
+
+                                            Address
+
+                                        </label>
+
+                                        <textarea
+                                                id="address"
+                                                name="address"
+                                                class="form-control"
+                                                rows="3"
+                                                placeholder="Enter official address"></textarea>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <!-- Form Actions -->
+
+                                <div class="profile-form-actions">
+
+                                    <button
+                                            type="button"
+                                            id="resetProfileButton"
+                                            class="btn-civic-secondary">
+
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+
+                                        Reset
+
+                                    </button>
+
+
+                                    <button
+                                            type="submit"
+                                            id="saveProfileButton"
+                                            class="btn-civic-primary">
+
+                                        <i class="bi bi-check-lg"></i>
+
+                                        Save Changes
+
+                                    </button>
+
+                                </div>
+
+
+                            </form>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         OFFICIAL INFORMATION
+                    ================================================== -->
+
+                    <section class="dashboard-card official-info-card mt-4">
+
+                        <div class="card-header-custom">
+
+                            <div>
+
+                                <h5>
+                                    Official Information
+                                </h5>
+
+                                <p>
+                                    Information related to your government role.
+                                </p>
+
+                            </div>
+
+                            <div class="section-header-icon purple">
+
+                                <i class="bi bi-building"></i>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="official-info-body">
+
+                            <div class="row g-3">
+
+
+                                <!-- Role -->
+
+                                <div class="col-md-6">
+
+                                    <div class="official-info-item">
+
+                                        <span>
+                                            ROLE
+                                        </span>
+
+                                        <strong id="officialRole">
+                                            —
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Department -->
+
+                                <div class="col-md-6">
+
+                                    <div class="official-info-item">
+
+                                        <span>
+                                            DEPARTMENT
+                                        </span>
+
+                                        <strong id="officialDepartment">
+                                            —
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Jurisdiction -->
+
+                                <div class="col-md-6">
+
+                                    <div class="official-info-item">
+
+                                        <span>
+                                            JURISDICTION
+                                        </span>
+
+                                        <strong id="officialJurisdiction">
+                                            —
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Account Status -->
+
+                                <div class="col-md-6">
+
+                                    <div class="official-info-item">
+
+                                        <span>
+                                            ACCOUNT STATUS
+                                        </span>
+
+                                        <strong class="account-active">
+
+                                            <i class="bi bi-circle-fill"></i>
+
+                                            Active
+
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         FOOTER
+                    ================================================== -->
+
+                    <footer
+                            th:replace="~{fragments/footer :: footer}">
+
+                    </footer>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     SIDEBAR OVERLAY
+========================================================= -->
+
+<div
+        class="sidebar-overlay"
+        id="sidebarOverlay">
+</div>
+
+
+<!-- =========================================================
+     CHANGE PASSWORD MODAL
+========================================================= -->
+
+<div
+        class="modal fade"
+        id="changePasswordModal"
+        tabindex="-1"
+        aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h5 class="modal-title">
+                        Change Password
+                    </h5>
+
+                    <small>
+                        Update your account password.
+                    </small>
+
+                </div>
+
+                <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <form id="changePasswordForm">
+
+
+                    <!-- Current Password -->
+
+                    <div class="mb-3">
+
+                        <label
+                                for="currentPassword"
+                                class="form-label">
+
+                            Current Password
+
+                        </label>
+
+                        <input
+                                type="password"
+                                id="currentPassword"
+                                class="form-control"
+                                autocomplete="current-password"
+                                placeholder="Enter current password">
+
+                    </div>
+
+
+                    <!-- New Password -->
+
+                    <div class="mb-3">
+
+                        <label
+                                for="newPassword"
+                                class="form-label">
+
+                            New Password
+
+                        </label>
+
+                        <input
+                                type="password"
+                                id="newPassword"
+                                class="form-control"
+                                autocomplete="new-password"
+                                placeholder="Enter new password">
+
+                    </div>
+
+
+                    <!-- Confirm Password -->
+
+                    <div class="mb-3">
+
+                        <label
+                                for="confirmPassword"
+                                class="form-label">
+
+                            Confirm New Password
+
+                        </label>
+
+                        <input
+                                type="password"
+                                id="confirmPassword"
+                                class="form-control"
+                                autocomplete="new-password"
+                                placeholder="Confirm new password">
+
+                    </div>
+
+
+                    <div class="password-requirements">
+
+                        <span>
+                            Password should contain at least 8 characters.
+                        </span>
+
+                    </div>
+
+
+                    <div class="modal-actions">
+
+                        <button
+                                type="button"
+                                class="btn-civic-secondary"
+                                data-bs-dismiss="modal">
+
+                            Cancel
+
+                        </button>
+
+                        <button
+                                type="submit"
+                                class="btn-civic-primary">
+
+                            <i class="bi bi-check-lg"></i>
+
+                            Update Password
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SUCCESS MODAL
+========================================================= -->
+
+<div
+        class="modal fade"
+        id="profileSuccessModal"
+        tabindex="-1"
+        aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-body profile-success-modal">
+
+                <div class="success-modal-icon">
+
+                    <i class="bi bi-check-lg"></i>
+
+                </div>
+
+                <h5>
+                    Profile Updated
+                </h5>
+
+                <p>
+                    Your profile information has been successfully updated.
+                </p>
+
+                <button
+                        type="button"
+                        class="btn-civic-primary"
+                        data-bs-dismiss="modal">
+
+                    Continue
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     BOOTSTRAP JS
+========================================================= -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- =========================================================
+     GLOBAL JS
+========================================================= -->
+
+<script
+        th:src="@{/js/main.js}">
+</script>
+
+
+<!-- =========================================================
+     PROFILE JS
+========================================================= -->
+
+<script
+        th:src="@{/js/profile.js}">
+</script>
+
+
+</body>
+
+</html>
