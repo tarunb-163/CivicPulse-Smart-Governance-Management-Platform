@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>CivicPulse | Admin Dashboard</title>
 
     <style>
@@ -363,6 +362,7 @@
         }
 
         .progress {
+            width: 100%;
             height: 8px;
             background: #eef2f7;
             border-radius: 20px;
@@ -372,20 +372,18 @@
         .progress-bar {
             height: 100%;
             border-radius: 20px;
+            transition: width 0.3s ease;
         }
 
         .pending-bar {
-            width: 35%;
             background: #f59e0b;
         }
 
         .progress-bar-blue {
-            width: 55%;
             background: #3b82f6;
         }
 
         .resolved-bar {
-            width: 75%;
             background: #10b981;
         }
 
@@ -648,13 +646,16 @@
         </div>
 
 
-        <!-- STATISTICS -->
+        <!-- ================= STATISTICS ================= -->
 
         <div class="cards">
+
+            <!-- TOTAL COMPLAINTS -->
 
             <div class="card">
 
                 <div class="card-top">
+
                     <span class="card-title">
                         Total Complaints
                     </span>
@@ -662,9 +663,11 @@
                     <div class="card-icon blue">
                         ▣
                     </div>
+
                 </div>
 
-                <div class="card-number">
+                <div class="card-number"
+                     th:text="${totalComplaints}">
                     0
                 </div>
 
@@ -676,9 +679,12 @@
             </div>
 
 
+            <!-- PENDING COMPLAINTS -->
+
             <div class="card">
 
                 <div class="card-top">
+
                     <span class="card-title">
                         Pending Complaints
                     </span>
@@ -686,9 +692,11 @@
                     <div class="card-icon orange">
                         ⏱
                     </div>
+
                 </div>
 
-                <div class="card-number">
+                <div class="card-number"
+                     th:text="${pendingComplaints}">
                     0
                 </div>
 
@@ -699,9 +707,12 @@
             </div>
 
 
+            <!-- RESOLVED COMPLAINTS -->
+
             <div class="card">
 
                 <div class="card-top">
+
                     <span class="card-title">
                         Resolved Complaints
                     </span>
@@ -709,9 +720,11 @@
                     <div class="card-icon green">
                         ✓
                     </div>
+
                 </div>
 
-                <div class="card-number">
+                <div class="card-number"
+                     th:text="${resolvedComplaints}">
                     0
                 </div>
 
@@ -722,9 +735,12 @@
             </div>
 
 
+            <!-- TOTAL OFFICERS -->
+
             <div class="card">
 
                 <div class="card-top">
+
                     <span class="card-title">
                         Total Officers
                     </span>
@@ -732,8 +748,10 @@
                     <div class="card-icon purple">
                         ♙
                     </div>
+
                 </div>
 
+                <!-- Officer backend is not available yet -->
                 <div class="card-number">
                     0
                 </div>
@@ -747,11 +765,11 @@
         </div>
 
 
-        <!-- DASHBOARD GRID -->
+        <!-- ================= DASHBOARD GRID ================= -->
 
         <div class="dashboard-grid">
 
-            <!-- COMPLAINT OVERVIEW -->
+            <!-- ================= COMPLAINT OVERVIEW ================= -->
 
             <div class="panel">
 
@@ -759,50 +777,83 @@
 
                     <h2>Complaint Overview</h2>
 
-                    <a href="#">
+                    <a href="/admin/complaints">
                         View Details →
                     </a>
 
                 </div>
 
 
+                <!-- PENDING -->
+
                 <div class="status-row">
 
                     <div class="status-info">
+
                         <span>Pending</span>
-                        <span>0</span>
+
+                        <span th:text="${pendingComplaints}">
+                            0
+                        </span>
+
                     </div>
 
                     <div class="progress">
-                        <div class="progress-bar pending-bar"></div>
+
+                        <div class="progress-bar pending-bar"
+                             th:style="'width: ' + ${pendingPercentage} + '%'">
+                        </div>
+
                     </div>
 
                 </div>
 
 
+                <!-- UNDER REVIEW -->
+
                 <div class="status-row">
 
                     <div class="status-info">
+
                         <span>Under Review</span>
-                        <span>0</span>
+
+                        <span th:text="${underReviewComplaints}">
+                            0
+                        </span>
+
                     </div>
 
                     <div class="progress">
-                        <div class="progress-bar progress-bar-blue"></div>
+
+                        <div class="progress-bar progress-bar-blue"
+                             th:style="'width: ' + ${underReviewPercentage} + '%'">
+                        </div>
+
                     </div>
 
                 </div>
 
 
+                <!-- RESOLVED -->
+
                 <div class="status-row">
 
                     <div class="status-info">
+
                         <span>Resolved</span>
-                        <span>0</span>
+
+                        <span th:text="${resolvedComplaints}">
+                            0
+                        </span>
+
                     </div>
 
                     <div class="progress">
-                        <div class="progress-bar resolved-bar"></div>
+
+                        <div class="progress-bar resolved-bar"
+                             th:style="'width: ' + ${resolvedPercentage} + '%'">
+                        </div>
+
                     </div>
 
                 </div>
@@ -810,7 +861,7 @@
             </div>
 
 
-            <!-- RECENT ACTIVITY -->
+            <!-- ================= RECENT ACTIVITY ================= -->
 
             <div class="panel">
 
@@ -818,50 +869,74 @@
 
                     <h2>Recent Activity</h2>
 
-                    <a href="#">
+                    <a href="/admin/complaints">
                         View All
                     </a>
 
                 </div>
 
 
-                <div class="activity">
+                <!-- NO RECENT COMPLAINTS -->
+
+                <div th:if="${#lists.isEmpty(recentComplaints)}"
+                     class="activity">
 
                     <div class="activity-icon">
                         ✓
                     </div>
 
                     <div class="activity-text">
-                        <strong>No recent complaints</strong>
-                        <span>Activity will appear here</span>
+
+                        <strong>
+                            No recent complaints
+                        </strong>
+
+                        <span>
+                            Activity will appear here
+                        </span>
+
                     </div>
 
                 </div>
 
 
-                <div class="activity">
+                <!-- RECENT COMPLAINTS -->
+
+                <div th:each="complaint : ${recentComplaints}"
+                     class="activity">
 
                     <div class="activity-icon">
-                        ♙
+                        ⚠
                     </div>
 
                     <div class="activity-text">
-                        <strong>No officer activity</strong>
-                        <span>Officer updates will appear here</span>
-                    </div>
 
-                </div>
+                        <strong>
+                            Complaint #<span th:text="${complaint.id}">
+                                1
+                            </span>
+                        </strong>
 
+                        <span>
 
-                <div class="activity">
+                            <span th:text="${complaint.category}">
+                                Complaint
+                            </span>
 
-                    <div class="activity-icon">
-                        ◉
-                    </div>
+                            -
 
-                    <div class="activity-text">
-                        <strong>No citizen activity</strong>
-                        <span>Citizen activity will appear here</span>
+                            <span th:text="${complaint.status}">
+                                Pending
+                            </span>
+
+                            -
+
+                            <span th:text="${complaint.citizenName}">
+                                Citizen
+                            </span>
+
+                        </span>
+
                     </div>
 
                 </div>
@@ -871,7 +946,7 @@
         </div>
 
 
-        <!-- QUICK ACTIONS -->
+        <!-- ================= QUICK ACTIONS ================= -->
 
         <div class="panel" style="margin-top:22px;">
 
@@ -884,13 +959,18 @@
 
             <div class="quick-actions">
 
-                <a href="#" class="action">
+                <!-- MANAGE COMPLAINTS -->
+
+                <a href="/admin/complaints"
+                   class="action">
 
                     <div class="action-icon">
                         📋
                     </div>
 
-                    <strong>Manage Complaints</strong>
+                    <strong>
+                        Manage Complaints
+                    </strong>
 
                     <span>
                         Review and assign complaints
@@ -899,13 +979,18 @@
                 </a>
 
 
-                <a href="#" class="action">
+                <!-- MANAGE OFFICERS -->
+
+                <a href="/admin/officers"
+                   class="action">
 
                     <div class="action-icon">
                         👮
                     </div>
 
-                    <strong>Manage Officers</strong>
+                    <strong>
+                        Manage Officers
+                    </strong>
 
                     <span>
                         Add and manage officers
@@ -914,13 +999,18 @@
                 </a>
 
 
-                <a href="#" class="action">
+                <!-- VIEW CITIZENS -->
+
+                <a href="/admin/citizens"
+                   class="action">
 
                     <div class="action-icon">
                         👥
                     </div>
 
-                    <strong>View Citizens</strong>
+                    <strong>
+                        View Citizens
+                    </strong>
 
                     <span>
                         Manage registered citizens
