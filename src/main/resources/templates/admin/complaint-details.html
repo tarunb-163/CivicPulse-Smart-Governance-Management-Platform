@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Complaint Details | CivicPulse Admin</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 250px;
+            background: #172554;
+            color: white;
+            padding: 25px 16px;
+
+            position: fixed;
+
+            top: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            padding-left: 15px;
+        }
+
+        .logo span {
+            color: #3b82f6;
+        }
+
+        .menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+
+            padding: 15px;
+            margin: 5px 0;
+
+            border-radius: 8px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #2563eb;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            flex: 1;
+            margin-left: 250px;
+        }
+
+        .topbar {
+            background: white;
+
+            padding: 25px 35px;
+
+            border-bottom:
+                    1px solid #e5e7eb;
+
+            display: flex;
+
+            justify-content:
+                    space-between;
+
+            align-items: center;
+        }
+
+        .topbar h1 {
+            font-size: 26px;
+        }
+
+        .admin-name {
+            font-weight: bold;
+        }
+
+        .content {
+            padding: 35px;
+        }
+
+        /* ================= BACK ================= */
+
+        .back-btn {
+            display: inline-block;
+
+            margin-bottom: 20px;
+
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* ================= MESSAGE ================= */
+
+        .message {
+            padding: 14px 18px;
+
+            border-radius: 8px;
+
+            margin-bottom: 20px;
+
+            font-weight: 600;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ================= CARD ================= */
+
+        .details-card {
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 30px;
+
+            box-shadow:
+                    0 3px 12px
+                    rgba(0, 0, 0, 0.08);
+        }
+
+        .details-header {
+            display: flex;
+
+            justify-content:
+                    space-between;
+
+            align-items: center;
+
+            border-bottom:
+                    1px solid #e5e7eb;
+
+            padding-bottom: 20px;
+
+            margin-bottom: 25px;
+        }
+
+        .details-header h2 {
+            font-size: 22px;
+        }
+
+        .complaint-id {
+            color: #64748b;
+
+            font-size: 14px;
+
+            margin-top: 5px;
+        }
+
+        /* ================= INFO ================= */
+
+        .info-grid {
+            display: grid;
+
+            grid-template-columns:
+                    repeat(2, 1fr);
+
+            gap: 22px;
+
+            margin-bottom: 28px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+
+            padding: 18px;
+
+            border-radius: 9px;
+
+            border:
+                    1px solid #e2e8f0;
+        }
+
+        .info-box label {
+            display: block;
+
+            color: #64748b;
+
+            font-size: 12px;
+
+            margin-bottom: 7px;
+
+            text-transform: uppercase;
+
+            font-weight: 600;
+        }
+
+        .info-box p {
+            font-size: 15px;
+
+            font-weight: 600;
+        }
+
+        /* ================= DESCRIPTION ================= */
+
+        .description {
+            margin-bottom: 30px;
+        }
+
+        .description h3 {
+            margin-bottom: 12px;
+
+            font-size: 17px;
+        }
+
+        .description-box {
+            background: #f8fafc;
+
+            border:
+                    1px solid #e2e8f0;
+
+            border-radius: 9px;
+
+            padding: 20px;
+
+            line-height: 1.6;
+
+            color: #475569;
+        }
+
+        /* ================= STATUS ================= */
+
+        .status-section {
+            border-top:
+                    1px solid #e5e7eb;
+
+            padding-top: 25px;
+
+            margin-top: 25px;
+        }
+
+        .status-section h3 {
+            margin-bottom: 15px;
+        }
+
+        .current-status {
+            display: inline-block;
+
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            background: #fef3c7;
+
+            color: #92400e;
+
+            font-weight: bold;
+
+            font-size: 13px;
+        }
+
+        /* ================= ASSIGN ================= */
+
+        .assign-section {
+            border-top:
+                    1px solid #e5e7eb;
+
+            padding-top: 25px;
+
+            margin-top: 25px;
+        }
+
+        .assign-section h3 {
+            margin-bottom: 8px;
+        }
+
+        .assign-description {
+            color: #64748b;
+
+            font-size: 14px;
+
+            margin-bottom: 18px;
+        }
+
+        .assign-form {
+            display: flex;
+
+            gap: 15px;
+
+            align-items: center;
+        }
+
+        .officer-select {
+            padding: 11px 15px;
+
+            border:
+                    1px solid #cbd5e1;
+
+            border-radius: 7px;
+
+            background: white;
+
+            min-width: 300px;
+
+            font-size: 14px;
+        }
+
+        .officer-select:focus {
+            outline: none;
+
+            border-color:
+                    #2563eb;
+        }
+
+        .assign-btn {
+            padding: 11px 20px;
+
+            background: #2563eb;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-weight: 600;
+        }
+
+        .assign-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* ================= NOT FOUND ================= */
+
+        .not-found {
+            background: white;
+
+            padding: 50px;
+
+            text-align: center;
+
+            border-radius: 12px;
+        }
+
+        .not-found h2 {
+            margin-bottom: 10px;
+        }
+
+        .not-found p {
+            color: #64748b;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .assign-form {
+                flex-direction: column;
+
+                align-items:
+                        stretch;
+            }
+
+            .officer-select {
+                width: 100%;
+                min-width: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="layout">
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            Civic<span>Pulse</span>
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="/admin/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/admin/complaints"
+               class="active">
+                Complaints
+            </a>
+
+            <a href="/admin/officers">
+                Officers
+            </a>
+
+            <a href="/admin/citizens">
+                Citizens
+            </a>
+
+            <a href="/admin/reports">
+                Reports
+            </a>
+
+            <a href="/admin/profile">
+                Profile
+            </a>
+
+            <a href="/admin/settings">
+                Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <!-- ================= TOPBAR ================= -->
+
+        <header class="topbar">
+
+            <h1>
+                Complaint Details
+            </h1>
+
+            <div class="admin-name">
+                Administrator
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <section class="content">
+
+
+            <a
+                    href="/admin/complaints"
+                    class="back-btn">
+
+                ← Back to Complaints
+
+            </a>
+
+
+            <!-- ================= SUCCESS ================= -->
+
+            <div
+                    class="message success"
+                    th:if="${success}"
+                    th:text="${success}">
+
+                Complaint assigned successfully.
+
+            </div>
+
+
+            <!-- ================= ERROR ================= -->
+
+            <div
+                    class="message error"
+                    th:if="${error}"
+                    th:text="${error}">
+
+                Error.
+
+            </div>
+
+
+            <!-- ================= COMPLAINT ================= -->
+
+            <div
+                    class="details-card"
+                    th:if="${complaint != null}">
+
+
+                <!-- ================= HEADER ================= -->
+
+                <div class="details-header">
+
+                    <div>
+
+                        <h2>
+                            Complaint Information
+                        </h2>
+
+                        <div class="complaint-id">
+
+                            Complaint ID:
+
+                            <strong
+                                    th:text="${complaint.id}">
+
+                                1
+
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= INFORMATION ================= -->
+
+                <div class="info-grid">
+
+
+                    <div class="info-box">
+
+                        <label>
+                            Complaint Number
+                        </label>
+
+                        <p
+                                th:text="${complaint.complaintNumber}">
+
+                            CP-0001
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <label>
+                            Citizen Name
+                        </label>
+
+                        <p
+                                th:text="${complaint.citizenName}">
+
+                            Citizen Name
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <label>
+                            Citizen Email
+                        </label>
+
+                        <p
+                                th:text="${complaint.citizenEmail}">
+
+                            citizen@email.com
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <label>
+                            Category
+                        </label>
+
+                        <p
+                                th:text="${complaint.category}">
+
+                            Category
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <label>
+                            Department
+                        </label>
+
+                        <p
+                                th:text="${complaint.department}">
+
+                            Department
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <label>
+                            Location
+                        </label>
+
+                        <p
+                                th:text="${complaint.location}">
+
+                            Location
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <label>
+                            Priority
+                        </label>
+
+                        <p
+                                th:text="${complaint.priority}">
+
+                            Normal
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <label>
+                            Current Status
+                        </label>
+
+                        <p>
+
+                            <span
+                                    class="current-status"
+                                    th:text="${complaint.status}">
+
+                                PENDING
+
+                            </span>
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- ASSIGNED OFFICER -->
+
+                    <div class="info-box">
+
+                        <label>
+                            Assigned Officer
+                        </label>
+
+                        <p
+                                th:if="${complaint.assignedOfficer != null}"
+                                th:text="${complaint.assignedOfficer.username}">
+
+                            Officer
+
+                        </p>
+
+                        <p
+                                th:if="${complaint.assignedOfficer == null}">
+
+                            Not Assigned
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <label>
+                            Created At
+                        </label>
+
+                        <p
+                                th:text="${complaint.createdAt}">
+
+                            Date
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ================= DESCRIPTION ================= -->
+
+                <div class="description">
+
+                    <h3>
+                        Complaint Description
+                    </h3>
+
+                    <div
+                            class="description-box"
+                            th:text="${complaint.description}">
+
+                        Complaint description will appear here.
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     CURRENT STATUS
+                     ================================================= -->
+
+                <div class="status-section">
+
+                    <h3>
+                        Complaint Status
+                    </h3>
+
+                    <p>
+                        The administrator cannot change the complaint
+                        status. The assigned officer is responsible for
+                        processing and resolving the complaint.
+                    </p>
+
+                    <br>
+
+                    <span
+                            class="current-status"
+                            th:text="${complaint.status}">
+
+                        PENDING
+
+                    </span>
+
+                </div>
+
+
+                <!-- =================================================
+                     ASSIGN OFFICER
+                     ================================================= -->
+
+                <div class="assign-section">
+
+                    <h3>
+                        Assign Complaint
+                    </h3>
+
+                    <p class="assign-description">
+
+                        Assign or reassign this complaint to a government
+                        officer. The assigned officer will handle the
+                        complaint and update its status.
+
+                    </p>
+
+
+                    <form
+                            class="assign-form"
+                            th:action="@{/admin/complaints/{id}/assign(id=${complaint.id})}"
+                            method="post">
+
+
+                        <select
+                                name="officerId"
+                                class="officer-select"
+                                required>
+
+
+                            <option
+                                    value=""
+                                    disabled
+                                    th:selected="${complaint.assignedOfficer == null}">
+
+                                Select Officer
+
+                            </option>
+
+
+                            <option
+                                    th:each="officer : ${officers}"
+                                    th:value="${officer.id}"
+                                    th:selected="${complaint.assignedOfficer != null
+                                    and complaint.assignedOfficer.id == officer.id}"
+                                    th:text="${officer.username}">
+
+                                Officer
+
+                            </option>
+
+
+                        </select>
+
+
+                        <button
+                                type="submit"
+                                class="assign-btn">
+
+                            Assign Complaint
+
+                        </button>
+
+
+                    </form>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ================= NOT FOUND ================= -->
+
+            <div
+                    class="not-found"
+                    th:if="${complaint == null}">
+
+                <h2>
+                    Complaint Not Found
+                </h2>
+
+                <p>
+                    The requested complaint does not exist.
+                </p>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+</body>
+
+</html>

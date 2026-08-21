@@ -1,0 +1,769 @@
+ /* =========================================================
+          CIVICPULSE - GLOBAL STYLES
+          main.css
+       ========================================================= */
+
+       /* =========================================================
+          ROOT VARIABLES
+       ========================================================= */
+
+   :root {
+       --primary: #2563eb;
+       --primary-dark: #1d4ed8;
+       --primary-light: #eff6ff;
+
+       --secondary: #1e293b;
+       --secondary-light: #334155;
+
+       --success: #16a34a;
+       --success-light: #f0fdf4;
+
+       --warning: #f59e0b;
+       --warning-light: #fffbeb;
+
+       --danger: #dc2626;
+       --danger-light: #fef2f2;
+
+       --purple: #7c3aed;
+       --purple-light: #f5f3ff;
+
+       --orange: #f97316;
+       --orange-light: #fff7ed;
+
+       --background: #f8fafc;
+       --surface: #ffffff;
+
+       --text-primary: #0f172a;
+       --text-secondary: #475569;
+       --text-muted: #94a3b8;
+
+       --border: #e2e8f0;
+       --border-light: #f1f5f9;
+
+       --sidebar-width: 270px;
+
+       --transition: 0.25s ease;
+   }
+
+
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HTML / BODY
+========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+
+    background: var(--background);
+
+    color: var(--text-primary);
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    -webkit-font-smoothing: antialiased;
+
+    text-rendering: optimizeLegibility;
+}
+
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+button {
+    font-family: inherit;
+}
+
+button:focus {
+    outline: none;
+}
+
+.btn {
+    font-family: "Poppins", sans-serif;
+}
+
+
+/* =========================================================
+   FORM CONTROLS
+========================================================= */
+
+.form-control,
+.form-select {
+    font-family: "Poppins", sans-serif;
+
+    font-size: 13px;
+
+    border-color: var(--border);
+
+    color: var(--text-primary);
+
+    border-radius: 8px;
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+/* =========================================================
+   INPUT GROUP
+========================================================= */
+
+.input-group .form-control {
+    border-left: none;
+}
+
+.input-group .form-control:focus {
+    box-shadow: none;
+}
+
+.input-group-text {
+    font-family: "Poppins", sans-serif;
+
+    background: var(--surface);
+
+    border-color: var(--border);
+
+    color: var(--text-secondary);
+}
+
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+.form-label {
+    font-size: 12px;
+
+    font-weight: 500;
+
+    color: var(--text-secondary);
+
+    margin-bottom: 6px;
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.badge {
+    font-family: "Poppins", sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+}
+
+
+/* =========================================================
+   CUSTOM STATUS BADGES
+========================================================= */
+
+.status-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 500;
+}
+
+.status-badge::before {
+    content: "";
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+}
+
+
+/* Pending */
+
+.status-pending {
+    color: #b45309;
+
+    background: #fffbeb;
+}
+
+
+/* In Progress */
+
+.status-progress {
+    color: #2563eb;
+
+    background: #eff6ff;
+}
+
+
+/* Resolved */
+
+.status-resolved {
+    color: #15803d;
+
+    background: #f0fdf4;
+}
+
+
+/* Rejected */
+
+.status-rejected {
+    color: #b91c1c;
+
+    background: #fef2f2;
+}
+
+
+/* =========================================================
+   PRIORITY BADGES
+========================================================= */
+
+.priority-low {
+    color: #15803d;
+
+    background: #f0fdf4;
+}
+
+.priority-medium {
+    color: #b45309;
+
+    background: #fffbeb;
+}
+
+.priority-high {
+    color: #b91c1c;
+
+    background: #fef2f2;
+}
+
+.priority-critical {
+    color: #ffffff;
+
+    background: #dc2626;
+}
+
+
+/* =========================================================
+   CUSTOM SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f8fafc;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+    background: rgba(37, 99, 235, 0.18);
+
+    color: var(--text-primary);
+}
+
+
+/* =========================================================
+   UTILITY CLASSES
+========================================================= */
+
+.text-primary-custom {
+    color: var(--primary) !important;
+}
+
+.text-success-custom {
+    color: var(--success) !important;
+}
+
+.text-warning-custom {
+    color: var(--warning) !important;
+}
+
+.text-danger-custom {
+    color: var(--danger) !important;
+}
+
+.text-muted-custom {
+    color: var(--text-muted) !important;
+}
+
+
+/* =========================================================
+   CUSTOM DIVIDER
+========================================================= */
+
+.custom-divider {
+    height: 1px;
+
+    width: 100%;
+
+    background: var(--border-light);
+
+    margin: 20px 0;
+}
+
+
+/* =========================================================
+   LOADING SPINNER
+========================================================= */
+
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+
+    border: 2px solid #dbeafe;
+
+    border-top-color: var(--primary);
+
+    border-radius: 50%;
+
+    animation: spinner 0.7s linear infinite;
+}
+
+@keyframes spinner {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   PAGE LOADER
+========================================================= */
+
+.page-loader {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.page-loader-content {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.page-loader-content span {
+    font-size: 12px;
+
+    color: var(--text-muted);
+}
+
+
+/* =========================================================
+   TOAST NOTIFICATION
+========================================================= */
+
+.civic-toast {
+    position: fixed;
+
+    right: 25px;
+
+    bottom: 25px;
+
+    z-index: 9999;
+
+    min-width: 280px;
+
+    max-width: 380px;
+
+    background: #ffffff;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 14px 16px;
+
+    box-shadow:
+            0 10px 30px rgba(15, 23, 42, 0.12);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    animation: toastIn 0.3s ease;
+}
+
+.civic-toast-icon {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 9px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: var(--primary-light);
+
+    color: var(--primary);
+}
+
+.civic-toast-content {
+    flex: 1;
+}
+
+.civic-toast-content strong {
+    display: block;
+
+    font-size: 12px;
+
+    color: var(--text-primary);
+}
+
+.civic-toast-content span {
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 10px;
+
+    color: var(--text-muted);
+}
+
+.civic-toast-close {
+    border: none;
+
+    background: transparent;
+
+    color: var(--text-muted);
+
+    cursor: pointer;
+}
+
+@keyframes toastIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   MODAL CUSTOMIZATION
+========================================================= */
+
+.modal-content {
+    border: none;
+
+    border-radius: 14px;
+
+    box-shadow:
+            0 20px 50px rgba(15, 23, 42, 0.15);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-light);
+
+    padding: 18px 20px;
+}
+
+.modal-title {
+    font-size: 15px;
+
+    font-weight: 600;
+
+    color: var(--text-primary);
+}
+
+.modal-body {
+    padding: 20px;
+
+    font-size: 13px;
+
+    color: var(--text-secondary);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-light);
+
+    padding: 15px 20px;
+}
+
+
+/* =========================================================
+   CUSTOM PRIMARY BUTTON
+========================================================= */
+
+.btn-civic-primary {
+    background: var(--primary);
+
+    color: #ffffff;
+
+    border: 1px solid var(--primary);
+
+    border-radius: 8px;
+
+    padding: 9px 16px;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    transition: var(--transition);
+}
+
+.btn-civic-primary:hover {
+    background: var(--primary-dark);
+
+    border-color: var(--primary-dark);
+
+    color: #ffffff;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   CUSTOM SECONDARY BUTTON
+========================================================= */
+
+.btn-civic-secondary {
+    background: #ffffff;
+
+    color: var(--text-secondary);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    padding: 9px 16px;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    transition: var(--transition);
+}
+
+.btn-civic-secondary:hover {
+    background: var(--background);
+
+    color: var(--text-primary);
+
+    border-color: #cbd5e1;
+}
+
+
+/* =========================================================
+   DANGER BUTTON
+========================================================= */
+
+.btn-civic-danger {
+    background: var(--danger);
+
+    color: #ffffff;
+
+    border: 1px solid var(--danger);
+
+    border-radius: 8px;
+
+    padding: 9px 16px;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    transition: var(--transition);
+}
+
+.btn-civic-danger:hover {
+    background: #b91c1c;
+
+    border-color: #b91c1c;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.civic-empty-state {
+    padding: 45px 20px;
+
+    text-align: center;
+}
+
+.civic-empty-state-icon {
+    width: 60px;
+    height: 60px;
+
+    margin: 0 auto 14px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #f8fafc;
+
+    color: #94a3b8;
+
+    font-size: 24px;
+}
+
+.civic-empty-state h6 {
+    margin: 0;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: var(--text-secondary);
+}
+
+.civic-empty-state p {
+    margin: 5px auto 0;
+
+    max-width: 350px;
+
+    font-size: 10px;
+
+    color: var(--text-muted);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 767px) {
+
+    body {
+        font-size: 13px;
+    }
+
+    .civic-toast {
+        right: 15px;
+
+        left: 15px;
+
+        bottom: 15px;
+
+        min-width: auto;
+
+        max-width: none;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+    }
+
+}

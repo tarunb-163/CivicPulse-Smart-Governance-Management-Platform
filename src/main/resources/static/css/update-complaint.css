@@ -1,0 +1,952 @@
+/* =========================================================
+   CIVICPULSE - UPDATE COMPLAINT
+   update-complaint.css
+========================================================= */
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.update-page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 28px;
+}
+
+.update-page-header h2 {
+    margin: 6px 0 0;
+
+    color: #0f172a;
+
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.update-page-header p {
+    margin: 5px 0 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.update-page-header .breadcrumb-custom {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 12px;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+}
+
+.update-page-header .breadcrumb-custom a {
+    color: #64748b;
+
+    text-decoration: none;
+
+    transition: color 0.2s ease;
+}
+
+.update-page-header .breadcrumb-custom a:hover {
+    color: #2563eb;
+}
+
+.update-page-header .breadcrumb-custom i {
+    color: #cbd5e1;
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   LOADING STATE
+========================================================= */
+
+.update-loading {
+    min-height: 300px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   NOT FOUND
+========================================================= */
+
+.update-not-found {
+    min-height: 330px;
+
+    padding: 45px 25px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.update-not-found .not-found-icon {
+    width: 65px;
+    height: 65px;
+
+    margin-bottom: 15px;
+
+    border-radius: 50%;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    color: #94a3b8;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 27px;
+}
+
+.update-not-found h5 {
+    margin: 0;
+
+    color: #334155;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.update-not-found p {
+    max-width: 420px;
+
+    margin: 6px 0 18px;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   CURRENT COMPLAINT CARD
+========================================================= */
+
+.current-complaint-card {
+    overflow: hidden;
+}
+
+.current-complaint-body {
+    padding: 10px 20px 20px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+}
+
+.current-info-item {
+    min-height: 68px;
+
+    padding: 13px 14px;
+
+    background: #f8fafc;
+
+    border: 1px solid #eef2f7;
+
+    border-radius: 9px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 5px;
+}
+
+.current-info-item strong {
+    color: #334155;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+}
+
+.current-info-item .status-badge {
+    align-self: flex-start;
+}
+
+
+/* =========================================================
+   UPDATE FORM CARD
+========================================================= */
+
+.update-form-card {
+    overflow: hidden;
+}
+
+.update-form-body {
+    padding: 8px 22px 22px;
+}
+
+
+/* =========================================================
+   FORM SECTION
+========================================================= */
+
+.form-section {
+    padding: 24px 0;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.form-section:first-child {
+    padding-top: 12px;
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+}
+
+.form-section-heading {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 11px;
+
+    margin-bottom: 20px;
+}
+
+.form-section-number {
+    width: 31px;
+    height: 31px;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+.form-section-heading h6 {
+    margin: 2px 0 3px;
+
+    color: #334155;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.form-section-heading p {
+    margin: 0;
+
+    color: #94a3b8;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORM CONTROLS
+========================================================= */
+
+.form-label {
+    margin-bottom: 7px;
+
+    color: #475569;
+
+    font-size: 10px;
+
+    font-weight: 500;
+}
+
+.required {
+    color: #ef4444;
+}
+
+.form-control,
+.form-select {
+    min-height: 40px;
+
+    padding: 9px 11px;
+
+    border-color: #e2e8f0;
+
+    border-radius: 8px;
+
+    color: #334155;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    box-shadow: none;
+
+    transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+}
+
+.form-control::placeholder {
+    color: #cbd5e1;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #93c5fd;
+
+    box-shadow:
+            0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+textarea.form-control {
+    min-height: 110px;
+
+    resize: vertical;
+
+    line-height: 1.6;
+}
+
+.form-select {
+    cursor: pointer;
+}
+
+.form-control.is-valid,
+.form-select.is-valid {
+    border-color: #86efac;
+
+    background-image: none;
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #fca5a5;
+
+    background-image: none;
+}
+
+.invalid-feedback {
+    margin-top: 5px;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   TEXTAREA FOOTER
+========================================================= */
+
+.textarea-footer {
+    margin-top: 6px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    color: #94a3b8;
+
+    font-size: 8px;
+}
+
+.textarea-footer strong {
+    color: #64748b;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   ATTACHMENT UPLOAD
+========================================================= */
+
+.attachment-upload {
+    width: 100%;
+}
+
+.attachment-dropzone {
+    min-height: 145px;
+
+    padding: 25px 20px;
+
+    border: 1px dashed #cbd5e1;
+
+    border-radius: 10px;
+
+    background: #f8fafc;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition:
+            border-color 0.2s ease,
+            background 0.2s ease;
+}
+
+.attachment-dropzone:hover {
+    border-color: #93c5fd;
+
+    background: #eff6ff;
+}
+
+.upload-icon {
+    width: 43px;
+    height: 43px;
+
+    margin-bottom: 10px;
+
+    border-radius: 10px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 19px;
+}
+
+.attachment-dropzone strong {
+    color: #475569;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+.attachment-dropzone span {
+    margin-top: 4px;
+
+    color: #64748b;
+
+    font-size: 9px;
+}
+
+.attachment-dropzone small {
+    margin-top: 5px;
+
+    color: #94a3b8;
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   SELECTED FILES
+========================================================= */
+
+.selected-files {
+    margin-top: 10px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.selected-file-item {
+    min-height: 48px;
+
+    padding: 7px 9px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+.selected-file-icon {
+    width: 31px;
+    height: 31px;
+
+    flex-shrink: 0;
+
+    border-radius: 7px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 13px;
+}
+
+.selected-file-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.selected-file-info strong {
+    display: block;
+
+    color: #475569;
+
+    font-size: 9px;
+
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.selected-file-info span {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #94a3b8;
+
+    font-size: 8px;
+}
+
+.selected-file-remove {
+    width: 27px;
+    height: 27px;
+
+    flex-shrink: 0;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    color: #94a3b8;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.selected-file-remove:hover {
+    background: #fef2f2;
+
+    color: #ef4444;
+
+    border-color: #fecaca;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.update-form-actions {
+    padding-top: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+.form-primary-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+.update-form-actions .btn-civic-primary,
+.update-form-actions .btn-civic-secondary {
+    min-height: 38px;
+
+    font-size: 10px;
+}
+
+.update-form-actions button:disabled {
+    opacity: 0.7;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   FORM MESSAGE
+========================================================= */
+
+.update-form-message {
+    margin-bottom: 18px;
+
+    padding: 11px 13px;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 9px;
+}
+
+.update-form-message.error {
+    background: #fef2f2;
+
+    border: 1px solid #fecaca;
+
+    color: #b91c1c;
+}
+
+.update-form-message.success {
+    background: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+
+    color: #15803d;
+}
+
+.update-form-message i {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   STATUS GUIDANCE
+========================================================= */
+
+.status-guidance-card {
+    overflow: hidden;
+}
+
+.status-guidance-list {
+    padding: 8px 20px 20px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 10px;
+}
+
+.status-guidance-item {
+    min-height: 68px;
+
+    padding: 11px;
+
+    border: 1px solid #f1f5f9;
+
+    border-radius: 9px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+}
+
+.guidance-icon {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 13px;
+}
+
+.guidance-icon.orange {
+    background: #fff7ed;
+
+    color: #f97316;
+}
+
+.guidance-icon.purple {
+    background: #f5f3ff;
+
+    color: #7c3aed;
+}
+
+.guidance-icon.green {
+    background: #f0fdf4;
+
+    color: #16a34a;
+}
+
+.guidance-icon.red {
+    background: #fef2f2;
+
+    color: #dc2626;
+}
+
+.status-guidance-item strong {
+    display: block;
+
+    color: #475569;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+.status-guidance-item span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #94a3b8;
+
+    font-size: 8px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   SUCCESS MODAL
+========================================================= */
+
+.update-success-modal {
+    padding: 35px 25px;
+
+    text-align: center;
+}
+
+.success-modal-icon {
+    width: 58px;
+    height: 58px;
+
+    margin: 0 auto 13px;
+
+    border-radius: 50%;
+
+    background: #f0fdf4;
+
+    color: #16a34a;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
+}
+
+.update-success-modal h5 {
+    margin: 0;
+
+    color: #334155;
+
+    font-size: 15px;
+
+    font-weight: 600;
+}
+
+.update-success-modal p {
+    margin: 6px auto 18px;
+
+    max-width: 300px;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .update-page-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .update-page-header .btn-civic-secondary {
+        align-self: flex-start;
+    }
+
+    .current-complaint-body {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .update-page-header h2 {
+        font-size: 21px;
+    }
+
+    .update-page-header p {
+        font-size: 11px;
+    }
+
+    .current-complaint-body {
+        grid-template-columns: 1fr;
+
+        padding: 8px 15px 15px;
+    }
+
+    .update-form-body {
+        padding: 5px 15px 18px;
+    }
+
+    .form-section {
+        padding: 20px 0;
+    }
+
+    .form-section-heading {
+        margin-bottom: 16px;
+    }
+
+    .update-form-actions {
+        align-items: stretch;
+
+        flex-direction: column-reverse;
+    }
+
+    .form-primary-actions {
+        width: 100%;
+    }
+
+    .form-primary-actions button {
+        flex: 1;
+    }
+
+    .update-form-actions > .btn-civic-secondary {
+        width: 100%;
+    }
+
+    .status-guidance-list {
+        grid-template-columns: 1fr;
+
+        padding: 8px 15px 15px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .update-form-actions {
+        gap: 8px;
+    }
+
+    .form-primary-actions {
+        flex-direction: column;
+
+        width: 100%;
+    }
+
+    .form-primary-actions button {
+        width: 100%;
+    }
+
+    .attachment-dropzone {
+        min-height: 130px;
+
+        padding: 20px 15px;
+    }
+
+}

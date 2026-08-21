@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="CivicPulse Smart Governance Management Platform">
+
+    <title>Login | CivicPulse</title>
+
+
+    <!-- =========================================================
+         BOOTSTRAP
+    ========================================================== -->
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+
+    <!-- =========================================================
+         BOOTSTRAP ICONS
+    ========================================================== -->
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+            rel="stylesheet">
+
+
+    <!-- =========================================================
+         GOOGLE FONT
+    ========================================================== -->
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet">
+
+
+    <!-- =========================================================
+         CIVICPULSE LOGIN CSS
+    ========================================================== -->
+
+    <link
+            rel="stylesheet"
+            th:href="@{/css/login.css}">
+
+</head>
+
+
+<body>
+
+
+<div class="login-page">
+
+
+    <!-- =========================================================
+         LEFT BRAND SECTION
+    ========================================================== -->
+
+    <section class="login-brand-section">
+
+
+        <!-- =====================================================
+             BRAND
+        ====================================================== -->
+
+        <div class="login-brand">
+
+            <div class="login-brand-icon">
+
+                <i class="bi bi-buildings"></i>
+
+            </div>
+
+            <span>
+                CivicPulse
+            </span>
+
+        </div>
+
+
+        <!-- =====================================================
+             BRAND CONTENT
+        ====================================================== -->
+
+        <div class="login-brand-content">
+
+
+            <span class="login-eyebrow">
+                SMART GOVERNANCE
+            </span>
+
+
+            <h1>
+                Smarter Governance.<br>
+                Better Communities.
+            </h1>
+
+
+            <p>
+                A unified platform for managing civic services,
+                citizen complaints, government departments,
+                and public administration.
+            </p>
+
+
+            <!-- =================================================
+                 FEATURES
+            ================================================== -->
+
+            <div class="login-features">
+
+
+                <!-- FEATURE 1 -->
+
+                <div class="login-feature">
+
+                    <div class="login-feature-icon">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Secure Access
+                        </strong>
+
+                        <span>
+                            Role-based access for authorized users.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FEATURE 2 -->
+
+                <div class="login-feature">
+
+                    <div class="login-feature-icon">
+
+                        <i class="bi bi-clipboard-check"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Complaint Management
+                        </strong>
+
+                        <span>
+                            Track and resolve civic complaints efficiently.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FEATURE 3 -->
+
+                <div class="login-feature">
+
+                    <div class="login-feature-icon">
+
+                        <i class="bi bi-bar-chart-line"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Smart Administration
+                        </strong>
+
+                        <span>
+                            Data-driven tools for better decision making.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             FOOTER
+        ====================================================== -->
+
+        <div class="login-brand-footer">
+
+            <span>
+                © <span id="currentYear">2026</span> CivicPulse
+            </span>
+
+            <span>
+                Smart Governance Management Platform
+            </span>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =========================================================
+         RIGHT LOGIN SECTION
+    ========================================================== -->
+
+    <section class="login-form-section">
+
+
+        <div class="login-form-wrapper">
+
+
+            <!-- =================================================
+                 MOBILE BRAND
+            ================================================== -->
+
+            <div class="login-mobile-brand">
+
+                <div class="login-brand-icon">
+
+                    <i class="bi bi-buildings"></i>
+
+                </div>
+
+                <span>
+                    CivicPulse
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 LOGIN HEADER
+            ================================================== -->
+
+            <div class="login-header">
+
+
+                <span class="login-header-label">
+                    WELCOME BACK
+                </span>
+
+
+                <h2>
+                    Sign in to your account
+                </h2>
+
+
+                <p>
+                    Select your role and enter your credentials
+                    to access the CivicPulse platform.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 LOGIN ERROR
+            ================================================== -->
+
+            <div id="loginError"
+                 class="login-message login-error d-none"
+                 role="alert">
+
+                <i class="bi bi-exclamation-circle"></i>
+
+                <span id="loginErrorMessage">
+                    Invalid username or password.
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 LOGOUT MESSAGE
+            ================================================== -->
+
+            <div id="logoutMessage"
+                 class="login-message login-success d-none"
+                 role="status">
+
+                <i class="bi bi-check-circle"></i>
+
+                <span>
+                    You have been successfully signed out.
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 LOGIN FORM
+
+                 IMPORTANT:
+
+                 Page:
+                 /officer/login
+
+                 Form submission:
+                 POST /login
+
+                 Spring Security handles POST /login.
+            ================================================== -->
+
+            <form
+                    id="loginForm"
+                    method="post"
+                    th:action="@{/login}"
+                    novalidate>
+
+
+                <!-- =================================================
+                     CSRF TOKEN
+                ================================================== -->
+
+                <input
+                        type="hidden"
+                        th:name="${_csrf.parameterName}"
+                        th:value="${_csrf.token}">
+
+
+                <!-- =================================================
+                     ROLE
+                ================================================== -->
+
+                <div class="login-form-group">
+
+
+                    <label
+                            for="role"
+                            class="login-label">
+
+                        Login As
+
+                    </label>
+
+
+                    <div class="login-input-wrapper">
+
+
+                        <i class="bi bi-person-badge login-input-icon"></i>
+
+
+                        <select
+                                id="role"
+                                name="role"
+                                class="login-input"
+                                required>
+
+
+                            <option
+                                    value=""
+                                    selected
+                                    disabled>
+
+                                Select your role
+
+                            </option>
+
+
+                            <option value="CITIZEN">
+                                Citizen
+                            </option>
+
+
+                            <option value="OFFICER">
+                                Officer
+                            </option>
+
+
+                            <option value="ADMIN">
+                                Administrator
+                            </option>
+
+
+                        </select>
+
+                    </div>
+
+
+                    <small
+                            id="roleError"
+                            class="login-field-error d-none">
+
+                        Please select your role.
+
+                    </small>
+
+                </div>
+
+
+                <!-- =================================================
+                     USERNAME
+                ================================================== -->
+
+                <div class="login-form-group">
+
+
+                    <label
+                            for="username"
+                            class="login-label">
+
+                        Username
+
+                    </label>
+
+
+                    <div class="login-input-wrapper">
+
+
+                        <i class="bi bi-person login-input-icon"></i>
+
+
+                        <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                class="login-input"
+                                placeholder="Enter your username"
+                                autocomplete="username"
+                                required>
+
+
+                    </div>
+
+
+                    <small
+                            id="usernameError"
+                            class="login-field-error d-none">
+
+                        Please enter your username.
+
+                    </small>
+
+                </div>
+
+
+                <!-- =================================================
+                     PASSWORD
+                ================================================== -->
+
+                <div class="login-form-group">
+
+
+                    <div class="login-label-row">
+
+
+                        <label
+                                for="password"
+                                class="login-label">
+
+                            Password
+
+                        </label>
+
+
+                        <a
+                                href="#"
+                                id="forgotPasswordLink"
+                                class="forgot-password">
+
+                            Forgot password?
+
+                        </a>
+
+                    </div>
+
+
+                    <div class="login-input-wrapper">
+
+
+                        <i class="bi bi-lock login-input-icon"></i>
+
+
+                        <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="login-input password-input"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required>
+
+
+                        <button
+                                type="button"
+                                id="togglePassword"
+                                class="password-toggle"
+                                aria-label="Show password">
+
+                            <i class="bi bi-eye"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <small
+                            id="passwordError"
+                            class="login-field-error d-none">
+
+                        Please enter your password.
+
+                    </small>
+
+                </div>
+
+
+                <!-- =================================================
+                     REMEMBER ME
+                ================================================== -->
+
+                <div class="login-options">
+
+
+                    <label class="remember-me">
+
+
+                        <input
+                                type="checkbox"
+                                id="rememberMe"
+                                name="remember-me">
+
+
+                        <span class="custom-checkbox"></span>
+
+
+                        <span>
+                            Remember me
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- =================================================
+                     LOGIN BUTTON
+                ================================================== -->
+
+                <button
+                        type="submit"
+                        id="loginButton"
+                        class="login-button">
+
+
+                    <span id="loginButtonText">
+                        Sign In
+                    </span>
+
+
+                    <span
+                            id="loginButtonLoading"
+                            class="d-none">
+
+                        <span
+                                class="spinner-border spinner-border-sm"
+                                aria-hidden="true">
+                        </span>
+
+                        Signing in...
+
+                    </span>
+
+
+                    <i
+                            id="loginButtonIcon"
+                            class="bi bi-arrow-right">
+                    </i>
+
+                </button>
+
+
+            </form>
+
+
+            <!-- =================================================
+                 SECURITY NOTE
+            ================================================== -->
+
+            <div class="login-security-note">
+
+                <i class="bi bi-shield-lock"></i>
+
+                <span>
+                    Your account is protected with secure authentication.
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 SUPPORT
+            ================================================== -->
+
+            <div class="login-support">
+
+                <span>
+                    Need help accessing your account?
+                </span>
+
+                <a href="#">
+                    Contact System Administrator
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+<!-- =========================================================
+     BOOTSTRAP JAVASCRIPT
+========================================================== -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- =========================================================
+     LOGIN JAVASCRIPT
+========================================================== -->
+
+<script
+        th:src="@{/js/login.js}">
+</script>
+
+
+<!-- =========================================================
+     LOGIN PAGE JAVASCRIPT
+========================================================== -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+
+            /*
+             * =====================================================
+             * CURRENT YEAR
+             * =====================================================
+             */
+
+            const yearElement =
+                document.getElementById("currentYear");
+
+
+            if (yearElement) {
+
+                yearElement.textContent =
+                    new Date().getFullYear();
+
+            }
+
+
+            /*
+             * =====================================================
+             * PASSWORD TOGGLE
+             * =====================================================
+             */
+
+            const togglePassword =
+                document.getElementById("togglePassword");
+
+
+            const password =
+                document.getElementById("password");
+
+
+            if (
+                togglePassword &&
+                password
+            ) {
+
+                togglePassword.addEventListener(
+                    "click",
+                    function () {
+
+                        const icon =
+                            this.querySelector("i");
+
+
+                        if (
+                            password.type ===
+                            "password"
+                        ) {
+
+                            password.type =
+                                "text";
+
+
+                            icon.classList.remove(
+                                "bi-eye"
+                            );
+
+
+                            icon.classList.add(
+                                "bi-eye-slash"
+                            );
+
+
+                            this.setAttribute(
+                                "aria-label",
+                                "Hide password"
+                            );
+
+                        } else {
+
+                            password.type =
+                                "password";
+
+
+                            icon.classList.remove(
+                                "bi-eye-slash"
+                            );
+
+
+                            icon.classList.add(
+                                "bi-eye"
+                            );
+
+
+                            this.setAttribute(
+                                "aria-label",
+                                "Show password"
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            /*
+             * =====================================================
+             * LOGIN FORM
+             * =====================================================
+             */
+
+            const loginForm =
+                document.getElementById("loginForm");
+
+
+            if (!loginForm) {
+                return;
+            }
+
+
+            const role =
+                document.getElementById("role");
+
+
+            const username =
+                document.getElementById("username");
+
+
+            const passwordField =
+                document.getElementById("password");
+
+
+            const roleError =
+                document.getElementById("roleError");
+
+
+            const usernameError =
+                document.getElementById("usernameError");
+
+
+            const passwordError =
+                document.getElementById("passwordError");
+
+
+            /*
+             * =====================================================
+             * FORM SUBMIT
+             * =====================================================
+             */
+
+            loginForm.addEventListener(
+                "submit",
+                function (event) {
+
+
+                    let valid = true;
+
+
+                    /*
+                     * ROLE VALIDATION
+                     */
+
+                    if (
+                        !role ||
+                        !role.value
+                    ) {
+
+                        if (roleError) {
+
+                            roleError.classList.remove(
+                                "d-none"
+                            );
+
+                        }
+
+                        valid = false;
+
+                    } else {
+
+                        if (roleError) {
+
+                            roleError.classList.add(
+                                "d-none"
+                            );
+
+                        }
+
+                    }
+
+
+                    /*
+                     * USERNAME VALIDATION
+                     */
+
+                    if (
+                        !username ||
+                        !username.value.trim()
+                    ) {
+
+                        if (usernameError) {
+
+                            usernameError.classList.remove(
+                                "d-none"
+                            );
+
+                        }
+
+                        valid = false;
+
+                    } else {
+
+                        if (usernameError) {
+
+                            usernameError.classList.add(
+                                "d-none"
+                            );
+
+                        }
+
+                    }
+
+
+                    /*
+                     * PASSWORD VALIDATION
+                     */
+
+                    if (
+                        !passwordField ||
+                        !passwordField.value
+                    ) {
+
+                        if (passwordError) {
+
+                            passwordError.classList.remove(
+                                "d-none"
+                            );
+
+                        }
+
+                        valid = false;
+
+                    } else {
+
+                        if (passwordError) {
+
+                            passwordError.classList.add(
+                                "d-none"
+                            );
+
+                        }
+
+                    }
+
+
+                    /*
+                     * STOP SUBMISSION
+                     * IF VALIDATION FAILED
+                     */
+
+                    if (!valid) {
+
+                        event.preventDefault();
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * =================================================
+                     * SHOW LOADING STATE
+                     * =================================================
+                     */
+
+                    const loginButton =
+                        document.getElementById(
+                            "loginButton"
+                        );
+
+
+                    const loginButtonText =
+                        document.getElementById(
+                            "loginButtonText"
+                        );
+
+
+                    const loginButtonLoading =
+                        document.getElementById(
+                            "loginButtonLoading"
+                        );
+
+
+                    const loginButtonIcon =
+                        document.getElementById(
+                            "loginButtonIcon"
+                        );
+
+
+                    if (loginButton) {
+
+                        loginButton.disabled =
+                            true;
+
+                    }
+
+
+                    if (loginButtonText) {
+
+                        loginButtonText.classList.add(
+                            "d-none"
+                        );
+
+                    }
+
+
+                    if (loginButtonLoading) {
+
+                        loginButtonLoading.classList.remove(
+                            "d-none"
+                        );
+
+                    }
+
+
+                    if (loginButtonIcon) {
+
+                        loginButtonIcon.classList.add(
+                            "d-none"
+                        );
+
+                    }
+
+                }
+            );
+
+
+            /*
+             * =====================================================
+             * HIDE USERNAME ERROR
+             * =====================================================
+             */
+
+            if (username) {
+
+                username.addEventListener(
+                    "input",
+                    function () {
+
+                        if (usernameError) {
+
+                            usernameError.classList.add(
+                                "d-none"
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            /*
+             * =====================================================
+             * HIDE PASSWORD ERROR
+             * =====================================================
+             */
+
+            if (passwordField) {
+
+                passwordField.addEventListener(
+                    "input",
+                    function () {
+
+                        if (passwordError) {
+
+                            passwordError.classList.add(
+                                "d-none"
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            /*
+             * =====================================================
+             * HIDE ROLE ERROR
+             * =====================================================
+             */
+
+            if (role) {
+
+                role.addEventListener(
+                    "change",
+                    function () {
+
+                        if (roleError) {
+
+                            roleError.classList.add(
+                                "d-none"
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            /*
+             * =====================================================
+             * SERVER-SIDE LOGIN ERROR
+             *
+             * Examples:
+             *
+             * /officer/login?error=true
+             *
+             * /officer/login?error=inactive
+             * =====================================================
+             */
+
+            const urlParams =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+
+            if (
+                urlParams.has("error")
+            ) {
+
+                const loginError =
+                    document.getElementById(
+                        "loginError"
+                    );
+
+
+                const loginErrorMessage =
+                    document.getElementById(
+                        "loginErrorMessage"
+                    );
+
+
+                const errorType =
+                    urlParams.get(
+                        "error"
+                    );
+
+
+                if (loginError) {
+
+                    loginError.classList.remove(
+                        "d-none"
+                    );
+
+                }
+
+
+                if (loginErrorMessage) {
+
+                    if (
+                        errorType ===
+                        "inactive"
+                    ) {
+
+                        loginErrorMessage.textContent =
+                            "Your account is inactive. Please contact the system administrator.";
+
+                    } else {
+
+                        loginErrorMessage.textContent =
+                            "Invalid role, username, or password.";
+
+                    }
+
+                }
+
+            }
+
+
+            /*
+             * =====================================================
+             * LOGOUT MESSAGE
+             *
+             * Every role is redirected to:
+             *
+             * /officer/login?logout=true
+             * =====================================================
+             */
+
+            if (
+                urlParams.has("logout")
+            ) {
+
+                const logoutMessage =
+                    document.getElementById(
+                        "logoutMessage"
+                    );
+
+
+                if (logoutMessage) {
+
+                    logoutMessage.classList.remove(
+                        "d-none"
+                    );
+
+                }
+
+            }
+
+        });
+
+</script>
+
+
+</body>
+
+</html>
+

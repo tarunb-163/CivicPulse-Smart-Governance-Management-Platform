@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CivicPulse - Citizen Dashboard</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+            rel="stylesheet">
+
+
+    <style>
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f7fb;
+        }
+
+
+        .navbar {
+
+            background: #123b6d;
+
+            height: 56px;
+        }
+
+
+        .navbar-brand {
+
+            font-weight: bold;
+
+            color: white !important;
+
+            font-size: 22px;
+        }
+
+
+        .navbar-text {
+
+            color: white;
+        }
+
+
+        .sidebar {
+
+            min-height: calc(100vh - 56px);
+
+            background: white;
+
+            border-right: 1px solid #ddd;
+
+            padding-top: 20px;
+        }
+
+
+        .sidebar a {
+
+            display: block;
+
+            padding: 13px 20px;
+
+            color: #333;
+
+            text-decoration: none;
+        }
+
+
+        .sidebar a:hover {
+
+            background: #eaf2ff;
+
+            color: #123b6d;
+        }
+
+
+        .sidebar a.active {
+
+            background: #eaf2ff;
+
+            color: #123b6d;
+
+            font-weight: bold;
+        }
+
+
+        .main-content {
+
+            padding: 30px;
+        }
+
+
+        .welcome-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                    0 3px 12px
+                    rgba(0,0,0,0.08);
+
+            margin-bottom: 25px;
+        }
+
+
+        .welcome-title {
+
+            color: #123b6d;
+
+            font-weight: bold;
+        }
+
+
+        .stat-card {
+
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 22px;
+
+            box-shadow:
+                    0 3px 12px
+                    rgba(0,0,0,0.08);
+
+            height: 100%;
+        }
+
+
+        .stat-icon {
+
+            width: 50px;
+
+            height: 50px;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 24px;
+
+            background: #eaf2ff;
+
+            color: #123b6d;
+        }
+
+
+        .stat-number {
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            color: #123b6d;
+        }
+
+
+        .stat-label {
+
+            color: #777;
+
+            font-size: 14px;
+        }
+
+
+        .section-card {
+
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 25px;
+
+            box-shadow:
+                    0 3px 12px
+                    rgba(0,0,0,0.08);
+
+            margin-top: 25px;
+        }
+
+
+        .section-title {
+
+            color: #123b6d;
+
+            font-weight: bold;
+        }
+
+
+        .table th {
+
+            background: #f4f7fb;
+
+            color: #123b6d;
+        }
+
+
+        .badge-pending {
+
+            background: #fff3cd;
+
+            color: #856404;
+        }
+
+
+        .badge-progress {
+
+            background: #cfe2ff;
+
+            color: #084298;
+        }
+
+
+        .badge-resolved {
+
+            background: #d1e7dd;
+
+            color: #0f5132;
+        }
+
+
+        .badge-default {
+
+            background: #e2e3e5;
+
+            color: #41464b;
+        }
+
+
+        .btn-primary {
+
+            background: #123b6d;
+
+            border: none;
+        }
+
+
+        .btn-primary:hover {
+
+            background: #0d2c52;
+        }
+
+
+        .empty-state {
+
+            text-align: center;
+
+            padding: 45px 20px;
+
+            color: #777;
+        }
+
+
+        .empty-state i {
+
+            font-size: 50px;
+
+            color: #aaa;
+
+            margin-bottom: 15px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar">
+
+    <div class="container-fluid">
+
+        <a
+                class="navbar-brand"
+                th:href="@{/citizen/dashboard}">
+
+            <i class="bi bi-building"></i>
+
+            CivicPulse
+
+        </a>
+
+
+        <span class="navbar-text">
+
+            <i class="bi bi-person-circle"></i>
+
+            <span
+                    th:text="${citizen.fullName}">
+                Citizen
+            </span>
+
+        </span>
+
+    </div>
+
+</nav>
+
+
+
+<div class="container-fluid">
+
+    <div class="row">
+
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+
+        <div class="col-md-2 sidebar">
+
+
+            <a
+                    th:href="@{/citizen/dashboard}"
+                    class="active">
+
+                <i class="bi bi-speedometer2"></i>
+
+                Dashboard
+
+            </a>
+
+
+            <a
+                    th:href="@{/citizen/complaint-form}">
+
+                <i class="bi bi-plus-circle"></i>
+
+                Register Complaint
+
+            </a>
+
+
+            <a
+                    th:href="@{/citizen/complaints}">
+
+                <i class="bi bi-file-text"></i>
+
+                My Complaints
+
+            </a>
+
+
+            <a
+                    th:href="@{/citizen/track}">
+
+                <i class="bi bi-search"></i>
+
+                Track Complaint
+
+            </a>
+
+
+            <a
+                    th:href="@{/citizen/notifications}">
+
+                <i class="bi bi-bell"></i>
+
+                Notifications
+
+            </a>
+
+
+            <a
+                    th:href="@{/citizen/profile}">
+
+                <i class="bi bi-person"></i>
+
+                My Profile
+
+            </a>
+
+
+            <!-- Logout -->
+
+            <button
+                    type="button"
+                    id="logoutButton"
+                    class="btn btn-link text-decoration-none w-100 text-start"
+                    style="padding:13px 20px;color:#333;">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                Logout
+
+            </button>
+
+        </div>
+
+
+
+        <!-- =================================================
+             MAIN CONTENT
+        ================================================== -->
+
+        <div class="col-md-10 main-content">
+
+
+            <!-- =================================================
+                 WELCOME
+            ================================================== -->
+
+            <div class="welcome-card">
+
+                <h2 class="welcome-title">
+
+                    Welcome,
+                    <span th:text="${citizen.fullName}">
+                        Citizen
+                    </span>
+
+                </h2>
+
+
+                <p class="text-muted mb-0">
+
+                    Manage your civic complaints and track their
+                    progress from your dashboard.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
+
+            <div class="row g-4">
+
+
+                <!-- TOTAL -->
+
+                <div class="col-md-3">
+
+                    <div class="stat-card">
+
+                        <div class="d-flex
+                                    justify-content-between
+                                    align-items-center">
+
+                            <div>
+
+                                <div
+                                        class="stat-number"
+                                        th:text="${totalComplaints}">
+                                    0
+                                </div>
+
+                                <div class="stat-label">
+
+                                    Total Complaints
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="stat-icon">
+
+                                <i class="bi bi-file-earmark-text"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PENDING -->
+
+                <div class="col-md-3">
+
+                    <div class="stat-card">
+
+                        <div class="d-flex
+                                    justify-content-between
+                                    align-items-center">
+
+                            <div>
+
+                                <div
+                                        class="stat-number"
+                                        th:text="${pendingComplaints}">
+                                    0
+                                </div>
+
+                                <div class="stat-label">
+
+                                    Pending
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="stat-icon">
+
+                                <i class="bi bi-clock"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- IN PROGRESS -->
+
+                <div class="col-md-3">
+
+                    <div class="stat-card">
+
+                        <div class="d-flex
+                                    justify-content-between
+                                    align-items-center">
+
+                            <div>
+
+                                <div
+                                        class="stat-number"
+                                        th:text="${inProgressComplaints}">
+                                    0
+                                </div>
+
+                                <div class="stat-label">
+
+                                    In Progress
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="stat-icon">
+
+                                <i class="bi bi-arrow-repeat"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- RESOLVED -->
+
+                <div class="col-md-3">
+
+                    <div class="stat-card">
+
+                        <div class="d-flex
+                                    justify-content-between
+                                    align-items-center">
+
+                            <div>
+
+                                <div
+                                        class="stat-number"
+                                        th:text="${resolvedComplaints}">
+                                    0
+                                </div>
+
+                                <div class="stat-label">
+
+                                    Resolved
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="stat-icon">
+
+                                <i class="bi bi-check-circle"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 RECENT COMPLAINTS
+            ================================================== -->
+
+            <div class="section-card">
+
+
+                <div class="d-flex
+                            justify-content-between
+                            align-items-center
+                            mb-3">
+
+
+                    <div>
+
+                        <h4 class="section-title mb-1">
+
+                            <i class="bi bi-file-text"></i>
+
+                            My Recent Complaints
+
+                        </h4>
+
+                        <p class="text-muted mb-0">
+
+                            Your latest submitted complaints.
+
+                        </p>
+
+                    </div>
+
+
+                    <a
+                            th:href="@{/citizen/complaints}"
+                            class="btn btn-primary">
+
+                        View All
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     COMPLAINT TABLE
+                ================================================== -->
+
+                <div
+                        th:if="${complaints != null && !complaints.isEmpty()}"
+                        class="table-responsive">
+
+
+                    <table
+                            class="table table-hover align-middle">
+
+
+                        <thead>
+
+                        <tr>
+
+                            <th>
+                                Complaint No.
+                            </th>
+
+                            <th>
+                                Subject
+                            </th>
+
+                            <th>
+                                Category
+                            </th>
+
+                            <th>
+                                Location
+                            </th>
+
+                            <th>
+                                Priority
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Submitted
+                            </th>
+
+                        </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                        <!-- =================================================
+                             COMPLAINT ROW
+                        ================================================== -->
+
+                        <tr
+                                th:each="complaint : ${complaints}">
+
+
+                            <!-- COMPLAINT NUMBER -->
+
+                            <td>
+
+                                <strong
+                                        th:text="${complaint.complaintNumber}">
+                                    CP-00000000-XXXXXX
+                                </strong>
+
+                            </td>
+
+
+                            <!-- TITLE -->
+
+                            <td>
+
+                                <span
+                                        th:text="${complaint.title}">
+                                    Complaint title
+                                </span>
+
+                            </td>
+
+
+                            <!-- CATEGORY -->
+
+                            <td>
+
+                                <span
+                                        th:text="${complaint.category}">
+                                    Category
+                                </span>
+
+                            </td>
+
+
+                            <!-- LOCATION -->
+
+                            <td>
+
+                                <span
+                                        th:text="${complaint.location}">
+                                    Location
+                                </span>
+
+                            </td>
+
+
+                            <!-- PRIORITY -->
+
+                            <td>
+
+                                <span
+                                        class="badge"
+                                        th:classappend="${complaint.priority == 'HIGH'}
+                                            ? ' bg-danger'
+                                            : (${complaint.priority == 'LOW'}
+                                                ? ' bg-success'
+                                                : ' bg-warning text-dark')"
+                                        th:text="${complaint.priority}">
+                                    MEDIUM
+                                </span>
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                <span
+                                        class="badge"
+                                        th:classappend="${complaint.status == 'PENDING'}
+                                            ? ' badge-pending'
+                                            : (${complaint.status == 'IN_PROGRESS' || complaint.status == 'IN PROGRESS'}
+                                                ? ' badge-progress'
+                                                : (${complaint.status == 'RESOLVED'}
+                                                    ? ' badge-resolved'
+                                                    : ' badge-default'))"
+                                        th:text="${complaint.status}">
+                                    PENDING
+                                </span>
+
+                            </td>
+
+
+                            <!-- CREATED DATE -->
+
+                            <td>
+
+                                <span
+                                        th:if="${complaint.createdAt != null}"
+                                        th:text="${#temporals.format(complaint.createdAt, 'dd MMM yyyy HH:mm')}">
+                                    12 Aug 2026
+                                </span>
+
+                                <span
+                                        th:unless="${complaint.createdAt != null}">
+                                    -
+                                </span>
+
+                            </td>
+
+
+                        </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     NO COMPLAINTS
+                ================================================== -->
+
+                <div
+                        th:if="${complaints == null || complaints.isEmpty()}"
+                        class="empty-state">
+
+
+                    <i class="bi bi-file-earmark-x"></i>
+
+
+                    <h5>
+
+                        No complaints submitted yet
+
+                    </h5>
+
+
+                    <p>
+
+                        You haven't registered any complaints.
+
+                    </p>
+
+
+                    <a
+                            th:href="@{/citizen/complaint-form}"
+                            class="btn btn-primary">
+
+                        <i class="bi bi-plus-circle"></i>
+
+                        Register Your First Complaint
+
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     LOGOUT SCRIPT
+========================================================= -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const logoutButton =
+                document.getElementById("logoutButton");
+
+
+            if (!logoutButton) {
+                return;
+            }
+
+
+            logoutButton.addEventListener(
+                "click",
+                function () {
+
+                    const confirmed =
+                        confirm(
+                            "Are you sure you want to sign out?"
+                        );
+
+
+                    if (!confirmed) {
+                        return;
+                    }
+
+
+                    const form =
+                        document.createElement("form");
+
+
+                    form.method = "POST";
+
+                    form.action = "/logout";
+
+
+                    /*
+                     * CSRF token
+                     */
+
+                    const csrfToken =
+                        document.querySelector(
+                            'meta[name="_csrf"]'
+                        );
+
+
+                    const csrfParameter =
+                        document.querySelector(
+                            'meta[name="_csrf_parameter"]'
+                        );
+
+
+                    if (csrfToken) {
+
+                        const input =
+                            document.createElement("input");
+
+
+                        input.type = "hidden";
+
+
+                        input.name =
+                            csrfParameter
+                                ? csrfParameter.content
+                                : "_csrf";
+
+
+                        input.value =
+                            csrfToken.content;
+
+
+                        form.appendChild(input);
+
+                    }
+
+
+                    document.body.appendChild(form);
+
+
+                    form.submit();
+
+                }
+            );
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
+

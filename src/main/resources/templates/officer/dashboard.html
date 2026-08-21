@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta name="_csrf"
+          th:content="${_csrf.token}">
+
+    <meta name="_csrf_parameter"
+          th:content="${_csrf.parameterName}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Officer Dashboard | CivicPulse</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+            rel="stylesheet">
+
+    <!-- Google Font -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet">
+
+    <!-- Dashboard CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+
+<body>
+
+<!-- =========================================================
+     MAIN WRAPPER
+========================================================= -->
+<div class="dashboard-wrapper">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+    <aside
+            th:replace="~{fragments/sidebar :: sidebar('dashboard')}">
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+    <main class="main-content">
+
+
+        <!-- =================================================
+             TOP NAVBAR
+        ================================================== -->
+        <header class="top-navbar">
+
+            <div class="navbar-left">
+
+                <button
+                        class="sidebar-toggle"
+                        id="sidebarToggle"
+                        type="button">
+
+                    <i class="bi bi-list"></i>
+
+                </button>
+
+                <div class="page-heading">
+
+                    <h4>Officer Dashboard</h4>
+
+                    <p>
+                        Monitor and manage assigned civic grievances
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="navbar-right">
+
+
+                <!-- Search -->
+                <div class="navbar-search d-none d-md-flex">
+
+                    <i class="bi bi-search"></i>
+
+                    <input
+                            type="search"
+                            placeholder="Search complaints..."
+                            aria-label="Search complaints">
+
+                </div>
+
+
+                <!-- Notifications -->
+                <div class="dropdown">
+
+                    <button
+                            class="icon-button"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+
+                        <i class="bi bi-bell"></i>
+
+                        <span class="notification-dot"></span>
+
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end notification-menu">
+
+                        <li class="notification-header">
+
+                            <strong>Notifications</strong>
+
+                            <span>0 New</span>
+
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li class="empty-notification">
+
+                            <i class="bi bi-bell-slash"></i>
+
+                            <p>No new notifications</p>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- Profile -->
+                <div class="dropdown">
+
+                    <button
+                            class="profile-button"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+
+                        <div class="top-profile-avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+
+                        <div class="top-profile-info d-none d-md-block">
+
+                            <strong>Officer</strong>
+
+                            <span>Officer Account</span>
+
+                        </div>
+
+                        <i class="bi bi-chevron-down"></i>
+
+                    </button>
+
+
+                    <ul class="dropdown-menu dropdown-menu-end profile-menu">
+
+                        <li>
+
+                            <div class="dropdown-profile">
+
+                                <div class="dropdown-avatar">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+
+                                <div>
+
+                                    <strong>Officer</strong>
+
+                                    <small>Officer Account</small>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+
+                            <a
+                                    class="dropdown-item"
+                                    href="/officer/profile">
+
+                                <i class="bi bi-person"></i>
+
+                                My Profile
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             DASHBOARD BODY
+        ================================================== -->
+        <div class="dashboard-body">
+
+
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+
+                <div>
+
+                    <span class="welcome-label">
+                        OFFICER PORTAL
+                    </span>
+
+                    <h2>
+                        Welcome back, Officer
+                    </h2>
+
+                    <p>
+                        Here's an overview of your assigned civic grievances.
+                    </p>
+
+                </div>
+
+                <div class="welcome-date">
+
+                    <i class="bi bi-calendar3"></i>
+
+                    <span id="currentDate">
+                        Today
+                    </span>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 STATISTICS CARDS
+            ================================================== -->
+            <section class="statistics-section">
+
+                <div class="row g-4">
+
+
+                    <!-- Total Complaints -->
+                    <div class="col-xl-3 col-md-6">
+
+                        <div class="stat-card">
+
+                            <div class="stat-card-content">
+
+                                <div>
+
+                                    <p>Total Complaints</p>
+
+                                    <h3 id="totalComplaints">
+                                        0
+                                    </h3>
+
+                                    <span class="stat-description">
+                                        Assigned to you
+                                    </span>
+
+                                </div>
+
+                                <div class="stat-icon blue">
+
+                                    <i class="bi bi-file-earmark-text-fill"></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Pending -->
+                    <div class="col-xl-3 col-md-6">
+
+                        <div class="stat-card">
+
+                            <div class="stat-card-content">
+
+                                <div>
+
+                                    <p>Pending</p>
+
+                                    <h3 id="pendingComplaints">
+                                        0
+                                    </h3>
+
+                                    <span class="stat-description">
+                                        Awaiting action
+                                    </span>
+
+                                </div>
+
+                                <div class="stat-icon orange">
+
+                                    <i class="bi bi-hourglass-split"></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- In Progress -->
+                    <div class="col-xl-3 col-md-6">
+
+                        <div class="stat-card">
+
+                            <div class="stat-card-content">
+
+                                <div>
+
+                                    <p>In Progress</p>
+
+                                    <h3 id="inProgressComplaints">
+                                        0
+                                    </h3>
+
+                                    <span class="stat-description">
+                                        Currently processing
+                                    </span>
+
+                                </div>
+
+                                <div class="stat-icon purple">
+
+                                    <i class="bi bi-arrow-repeat"></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Resolved -->
+                    <div class="col-xl-3 col-md-6">
+
+                        <div class="stat-card">
+
+                            <div class="stat-card-content">
+
+                                <div>
+
+                                    <p>Resolved</p>
+
+                                    <h3 id="resolvedComplaints">
+                                        0
+                                    </h3>
+
+                                    <span class="stat-description">
+                                        Successfully resolved
+                                    </span>
+
+                                </div>
+
+                                <div class="stat-icon green">
+
+                                    <i class="bi bi-check-circle-fill"></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SECONDARY STATISTICS
+            ================================================== -->
+            <section class="secondary-statistics mt-4">
+
+                <div class="row g-4">
+
+
+                    <!-- High Priority -->
+                    <div class="col-xl-4 col-md-6">
+
+                        <div class="mini-stat-card">
+
+                            <div class="mini-stat-icon danger">
+
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>High Priority</span>
+
+                                <h4 id="highPriorityComplaints">
+                                    0
+                                </h4>
+
+                                <small>
+                                    Require immediate attention
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Today's Tasks -->
+                    <div class="col-xl-4 col-md-6">
+
+                        <div class="mini-stat-card">
+
+                            <div class="mini-stat-icon blue">
+
+                                <i class="bi bi-calendar-check-fill"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>Today's Tasks</span>
+
+                                <h4 id="todayTasks">
+                                    0
+                                </h4>
+
+                                <small>
+                                    Tasks scheduled today
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Notifications -->
+                    <div class="col-xl-4 col-md-6">
+
+                        <div class="mini-stat-card">
+
+                            <div class="mini-stat-icon purple">
+
+                                <i class="bi bi-bell-fill"></i>
+
+                            </div>
+
+                            <div>
+
+                                <span>Notifications</span>
+
+                                <h4 id="notificationCount">
+                                    0
+                                </h4>
+
+                                <small>
+                                    Unread notifications
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 CHARTS
+            ================================================== -->
+            <section class="charts-section mt-4">
+
+                <div class="row g-4">
+
+
+                    <!-- Complaint Status Chart -->
+                    <div class="col-xl-5">
+
+                        <div class="dashboard-card chart-card">
+
+                            <div class="card-header-custom">
+
+                                <div>
+
+                                    <h5>Complaint Status</h5>
+
+                                    <p>
+                                        Overview of assigned complaints
+                                    </p>
+
+                                </div>
+
+                                <button
+                                        class="card-menu"
+                                        type="button">
+
+                                    <i class="bi bi-three-dots"></i>
+
+                                </button>
+
+                            </div>
+
+                            <div class="chart-container">
+
+                                <canvas id="complaintStatusChart"></canvas>
+
+                                <div
+                                        class="chart-empty-message"
+                                        id="statusChartEmpty">
+
+                                    <i class="bi bi-bar-chart"></i>
+
+                                    <span>
+                                        No complaint data available
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Complaint Trend -->
+                    <div class="col-xl-7">
+
+                        <div class="dashboard-card chart-card">
+
+                            <div class="card-header-custom">
+
+                                <div>
+
+                                    <h5>Complaint Trend</h5>
+
+                                    <p>
+                                        Complaint activity over time
+                                    </p>
+
+                                </div>
+
+                                <select
+                                        class="form-select chart-filter"
+                                        id="trendFilter">
+
+                                    <option value="week">
+                                        This Week
+                                    </option>
+
+                                    <option value="month">
+                                        This Month
+                                    </option>
+
+                                    <option value="year">
+                                        This Year
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="chart-container large">
+
+                                <canvas id="complaintTrendChart"></canvas>
+
+                                <div
+                                        class="chart-empty-message"
+                                        id="trendChartEmpty">
+
+                                    <i class="bi bi-graph-up"></i>
+
+                                    <span>
+                                        No complaint data available
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 RECENT COMPLAINTS
+            ================================================== -->
+            <section class="recent-complaints-section mt-4">
+
+                <div class="dashboard-card">
+
+                    <div class="card-header-custom">
+
+                        <div>
+
+                            <h5>Recent Complaints</h5>
+
+                            <p>
+                                Latest complaints assigned to you
+                            </p>
+
+                        </div>
+
+                        <a
+                                href="/officer/complaints"
+                                class="view-all-btn">
+
+                            View All
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+
+                    <!-- Empty State -->
+                    <div
+                            class="empty-table-state"
+                            id="complaintsEmptyState">
+
+                        <div class="empty-icon">
+
+                            <i class="bi bi-inbox"></i>
+
+                        </div>
+
+                        <h6>No Complaints Available</h6>
+
+                        <p>
+                            There are currently no complaints assigned to you.
+                        </p>
+
+                    </div>
+
+
+                    <!-- Complaints Table -->
+                    <div
+                            class="table-responsive d-none"
+                            id="complaintsTableContainer">
+
+                        <table class="table complaints-table">
+
+                            <thead>
+
+                            <tr>
+
+                                <th>Complaint ID</th>
+
+                                <th>Category</th>
+
+                                <th>Priority</th>
+
+                                <th>Date</th>
+
+                                <th>Status</th>
+
+                                <th>Action</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="recentComplaintsTable">
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 QUICK ACTIONS
+            ================================================== -->
+            <section class="quick-actions-section mt-4">
+
+                <div class="dashboard-card">
+
+                    <div class="card-header-custom">
+
+                        <div>
+
+                            <h5>Quick Actions</h5>
+
+                            <p>
+                                Frequently used officer actions
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row g-3">
+
+
+                        <!-- View Complaints -->
+                        <div class="col-lg-3 col-md-6">
+
+                            <a
+                                    href="/officer/complaints"
+                                    class="quick-action">
+
+                                <div class="quick-action-icon blue">
+
+                                    <i class="bi bi-file-earmark-text-fill"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        View Complaints
+                                    </strong>
+
+                                    <span>
+                                        Manage assigned grievances
+                                    </span>
+
+                                </div>
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+
+                        <!-- Notifications -->
+                        <div class="col-lg-3 col-md-6">
+
+                            <a
+                                    href="#"
+                                    class="quick-action">
+
+                                <div class="quick-action-icon purple">
+
+                                    <i class="bi bi-bell-fill"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Notifications
+                                    </strong>
+
+                                    <span>
+                                        Check recent updates
+                                    </span>
+
+                                </div>
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+
+                        <!-- Profile -->
+                        <div class="col-lg-3 col-md-6">
+
+                            <a
+                                    href="/officer/profile"
+                                    class="quick-action">
+
+                                <div class="quick-action-icon green">
+
+                                    <i class="bi bi-person-fill"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        My Profile
+                                    </strong>
+
+                                    <span>
+                                        Manage your account
+                                    </span>
+
+                                </div>
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+
+                        <!-- Help -->
+                        <div class="col-lg-3 col-md-6">
+
+                            <a
+                                    href="#"
+                                    class="quick-action">
+
+                                <div class="quick-action-icon orange">
+
+                                    <i class="bi bi-question-circle-fill"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Help & Support
+                                    </strong>
+
+                                    <span>
+                                        Get assistance
+                                    </span>
+
+                                </div>
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+            <footer class="dashboard-footer">
+
+                <div>
+
+                    <span>
+                        © <span id="currentYear"></span> CivicPulse
+                    </span>
+
+                    <span class="footer-separator">•</span>
+
+                    <span>
+                        Smart Governance Management Platform
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        Officer Portal
+                    </span>
+
+                </div>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     MOBILE OVERLAY
+========================================================= -->
+<div
+        class="sidebar-overlay"
+        id="sidebarOverlay">
+</div>
+
+
+<!-- Bootstrap JS -->
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<!-- Chart.js -->
+<script
+        src="https://cdn.jsdelivr.net/npm/chart.js">
+</script>
+
+<!-- Main JS -->
+<script th:src="@{/js/main.js}"></script>
+
+<!-- Dashboard JS -->
+<script th:src="@{/js/dashboard.js}"></script>
+
+</body>
+
+</html>
