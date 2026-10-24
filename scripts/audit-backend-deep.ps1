@@ -112,27 +112,30 @@ Assert-Test "Get notifications list" ($notifs.content -ne $null) ""
 $unread = Invoke-RestMethod -Uri "$BaseUrl/api/v1/notifications/unread-count" -Method Get -Headers @{ Authorization = "Bearer $citizenToken" }
 Assert-Test "Get unread notifications count" ($unread.unreadCount -ge 0) ""
 
-# Test PATCH, PUT, and POST on /read-all
+# Test PATCH on /read-all (strict PRD Section 8: PATCH only)
 try {
-    Invoke-RestMethod -Uri "$BaseUrl/api/v1/notifications/read-all" -Method Post -Headers @{ Authorization = "Bearer $citizenToken" } | Out-Null
-    Assert-Test "POST /notifications/read-all succeeds (204/200)" $true ""
+    Invoke-RestMethod -Uri "$BaseUrl/api/v1/notifications/read-all" -Method Patch -Headers @{ Authorization = "Bearer $citizenToken" } | Out-Null
+    Assert-Test "PATCH /notifications/read-all succeeds (204/200)" $true ""
 } catch {
-    Assert-Test "POST /notifications/read-all succeeds (204/200)" $false "$($_.Exception.Message)"
+    Assert-Test "PATCH /notifications/read-all succeeds (204/200)" $false "$($_.Exception.Message)"
 }
 
 try {
-    Invoke-RestMethod -Uri "$BaseUrl/api/v1/notifications/read-all" -Method Put -Headers @{ Authorization = "Bearer $citizenToken" } | Out-Null
-    Assert-Test "PUT /notifications/read-all succeeds (204/200)" $true ""
+    Invoke-RestMethod -Uri "$BaseUrl/api/v1/notifications/read-all" -Method Post -Headers @{ Authorization = "Bearer $citizenToken" } | Out-Null
+    Assert-Test "POST /notifications/read-all rejected (405 Method Not Allowed)" $false "Should be 405"
 } catch {
-    Assert-Test "PUT /notifications/read-all succeeds (204/200)" $false "$($_.Exception.Message)"
+    $code = $_.Exception.Response.StatusCode.value__
+    Assert-Test "POST /notifications/read-all rejected (405 Method Not Allowed)" ($code -eq 405) "Got $code"
 }
 
 # 4. PUBLIC DATA INTEGRITY & ZERO DATA LEAK
 Write-Host "`n--- Section 4: Public Data Integrity & Anti-Leak ---" -ForegroundColor Yellow
-$track = Invoke-RestMethod -Uri "$BaseUrl/api/v1/public/complaints/track/CP-2026-000001" -Method Get
+$track = Invoke-RestMethod -Uri "$BaseUrl/api/v1/public/track/CP-2026-000001" -Method Get
 Assert-Test "Public tracking loads complaint" ($track.publicCode -eq "CP-2026-000001") ""
+Assert-Test "Public tracking hides citizen name" ($track.citizenName -eq $null) ""
 Assert-Test "Public tracking hides citizen email" ($track.citizenEmail -eq $null) ""
 Assert-Test "Public tracking hides citizen phone" ($track.citizenPhone -eq $null) ""
+Assert-Test "Public tracking hides citizen ID" ($track.citizenId -eq $null) ""
 
 $pubStats = Invoke-RestMethod -Uri "$BaseUrl/api/v1/public/stats" -Method Get
 Assert-Test "Public stats returns grievance counts" ($pubStats.totalGrievances -gt 0) ""

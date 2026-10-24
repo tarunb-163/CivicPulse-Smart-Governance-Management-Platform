@@ -200,12 +200,15 @@ HTTP_CODE=$(curl -s -o ${TMP_DIR}/export.pdf -w "%{http_code}" "${API_URL}/analy
   -H "Authorization: Bearer ${ADMIN_TOKEN}")
 assert_step "S19b" "Executive PDF Summary Export" "$HTTP_CODE" 200 "PDF Bytes"
 
-# --- Step S20: Public Track By Code (Zero Identity Leak) ---
-HTTP_CODE=$(curl -s -o ${TMP_DIR}/track.json -w "%{http_code}" "${API_URL}/public/complaints/code/${COMPLAINT_CODE}")
+# --- Step S20: Public Track By Code (Zero Identity Leak per PRD) ---
+HTTP_CODE=$(curl -s -o ${TMP_DIR}/track.json -w "%{http_code}" "${API_URL}/public/track/${COMPLAINT_CODE}")
 assert_step "S20" "Public Grievance Tracking by Code" "$HTTP_CODE" 200 "$(cat ${TMP_DIR}/track.json)"
 CITIZEN_PHONE_LEAK=$(jq -r '.citizenPhone // empty' ${TMP_DIR}/track.json)
-if [ -n "$CITIZEN_PHONE_LEAK" ]; then
-  echo -e "[\e[31mFAIL\e[0m] S20: Privacy violation! Citizen phone leaked on public endpoint."
+CITIZEN_NAME_LEAK=$(jq -r '.citizenName // empty' ${TMP_DIR}/track.json)
+CITIZEN_EMAIL_LEAK=$(jq -r '.citizenEmail // empty' ${TMP_DIR}/track.json)
+CITIZEN_ID_LEAK=$(jq -r '.citizenId // empty' ${TMP_DIR}/track.json)
+if [ -n "$CITIZEN_PHONE_LEAK" ] || [ -n "$CITIZEN_NAME_LEAK" ] || [ -n "$CITIZEN_EMAIL_LEAK" ] || [ -n "$CITIZEN_ID_LEAK" ]; then
+  echo -e "[\e[31mFAIL\e[0m] S20: Privacy violation! Citizen identity field leaked on public endpoint."
   exit 1
 fi
 

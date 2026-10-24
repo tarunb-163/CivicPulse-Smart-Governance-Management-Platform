@@ -203,10 +203,10 @@ Assert-Step "S19" "Analytics CSV Export" $csvRes.StatusCode 200
 $pdfRes = Invoke-WebRequest -Uri "$ApiUrl/analytics/export/pdf" -Method Get -Headers $adminHeaders -UseBasicParsing
 Assert-Step "S19b" "Executive PDF Export" $pdfRes.StatusCode 200
 
-# --- S20: Public Track By Code (No Data Leak) ---
-$track = Invoke-RestMethod -Uri "$ApiUrl/public/complaints/code/$complaintCode" -Method Get
-if ($track.citizenPhone) {
-    Write-Host "[FAIL] S20 : Phone number leaked on public track!" -ForegroundColor Red
+# --- S20: Public Track By Code (Zero Data Leak per PRD) ---
+$track = Invoke-RestMethod -Uri "$ApiUrl/public/track/$complaintCode" -Method Get
+if ($track.citizenPhone -or $track.citizenName -or $track.citizenEmail -or $track.citizenId) {
+    Write-Host "[FAIL] S20 : Citizen identity fields leaked on public track!" -ForegroundColor Red
     exit 1
 } else {
     Assert-Step "S20" "Public Grievance Tracking (Zero Data Leak)" 200 200
