@@ -389,12 +389,13 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     private byte[] exportCsv(List<Complaint> complaints) {
         try (StringWriter sw = new StringWriter();
              CSVPrinter printer = new CSVPrinter(sw, CSVFormat.DEFAULT.builder()
-                     .setHeader("Code", "Title", "Category", "Department", "Status", "Urgency", "Priority", "Address", "Created Date", "Resolved Date")
+                     .setHeader("ID", "Public Code", "Title", "Category", "Department", "Status", "Urgency", "Priority", "Address", "Created Date", "Resolved Date")
                      .build())) {
 
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             for (Complaint c : complaints) {
                 printer.printRecord(
+                        c.getId(),
                         c.getPublicCode(),
                         c.getTitle(),
                         c.getCategory() != null ? c.getCategory().getName() : "",
