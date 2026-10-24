@@ -54,7 +54,7 @@ export async function initNotifications() {
         btn.addEventListener('click', async (e) => {
           e.stopPropagation();
           const id = btn.getAttribute('data-id');
-          await apiRequest(`/notifications/${id}/read`, { method: 'POST' });
+          await apiRequest(`/notifications/${id}/read`, { method: 'PATCH' });
           btn.closest('.cp-notif-row').classList.remove('bg-primary-subtle');
           btn.remove();
           updateBadge();
@@ -67,7 +67,7 @@ export async function initNotifications() {
 
   if (readAllBtn) {
     readAllBtn.addEventListener('click', async () => {
-      await apiRequest('/notifications/read-all', { method: 'POST' });
+      await apiRequest('/notifications/read-all', { method: 'PATCH' });
       await loadNotifications();
       updateBadge();
     });

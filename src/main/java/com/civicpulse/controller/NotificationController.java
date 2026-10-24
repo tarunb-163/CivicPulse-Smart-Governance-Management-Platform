@@ -41,8 +41,8 @@ public class NotificationController {
         return ResponseEntity.ok(Map.of("unreadCount", notificationService.getUnreadCount(principal.getId())));
     }
 
-    @RequestMapping(value = "/{id}/read", method = {RequestMethod.PATCH, RequestMethod.PUT, RequestMethod.POST})
-    @Operation(summary = "Mark a notification as read (supports PATCH, PUT, POST)")
+    @PatchMapping("/{id}/read")
+    @Operation(summary = "Mark a notification as read (PATCH per PRD section 8)")
     public ResponseEntity<Void> markAsRead(
             @PathVariable Long id,
             @AuthenticationPrincipal UserPrincipal principal) {
@@ -50,8 +50,8 @@ public class NotificationController {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "/read-all", method = {RequestMethod.PATCH, RequestMethod.PUT, RequestMethod.POST})
-    @Operation(summary = "Mark all notifications as read (supports PATCH, PUT, POST)")
+    @PatchMapping("/read-all")
+    @Operation(summary = "Mark all notifications as read (PATCH per PRD section 8)")
     public ResponseEntity<Void> markAllAsRead(
             @AuthenticationPrincipal UserPrincipal principal) {
         notificationService.markAllAsRead(principal.getId());

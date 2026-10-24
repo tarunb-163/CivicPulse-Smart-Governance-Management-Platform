@@ -208,9 +208,8 @@
     import '/assets/js/ui/palette.js';
     import '/assets/js/ui/bot.js';
 
-    checkRouteGuard(['CITIZEN', 'OFFICER', 'DEPT_HEAD', 'ADMIN']);
-
-    const user = getUser();
+    if (checkRouteGuard(['CITIZEN', 'OFFICER', 'DEPT_HEAD', 'ADMIN'])) {
+      const user = getUser();
     if (user) {
       document.getElementById('userNameNav').textContent = user.name || 'Citizen';
       const hours = new Date().getHours();
@@ -300,7 +299,8 @@
       }
     }
 
-    loadCitizenDashboard();
+      loadCitizenDashboard();
+    }
   </script>
 </body>
 </html>

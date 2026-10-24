@@ -118,7 +118,7 @@
 
     async function loadKanban() {
       try {
-        const board = await apiRequest('/officer/kanban');
+        const board = await apiRequest('/officer/board');
         allComplaints = [
           ...(board.assigned || []),
           ...(board.inProgress || []),

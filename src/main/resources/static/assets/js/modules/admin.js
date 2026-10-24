@@ -50,31 +50,31 @@ export async function deleteCategory(id) {
 }
 
 export async function fetchKeywordRules() {
-  return await apiRequest('/admin/keyword-rules');
+  return await apiRequest('/admin/rules');
 }
 
 export async function createKeywordRule(data) {
-  return await apiRequest('/admin/keyword-rules', {
+  return await apiRequest('/admin/rules', {
     method: 'POST',
     body: JSON.stringify(data)
   });
 }
 
 export async function updateKeywordRule(id, data) {
-  return await apiRequest(`/admin/keyword-rules/${id}`, {
+  return await apiRequest(`/admin/rules/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data)
   });
 }
 
 export async function deleteKeywordRule(id) {
-  return await apiRequest(`/admin/keyword-rules/${id}`, {
+  return await apiRequest(`/admin/rules/${id}`, {
     method: 'DELETE'
   });
 }
 
 export async function testClassifier(text) {
-  return await apiRequest('/admin/keyword-rules/test', {
+  return await apiRequest('/admin/rules/test', {
     method: 'POST',
     body: JSON.stringify({ text })
   });

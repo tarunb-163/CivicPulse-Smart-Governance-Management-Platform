@@ -69,7 +69,7 @@ public class OfficerController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping({"/board", "/kanban"})
+    @GetMapping("/board")
     @Operation(summary = "Get Kanban board grouped complaints for officer's department")
     public ResponseEntity<Map<String, Object>> getBoard(
             @AuthenticationPrincipal UserPrincipal principal) {

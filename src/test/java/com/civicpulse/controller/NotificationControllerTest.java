@@ -66,7 +66,7 @@ public class NotificationControllerTest {
     }
 
     @Test
-    @DisplayName("Mark as read supports PATCH, PUT, and POST methods and marks notification read")
+    @DisplayName("Mark as read supports PATCH method only per PRD section 8")
     void testMarkAsReadMethods() throws Exception {
         Notification n1 = notificationRepository.save(Notification.builder()
                 .user(citizen)
@@ -76,42 +76,22 @@ public class NotificationControllerTest {
                 .read(false)
                 .build());
 
-        Notification n2 = notificationRepository.save(Notification.builder()
-                .user(citizen)
-                .title("Alert 2")
-                .message("Message 2")
-                .type(NotificationType.STATUS_CHANGED)
-                .read(false)
-                .build());
-
-        Notification n3 = notificationRepository.save(Notification.builder()
-                .user(citizen)
-                .title("Alert 3")
-                .message("Message 3")
-                .type(NotificationType.STATUS_CHANGED)
-                .read(false)
-                .build());
-
-        // Test POST (used by JS frontend)
-        mockMvc.perform(post("/api/v1/notifications/" + n1.getId() + "/read")
+        // Test PATCH (specified by PRD)
+        mockMvc.perform(patch("/api/v1/notifications/" + n1.getId() + "/read")
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isNoContent());
 
         assertTrue(notificationRepository.findById(n1.getId()).orElseThrow().isRead());
 
-        // Test PATCH (specified by PRD)
-        mockMvc.perform(patch("/api/v1/notifications/" + n2.getId() + "/read")
+        // Test POST returns 405 Method Not Allowed
+        mockMvc.perform(post("/api/v1/notifications/" + n1.getId() + "/read")
                         .header("Authorization", "Bearer " + token))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isMethodNotAllowed());
 
-        assertTrue(notificationRepository.findById(n2.getId()).orElseThrow().isRead());
-
-        // Test PUT
-        mockMvc.perform(put("/api/v1/notifications/" + n3.getId() + "/read")
+        // Test PUT returns 405 Method Not Allowed
+        mockMvc.perform(put("/api/v1/notifications/" + n1.getId() + "/read")
                         .header("Authorization", "Bearer " + token))
-                .andExpect(status().isNoContent());
-
-        assertTrue(notificationRepository.findById(n3.getId()).orElseThrow().isRead());
+                .andExpect(status().isMethodNotAllowed());
     }
 
     @Test

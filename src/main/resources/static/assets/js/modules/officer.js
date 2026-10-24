@@ -8,7 +8,7 @@ export async function fetchOfficerQueue(params = {}) {
 }
 
 export async function fetchOfficerKanban() {
-  return await apiRequest('/officer/kanban');
+  return await apiRequest('/officer/board');
 }
 
 export async function updateStatus(complaintId, status, remark, proofFile = null) {

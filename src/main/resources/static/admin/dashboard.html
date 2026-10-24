@@ -184,8 +184,8 @@
         document.getElementById('kpiPending').textContent = kpis.pendingCount || 0;
         document.getElementById('kpiOverdue').textContent = kpis.overdueCount || 0;
 
-        // Hotspots
-        const hotspots = await apiRequest('/analytics/hotspots');
+        // Hotspots / Predictions
+        const hotspots = await apiRequest('/analytics/predictions');
         const hsCont = document.getElementById('hotspotAlertsContainer');
         if (hotspots && hotspots.length > 0) {
           hsCont.innerHTML = hotspots.map(h => `
