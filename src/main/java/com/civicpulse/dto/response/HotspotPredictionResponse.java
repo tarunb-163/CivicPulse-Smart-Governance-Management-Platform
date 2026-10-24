@@ -18,4 +18,16 @@ public class HotspotPredictionResponse {
     private double ratio;
     private boolean spikeAlert; // true if ratio >= 1.5
     private String recommendation;
+
+    public long getCurrentWeekCount() {
+        return lastWeekCount;
+    }
+
+    public double getFourWeekAvgCount() {
+        return fourWeekAverageWeekly;
+    }
+
+    public double getSpikeRatio() {
+        return ratio;
+    }
 }
