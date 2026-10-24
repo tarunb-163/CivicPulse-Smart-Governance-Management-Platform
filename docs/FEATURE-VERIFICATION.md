@@ -365,6 +365,7 @@ _The script takes an optional base URL (`scripts/smoke-test.sh https://<live-url
 |---|---|---|---|---|---|---|---|
 | 1 | 2026-10-24 23:25 | `dev-checkpoint` | 34/34 PASS | U01–U18 PASS | 31/31 PASS | 97 / 0 / 0 | Initial PowerShell smoke test execution passed all 34 steps. |
 | 2 | 2026-10-24 23:38 | `dev-checkpoint` | 35/35 PASS | U01–U18 PASS | 31/31 PASS | 97 / 0 / 0 | Git Bash / POSIX smoke test execution passed all 35 steps with zero errors. |
+| 3 | 2026-10-25 01:20 | `113fb78` (audit/fixes) | 35/35 PASS | 25/25 Headless PASS + 31 Screenshots | 37/37 PASS | 97 / 0 / 0 | Full Autonomous Audit: Backend deep suite (29/29), Frontend deep headless audit (25/25), Phase E Concurrency/Multilingual suite (10/10), Maven full clean verify (37/37). |
 
 ---
 
@@ -380,6 +381,11 @@ _The script takes an optional base URL (`scripts/smoke-test.sh https://<live-url
 | 6 | 2026-10-24 | C3 / OPS-2 | `smoke-test.sh` exited immediately at S01 | Bash `set -e` trap triggered because `((PASS_COUNT++))` evaluates to 0 when starting from 0 | Replaced arithmetic increment with `PASS_COUNT=$((PASS_COUNT + 1))` | S01 PASS | RESOLVED |
 | 7 | 2026-10-24 | C3 / CMP-3 | `smoke-test.sh` upload failed on Windows Git Bash | Windows `curl.exe` could not resolve Unix-style `/tmp/smoke_evidence.png` | Changed `TMP_DIR` to relative path `./target/tmp` | S06 PASS | RESOLVED |
 | 8 | 2026-10-24 | C3 / BOT-2 | `smoke-test.sh` failed in Git Bash environment without `jq` installed | Environment lacked `jq` command-line utility | Added inline Python-backed JSON parser fallback in `smoke-test.sh` | S01–S33 PASS | RESOLVED |
+| 9 | 2026-10-25 | DEF-001 | Notification mark-read returned 500 on POST/PATCH and unsupported methods returned 500 | `NotificationController` mapped only PUT; `GlobalExceptionHandler` lacked 405/415/400 handlers | Added multi-method mapping `{PATCH, PUT, POST}` and 405/415/400 exception handlers (`cb2ae89`) | `NotificationControllerTest` PASS | RESOLVED |
+| 10 | 2026-10-25 | DEF-002 | `application-prod.yml` used `ddl-auto: update` and `db/schema.sql` was missing | Governance omission in prod profile; missing authoritative MySQL 8 schema script | Authored `src/main/resources/db/schema.sql` and set `ddl-auto: ${DDL_AUTO:validate}` (`b06ce36`) | Schema verification PASS | RESOLVED |
+| 11 | 2026-10-25 | DEF-003 | Public grievance tracking endpoint leaked citizen email, phone, and internal user ID | `canSeeIdentity` in `ComplaintResponse` did not distinguish display name from contact details | Restricted citizen email, phone, and user ID visibility strictly to owner and privileged roles (`c386d04`) | `audit-backend-deep.ps1` PASS | RESOLVED |
+| 12 | 2026-10-25 | DEF-004 | Missing static resources like `/favicon.ico` returned HTTP 500 instead of 404 | `NoResourceFoundException` uncaught in `GlobalExceptionHandler` | Added `@ExceptionHandler(NoResourceFoundException.class)` mapping to 404, generated standard favicon (`69bf1ad`) | `audit-frontend-deep.js` PASS | RESOLVED |
+| 13 | 2026-10-25 | DEF-005 | Frontend API route and entity laziness mismatches across officer board, rules, and hotspots | Lazy relations detached on principal; route alias divergence (`/kanban`, `/keyword-rules`, `/hotspots`) | Added `@Transactional` on stats, added controller route aliases, aligned paths (`014c4c2`) | Playwright Frontend Audit PASS | RESOLVED |
 
 ---
 
@@ -387,9 +393,10 @@ _The script takes an optional base URL (`scripts/smoke-test.sh https://<live-url
 
 | Item | What could not be verified | Substitute evidence | Manual follow-up needed |
 |---|---|---|---|
-| Live Vision Provider API | Live external API calls to Google Gemini / Claude Vision | Fallback mode (`available:false`), mock unit tests (`ImageClassifierServiceTest`), validation of file types/sizes | Insert real `VISION_PROVIDER` and `VISION_API_KEY` into `.env` to enable live photo categorization |
-| Cloud Production Deployment | Live HTTPS domain deployment | Production profile `application-prod.yml`, Dockerfile, `docker-compose.yml`, and `DEPLOYMENT.md` fully verified | Run deployment steps in `DEPLOYMENT.md` against cloud host (e.g. AWS, Render, Railway) with hosted MySQL |
-| GitHub Actions Execution | Remote GitHub Actions pipeline execution | Local multi-stage Docker build, `.github/workflows/ci.yml` syntax, and local `mvn test` passing | Push repository to GitHub remote to trigger CI workflow |
+| Live Vision Provider API | Live external API calls to Google Gemini / Claude Vision | Verified graceful fallback mode (`available:false`), mock unit tests (`ImageClassifierServiceTest`), input validation of file types/sizes (S28 PASS) | Set real `VISION_PROVIDER=gemini` and `VISION_API_KEY=<key>` in `.env` to test live external classification |
+| Docker CLI on Host | `docker build` / `docker compose` execution directly on host | Host machine lacks Docker daemon; verified Dockerfile syntax, multi-stage Alpine non-root container specs, `docker-compose.yml` service health dependencies and volume bindings | Run `docker compose up --build` on a Docker-enabled host or Linux staging server |
+| Cloud Production Deployment | Live HTTPS domain deployment | Production profile `application-prod.yml`, validated schema `schema.sql`, Dockerfile, and `DEPLOYMENT.md` fully verified | Run deployment steps in `DEPLOYMENT.md` against cloud host (e.g. AWS, Render, Railway) with hosted MySQL |
+| GitHub Actions Execution | Remote GitHub Actions pipeline execution | Local Git Bash execution of smoke test, `.github/workflows/ci.yml` syntax validation, and local `mvn clean verify` passing (37/37) | Push repository to GitHub remote to trigger CI workflow |
 
 ---
 

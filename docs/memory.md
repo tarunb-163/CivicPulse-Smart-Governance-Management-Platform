@@ -188,6 +188,11 @@ docker compose up --build
 | 2026-10-24 | Flexible JSON aliases on `MergeComplaintRequest` | Accommodates both `parentComplaintId`/`parentId` and `reason`/`remark` |
 | 2026-10-24 | Python-backed JSON fallback in `smoke-test.sh` | Guarantees smoke tests pass in Git Bash / MSYS2 without manual `jq` install |
 | 2026-10-24 | Docker Compose + GitHub Actions CI | Reproducible containerized execution; automated test gate on commit |
+| 2026-10-25 | Multi-method HTTP mapping for notification read endpoints | Accommodates PATCH, PUT, and POST gracefully without 405/500 errors (DEF-001) |
+| 2026-10-25 | Authoritative schema.sql and ddl-auto=validate for production | Enforces PRD schema compliance and stops dangerous DDL updates outside development (DEF-002) |
+| 2026-10-25 | Restrict citizen contact PII on public tracking DTO | Prevents citizen email/phone leakage to unauthenticated visitors while preserving display names (DEF-003) |
+| 2026-10-25 | Explicit NoResourceFoundException handling and static favicon asset | Converts Spring 6 static resource misses to clean 404s without polluting 500 error logs (DEF-004) |
+| 2026-10-25 | Route aliases for Officer Board, Admin Rules, and Hotspots | Eliminates path divergence between frontend HTML modules and backend REST controllers (DEF-005) |
 
 ---
 
