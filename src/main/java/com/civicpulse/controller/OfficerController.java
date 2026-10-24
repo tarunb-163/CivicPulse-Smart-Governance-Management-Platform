@@ -41,6 +41,7 @@ public class OfficerController {
 
     private final ComplaintService complaintService;
     private final ComplaintRepository complaintRepository;
+    private final com.civicpulse.repository.UserRepository userRepository;
 
     @GetMapping({"/queue", "/complaints"})
     @Operation(summary = "Get officer complaint queue with filters and pagination")
@@ -68,14 +69,21 @@ public class OfficerController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/board")
+    @GetMapping({"/board", "/kanban"})
     @Operation(summary = "Get Kanban board grouped complaints for officer's department")
-    public ResponseEntity<List<ComplaintResponse>> getBoard(
+    public ResponseEntity<Map<String, Object>> getBoard(
             @AuthenticationPrincipal UserPrincipal principal) {
-        User user = principal.getUser();
+        User user = userRepository.findById(principal.getId()).orElse(principal.getUser());
         Long deptId = user.getDepartment() != null ? user.getDepartment().getId() : null;
         Long officerId = user.getRole() == Role.OFFICER ? user.getId() : null;
-        return ResponseEntity.ok(complaintService.getKanbanBoardComplaints(deptId, officerId));
+        List<ComplaintResponse> list = complaintService.getKanbanBoardComplaints(deptId, officerId);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("all", list);
+        map.put("assigned", list.stream().filter(c -> c.getStatus() == ComplaintStatus.ASSIGNED || c.getStatus() == ComplaintStatus.SUBMITTED).toList());
+        map.put("inProgress", list.stream().filter(c -> c.getStatus() == ComplaintStatus.IN_PROGRESS || c.getStatus() == ComplaintStatus.ESCALATED).toList());
+        map.put("resolved", list.stream().filter(c -> c.getStatus() == ComplaintStatus.RESOLVED || c.getStatus() == ComplaintStatus.CLOSED).toList());
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/complaints/{id}")
@@ -159,17 +167,24 @@ public class OfficerController {
     }
 
     @GetMapping("/stats")
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     @Operation(summary = "Get officer performance statistics")
     public ResponseEntity<Map<String, Object>> getOfficerStats(
             @AuthenticationPrincipal UserPrincipal principal) {
-        User user = principal.getUser();
+        User user = userRepository.findById(principal.getId()).orElse(principal.getUser());
         long activeCount = complaintRepository.countActiveComplaintsByOfficer(user.getId(), Set.of(ComplaintStatus.ASSIGNED, ComplaintStatus.IN_PROGRESS, ComplaintStatus.ESCALATED));
         long resolvedTotal = complaintRepository.countResolvedComplaints();
 
         Map<String, Object> stats = new HashMap<>();
         stats.put("activeAssigned", activeCount);
         stats.put("totalResolved", resolvedTotal);
-        stats.put("department", user.getDepartment() != null ? user.getDepartment().getName() : "General");
+        String deptName = "General";
+        try {
+            if (user.getDepartment() != null) {
+                deptName = user.getDepartment().getName();
+            }
+        } catch (Exception ignored) {}
+        stats.put("department", deptName);
         return ResponseEntity.ok(stats);
     }
 

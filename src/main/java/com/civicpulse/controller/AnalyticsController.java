@@ -64,7 +64,7 @@ public class AnalyticsController {
         return ResponseEntity.ok(analyticsService.getHeatmap(departmentId));
     }
 
-    @GetMapping("/predictions")
+    @GetMapping({"/predictions", "/hotspots"})
     @Operation(summary = "Get AI/statistical hotspot predictions (1.5x surge over 4-week moving average)")
     public ResponseEntity<List<HotspotPredictionResponse>> getPredictions() {
         return ResponseEntity.ok(analyticsService.getPredictions());

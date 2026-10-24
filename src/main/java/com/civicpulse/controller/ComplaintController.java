@@ -85,7 +85,7 @@ public class ComplaintController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/mine")
+    @GetMapping({"/mine", "/my"})
     @PreAuthorize("hasAnyRole('CITIZEN', 'ADMIN')")
     @Operation(summary = "Get list of complaints filed by the authenticated citizen")
     public ResponseEntity<PagedResponse<ComplaintResponse>> getMyComplaints(

@@ -17,6 +17,7 @@ This document tracks all defects found during the audit, test, and debug process
 | DEF-002 | S3 | db/devops | Phase A Static Scan | FIXED | `application-prod.yml` had `ddl-auto: update` and `src/main/resources/db/schema.sql` was missing |
 | DEF-003 | S2 | backend | Phase C Deep Audit | FIXED | `ComplaintResponse` leaked citizen email, phone, and user ID to unauthenticated callers on public tracking endpoint |
 | DEF-004 | S2 | backend | Phase D Frontend Audit | FIXED | Missing `NoResourceFoundException` handler returned 500 on missing static resources like `favicon.ico` |
+| DEF-005 | S2 | backend/frontend | Phase D Frontend Audit | FIXED | Controller endpoint and DTO mismatches on `/officer/stats` (LazyInit), `/officer/kanban`, `/admin/keyword-rules`, `/analytics/hotspots`, and `/complaints/my` |
 
 ---
 
@@ -73,7 +74,28 @@ This document tracks all defects found during the audit, test, and debug process
 - **Root Cause:** In Spring Boot 3 / Spring 6, static resource lookup misses throw `org.springframework.web.servlet.resource.NoResourceFoundException`. Without an explicit `@ExceptionHandler`, it fell into the catch-all `handleGeneral` and returned 500.
 - **Fix:** Added `NoResourceFoundException.class` to `@ExceptionHandler` in `GlobalExceptionHandler.java` mapping to HTTP 404, and generated a valid 16x16 `favicon.ico` in `src/main/resources/static/favicon.ico`.
 - **Regression Test:** Headless browser audit (`scripts/audit-frontend-deep.js`) and curl verification.
+### DEF-005: Endpoint and DTO Mismatches Across Officer Board, Admin Rules, Hotspots, and Citizen Complaints
+
+- **ID:** `DEF-005`
+- **Severity:** `S2` (Functional / Web: Controller endpoint mismatches across officer board, admin rules, and citizen complaints)
+- **Area:** `backend/frontend`
+- **Found by:** Phase D Frontend Verification (`scripts/audit-frontend-deep.js`)
+- **Symptom:**
+  1. `officer/dashboard.html` failed with 500 on `/api/v1/officer/stats` due to `LazyInitializationException` on `user.getDepartment().getName()`.
+  2. `officer/board.html` failed with 404 on `/api/v1/officer/kanban`.
+  3. `admin/rules.html` failed with 404 on `/api/v1/admin/keyword-rules`.
+  4. `admin/dashboard.html` failed with 404 on `/api/v1/analytics/hotspots`.
+  5. `citizen/dashboard.html` and `citizen/my-complaints.html` failed with 400 on `/api/v1/complaints/my`.
+- **Root Cause:**
+  1. `OfficerController.getOfficerStats` accessed lazy relation on detached security principal without an active persistence context.
+  2. Frontend route naming differed from backend endpoint mappings (`/kanban` vs `/board`, `/keyword-rules` vs `/rules`, `/hotspots` vs `/predictions`, `/my` vs `/mine`).
+- **Fix:**
+  1. Added `@Transactional(readOnly = true)` to `getOfficerStats` and re-attached user entity via `UserRepository`.
+  2. Added alias mappings in `OfficerController` (`@GetMapping({"/board", "/kanban"})` returning grouped columns `{assigned, inProgress, resolved, all}`), `AdminController` (`{ "/rules", "/keyword-rules" }`), `AnalyticsController` (`{ "/predictions", "/hotspots" }`), and `ComplaintController` (`{ "/mine", "/my" }`).
+  3. Normalized frontend paths in `citizen/dashboard.html` and `citizen/my-complaints.html` to `/complaints/mine`.
+- **Regression Test:** `node scripts/audit-frontend-deep.js` (Step 4, Step 5, Step 6, Step 10).
 - **Status:** `FIXED`
+
 
 
 

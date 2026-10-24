@@ -237,7 +237,7 @@
     // Load Citizen Complaints
     async function loadCitizenDashboard() {
       try {
-        const res = await apiRequest('/complaints/my?size=5');
+        const res = await apiRequest('/complaints/mine?size=5');
         const items = res.content || [];
 
         // Stats

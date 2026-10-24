@@ -114,13 +114,13 @@ public class AdminController {
     }
 
     // --- KEYWORD RULES ---
-    @GetMapping("/rules")
+    @GetMapping({"/rules", "/keyword-rules"})
     @Operation(summary = "Get keyword rules")
     public ResponseEntity<List<KeywordRuleResponse>> getRules(@RequestParam(required = false) Long categoryId) {
         return ResponseEntity.ok(adminService.getAllKeywordRules(categoryId));
     }
 
-    @PostMapping("/rules")
+    @PostMapping({"/rules", "/keyword-rules"})
     @Operation(summary = "Create keyword rule")
     public ResponseEntity<KeywordRuleResponse> createRule(
             @Valid @RequestBody KeywordRuleRequest request,
@@ -130,7 +130,7 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.CREATED).body(adminService.createKeywordRule(request, principal.getUser(), ip));
     }
 
-    @PutMapping("/rules/{id}")
+    @PutMapping({"/rules/{id}", "/keyword-rules/{id}"})
     @Operation(summary = "Update keyword rule")
     public ResponseEntity<KeywordRuleResponse> updateRule(
             @PathVariable Long id,
@@ -141,7 +141,7 @@ public class AdminController {
         return ResponseEntity.ok(adminService.updateKeywordRule(id, request, principal.getUser(), ip));
     }
 
-    @DeleteMapping("/rules/{id}")
+    @DeleteMapping({"/rules/{id}", "/keyword-rules/{id}"})
     @Operation(summary = "Delete keyword rule")
     public ResponseEntity<ApiResponse> deleteRule(
             @PathVariable Long id,
@@ -151,7 +151,7 @@ public class AdminController {
         return ResponseEntity.ok(adminService.deleteKeywordRule(id, principal.getUser(), ip));
     }
 
-    @PostMapping("/rules/test")
+    @PostMapping({"/rules/test", "/keyword-rules/test"})
     @Operation(summary = "Test text classifier against current rules")
     public ResponseEntity<CategorySuggestion> testRules(@RequestBody Map<String, String> body) {
         String text = body.getOrDefault("text", "");
