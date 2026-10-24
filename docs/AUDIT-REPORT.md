@@ -15,9 +15,9 @@ The CivicPulse Smart Governance Platform was subjected to an exhaustive, multi-p
 
 Every defect identified across build, runtime, and frontend interactions was systematically diagnosed to its root cause, surgically resolved following the architectural standards in `docs/rules.md`, verified with automated regression tests, and logged. 
 
-- **Automated Tests:** 37/37 tests pass cleanly (`mvn clean verify`).
+- **Automated Tests:** 41/41 tests pass cleanly (`mvn clean verify`).
 - **Backend Smoke Test:** 35/35 lifecycle steps pass (`scripts/smoke-test.sh` and `scripts/smoke-test.ps1`).
-- **Deep Backend Suite:** 29/29 assertions pass (`scripts/audit-backend-deep.ps1`).
+- **Deep Backend Suite:** 31/31 assertions pass (`scripts/audit-backend-deep.ps1`).
 - **Headless Browser Audit:** 25/25 automated browser checks pass with 0 console errors and 0 broken assets (`scripts/audit-frontend-deep.js`).
 - **Edge Cases & Concurrency:** 10/10 edge case assertions pass (`scripts/audit-phase-e.ps1`).
 - **UI Visual Verification:** 31 full-page screenshots captured in `docs/screenshots/` across light/dark themes, desktop, 768px tablet, and 360px mobile viewports (zero horizontal overflow).
@@ -29,11 +29,11 @@ Every defect identified across build, runtime, and frontend interactions was sys
 ### Defect Counts by Severity
 | Severity Level | Definition | Found | Fixed | Open | Won't Fix |
 |---|---|:---:|:---:|:---:|:---:|
-| **S1** | Critical / Crash / Data Loss / Core Flow Broken | 0 | 0 | 0 | 0 |
-| **S2** | Major / Documented Feature Broken / PII Leak | 4 | 4 | 0 | 0 |
-| **S3** | Minor / Schema Governance / Config Issue | 1 | 1 | 0 | 0 |
-| **S4** | Trivial / Cosmetic / Non-breaking Text | 0 | 0 | 0 | 0 |
-| **Total** | | **5** | **5** | **0** | **0** |
+| **S1** | Critical / Crash / Data Loss / Core Flow Broken | 1 | 1 | 0 | 0 |
+| **S2** | Major / Documented Feature Broken / PII Leak | 5 | 5 | 0 | 0 |
+| **S3** | Minor / Schema Governance / Config Issue | 3 | 3 | 0 | 0 |
+| **S4** | Trivial / Cosmetic / Non-breaking Text | 1 | 1 | 0 | 0 |
+| **Total** | | **10** | **10** | **0** | **0** |
 
 ### Defect Resolution Summary
 | Defect ID | Severity | Area | Symptom | Root Cause | Resolution | Commit |
@@ -43,6 +43,11 @@ Every defect identified across build, runtime, and frontend interactions was sys
 | **DEF-003** | S2 | Security | Public tracking endpoint leaked citizen email, phone, and user ID | `canSeeIdentity` in `ComplaintResponse` did not distinguish display name from contact details | Restricted citizen email, phone, and user ID visibility strictly to complaint owner and privileged roles | `c386d04` |
 | **DEF-004** | S2 | Backend | Missing static assets like `/favicon.ico` returned 500 instead of 404 | `NoResourceFoundException` uncaught in `GlobalExceptionHandler` | Added `@ExceptionHandler(NoResourceFoundException.class)` mapping to 404; created standard `favicon.ico` | `69bf1ad` |
 | **DEF-005** | S2 | Web/API | Mismatches across Officer Board, Admin Rules, Hotspots, and `/complaints/my` | Detached Hibernate proxies threw `LazyInitializationException`; route naming diverged | Added `@Transactional` on stats, added controller route aliases, aligned frontend paths | `014c4c2` |
+| **DEF-006** | S1 | DB/Entities | Production boot failed with `SchemaManagementException` on empty MySQL 8 database | Column drift between JPA entities and `schema.sql` (missing columns in 5 tables, type mismatch in `keyword_rules`, `system_settings`) | Synchronized `schema.sql` to match all 17 JPA entity models, verified with `ddl-auto=validate` | `audit/fixes` |
+| **DEF-007** | S2 | Security | Public tracking endpoint leaked citizen name to unauthenticated callers | `ComplaintResponse` permitted display name on non-anonymous complaints without owner/staff check; `PublicController` ignored principal | Restricted all citizen fields to owner/staff on tracking endpoint, resolved `UserPrincipal` in `PublicController` | `audit/fixes` |
+| **DEF-008** | S3 | Web/API | Non-standard controller aliases and notification read HTTP method drift | Alias endpoints (`/kanban`, `/keyword-rules`, `/hotspots`) deviated from PRD Section 8; notifications allowed non-PRD methods | Removed non-PRD aliases, enforced `PATCH` only on notification read endpoints, updated callers | `audit/fixes` |
+| **DEF-009** | S3 | Backend | `GlobalExceptionHandler` mapped generic `IllegalArgumentException` to 400 | `IllegalArgumentException.class` grouped with servlet binding exceptions | Removed `IllegalArgumentException.class`, allowing unexpected runtime errors to return 500 without stack trace leaks | `audit/fixes` |
+| **DEF-010** | S4 | IDE/Tooling | Language server reported Lombok false positives in controllers and configs | Missing `maven-compiler-plugin` annotation processor config and VS Code settings | Configured `maven-compiler-plugin` in `pom.xml`, enabled Lombok in `.vscode/settings.json`, cleaned up imports | `audit/fixes` |
 
 ---
 
@@ -51,11 +56,11 @@ Every defect identified across build, runtime, and frontend interactions was sys
 ### Phase A — Baseline Inventory & Environment
 - **Source of Truth Alignment:** Audited codebase against `docs/PRD.md`, `docs/design.md`, `docs/memory.md`, and `docs/rules.md`.
 - **File Inventory:** Confirmed presence of all 61 static frontend HTML/CSS/JS files, entity models, controllers, services, and repositories.
-- **Environment:** Java 21 (Temurin 21.0.11), Maven 3.9.16, MySQL 8.0 on `localhost:3306` with database `civicplus`.
+- **Environment:** Java 21 (Temurin 21.0.11), Maven 3.9.16, MySQL 8.0 on `localhost:3306` with database `civicplus` and verified clean test database `civicplus_prod_test`.
 
 ### Phase B — Build & Test Infrastructure
 - Configured `maven-surefire-plugin` in `pom.xml` to include both unit (`*Test.java`) and integration (`*IT.java`) test suites.
-- Executed `mvn clean verify` with 37 tests passing (0 failures, 0 errors, 0 skipped).
+- Executed `mvn clean verify` with 41 tests passing (0 failures, 0 errors, 0 skipped).
 - JaCoCo code coverage executed and generated in `target/site/jacoco/`.
 
 ### Phase C — Deep Backend Verification

@@ -74,6 +74,8 @@ This document tracks all defects found during the audit, test, and debug process
 - **Root Cause:** In Spring Boot 3 / Spring 6, static resource lookup misses throw `org.springframework.web.servlet.resource.NoResourceFoundException`. Without an explicit `@ExceptionHandler`, it fell into the catch-all `handleGeneral` and returned 500.
 - **Fix:** Added `NoResourceFoundException.class` to `@ExceptionHandler` in `GlobalExceptionHandler.java` mapping to HTTP 404, and generated a valid 16x16 `favicon.ico` in `src/main/resources/static/favicon.ico`.
 - **Regression Test:** Headless browser audit (`scripts/audit-frontend-deep.js`) and curl verification.
+- **Status:** `FIXED`
+
 ### DEF-005: Endpoint and DTO Mismatches Across Officer Board, Admin Rules, Hotspots, and Citizen Complaints
 
 - **ID:** `DEF-005`
@@ -95,6 +97,76 @@ This document tracks all defects found during the audit, test, and debug process
   3. Normalized frontend paths in `citizen/dashboard.html` and `citizen/my-complaints.html` to `/complaints/mine`.
 - **Regression Test:** `node scripts/audit-frontend-deep.js` (Step 4, Step 5, Step 6, Step 10).
 - **Status:** `FIXED`
+
+### DEF-006: MySQL 8 Production DDL Schema Mismatches and Entity Drift
+
+- **ID:** `DEF-006`
+- **Severity:** `S1` (Production Blocker: Hibernate DDL validation failure on empty MySQL 8 database)
+- **Area:** `database/entities`
+- **Found by:** Production profile verification (`spring.jpa.hibernate.ddl-auto=validate`)
+- **Symptom:** Booting production profile on an empty MySQL 8 instance with `ddl-auto=validate` failed with `SchemaManagementException` due to column drift between JPA entity models and `src/main/resources/db/schema.sql`:
+  1. Missing columns: `departments.description`, `users.email_notifications`, `users.in_app_notifications`, `users.updated_at`, `complaints.closed_at`, `complaints.escalation_level`, `complaint_status_history.changed_by_user_id`, `complaint_status_history.changed_by_name`, `dev_outbox.recipient_email`, `dev_outbox.body_text`.
+  2. Type mismatch: `keyword_rules.weight` defined as `DOUBLE` in DDL but mapped as `int` in `KeywordRule.java`.
+  3. Missing/renamed columns: `system_settings` had `key` and `value` instead of `setting_key`, `setting_value`, and `description`.
+- **Root Cause:** DDL baseline in `src/main/resources/db/schema.sql` was not kept strictly synchronized with JPA entity classes as features were expanded.
+- **Fix:** Synchronized `src/main/resources/db/schema.sql` to match all 17 JPA entity class definitions exactly. Dropped and recreated clean test database `civicplus_prod_test`, executed updated `schema.sql`, and verified clean startup with `ddl-auto=validate`.
+- **Regression Test:** Standalone boot test with `-Dspring.profiles.active=prod` and `-DDDL_AUTO=validate` against `civicplus_prod_test` (Tomcat started in 10.6s, schema validated with 0 errors).
+- **Status:** `FIXED`
+
+### DEF-007: Public Tracking Endpoint Returned Citizen Personal Info to Non-Owners and Unauthenticated Callers
+
+- **ID:** `DEF-007`
+- **Severity:** `S2` (Privacy / Security: Personal identifiable information leakage)
+- **Area:** `backend/security`
+- **Found by:** Follow-up audit requirement 2a
+- **Symptom:** Unauthenticated callers and non-owner citizens visiting the public tracking endpoint could receive the complainant's display name (`citizenName`) on non-anonymous complaints.
+- **Root Cause:** `ComplaintResponse.fromEntity` checked `!c.isAnonymous()` to determine if display name was shown, without ensuring the requester was either the complaint owner or privileged department/admin staff. In addition, `PublicController.trackComplaint` did not resolve `@AuthenticationPrincipal UserPrincipal`, always passing `null` as the current user.
+- **Fix:** In `ComplaintResponse.java`, tied all personal identity fields (`citizenName`, `citizenEmail`, `citizenId`) to `canSeePersonalInfo = isOwner || (isPrivileged && !c.isAnonymous())`. Updated `PublicController.java` to inject `@AuthenticationPrincipal UserPrincipal` and resolve the caller entity via `UserRepository`.
+- **Regression Test:** `src/test/java/com/civicpulse/controller/PublicTrackingPrivacyTest.java` (4 test cases verifying unauthenticated, non-owner citizen, owner, and staff behaviors).
+- **Status:** `FIXED`
+
+### DEF-008: Non-Standard Endpoint Aliases and Notification Read Method Drift
+
+- **ID:** `DEF-008`
+- **Severity:** `S3` (API Governance / PRD Compliance)
+- **Area:** `backend/frontend`
+- **Found by:** PRD Section 8 compliance audit
+- **Symptom:** Temporary alias routes (`/officer/kanban`, `/admin/keyword-rules`, `/analytics/hotspots`, `/complaints/my`) were present on controllers, and notification read endpoints permitted non-PRD HTTP methods (POST/PUT).
+- **Root Cause:** Aliases were added during DEF-005 instead of standardizing all frontend callers to PRD Section 8 canonical route names and strict HTTP methods.
+- **Fix:**
+  1. Removed non-PRD aliases from `OfficerController` (retained only `/officer/board`), `AdminController` (retained only `/admin/rules`), `AnalyticsController` (retained only `/analytics/predictions`), and `ComplaintController` (retained only `/complaints/mine`).
+  2. Restricted `NotificationController` read endpoints strictly to `PATCH` (`PATCH /api/v1/notifications/{id}/read` and `PATCH /api/v1/notifications/read-all`). Updated `notifications.js` to send `PATCH`.
+  3. Added canonical `GET /api/v1/public/track/{code}` to `PublicController.java`, updated `track.html`, and updated all smoke test scripts (`smoke-test.sh`, `smoke-test.ps1`, `audit-backend-deep.ps1`).
+- **Regression Test:** `NotificationControllerTest` (verifies PATCH succeeds and POST/PUT/DELETE return 405 Method Not Allowed), `scripts/smoke-test.sh`, and `node scripts/audit-frontend-deep.js`.
+- **Status:** `FIXED`
+
+### DEF-009: GlobalExceptionHandler Mapped Generic IllegalArgumentException to 400 Bad Request
+
+- **ID:** `DEF-009`
+- **Severity:** `S3` (Error Handling / Exception Governance)
+- **Area:** `backend`
+- **Found by:** Follow-up audit requirement 2d
+- **Symptom:** Generic `IllegalArgumentException.class` was grouped in `@ExceptionHandler` alongside HTTP body/parameter binding exceptions, mapping internal programming errors to client 400 errors.
+- **Root Cause:** Broad exception handler catch list in `GlobalExceptionHandler.java`.
+- **Fix:** Removed `IllegalArgumentException.class` from the 400 handler. Internal unexpected exceptions now fall through to `handleGeneral` returning HTTP 500 without leaking stack traces.
+- **Regression Test:** `mvn test` full suite (41 tests passing).
+- **Status:** `FIXED`
+
+### DEF-010: IDE Language Server Lombok Annotation Processing False Positives & Code Cleanliness
+
+- **ID:** `DEF-010`
+- **Severity:** `S4` (Developer Experience / Static Analysis)
+- **Area:** `tooling/ide`
+- **Found by:** Follow-up audit requirement 1
+- **Symptom:** Language server (VS Code Java / Eclipse JDTLS) reported spurious compilation errors in `ComplaintController`, `DataSeeder`, `OfficerController`, `SecurityConfig`, `AnalyticsController`, `PublicController`, and `BotMessageRequest` ("The blank final field may not have been initialized", "Method is undefined"), along with minor warnings in `BotMessageRequest` (unused import) and `WebConfig` (inline type qualifications).
+- **Root Cause:** `pom.xml` lacked explicit `maven-compiler-plugin` configuration with `annotationProcessorPaths` for Lombok, and `.vscode/settings.json` lacked `"java.jdt.ls.lombokSupport.enabled": true`.
+- **Fix:**
+  1. Configured `maven-compiler-plugin` in `pom.xml` with Lombok annotation processor.
+  2. Added `"java.jdt.ls.lombokSupport.enabled": true` and `"java.configuration.updateBuildConfiguration": "automatic"` to `.vscode/settings.json`.
+  3. Removed unused import in `BotMessageRequest.java` and cleaned up imports in `WebConfig.java`.
+- **Regression Test:** `mvn clean compile` and IDE diagnostic validation.
+- **Status:** `FIXED`
+
 
 
 

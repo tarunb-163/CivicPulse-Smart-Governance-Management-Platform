@@ -366,6 +366,7 @@ _The script takes an optional base URL (`scripts/smoke-test.sh https://<live-url
 | 1 | 2026-10-24 23:25 | `dev-checkpoint` | 34/34 PASS | U01–U18 PASS | 31/31 PASS | 97 / 0 / 0 | Initial PowerShell smoke test execution passed all 34 steps. |
 | 2 | 2026-10-24 23:38 | `dev-checkpoint` | 35/35 PASS | U01–U18 PASS | 31/31 PASS | 97 / 0 / 0 | Git Bash / POSIX smoke test execution passed all 35 steps with zero errors. |
 | 3 | 2026-10-25 01:20 | `113fb78` (audit/fixes) | 35/35 PASS | 25/25 Headless PASS + 31 Screenshots | 37/37 PASS | 97 / 0 / 0 | Full Autonomous Audit: Backend deep suite (29/29), Frontend deep headless audit (25/25), Phase E Concurrency/Multilingual suite (10/10), Maven full clean verify (37/37). |
+| 4 | 2026-10-25 02:10 | `audit/fixes` | 35/35 PASS | 25/25 Headless PASS | 41/41 PASS | 97 / 0 / 0 | Follow-up Audit: Strict PRD routes enforced, PATCH-only notifications, public tracking PII completely masked, MySQL 8 ddl-auto=validate verified, IDE Lombok configured. |
 
 ---
 
@@ -386,6 +387,11 @@ _The script takes an optional base URL (`scripts/smoke-test.sh https://<live-url
 | 11 | 2026-10-25 | DEF-003 | Public grievance tracking endpoint leaked citizen email, phone, and internal user ID | `canSeeIdentity` in `ComplaintResponse` did not distinguish display name from contact details | Restricted citizen email, phone, and user ID visibility strictly to owner and privileged roles (`c386d04`) | `audit-backend-deep.ps1` PASS | RESOLVED |
 | 12 | 2026-10-25 | DEF-004 | Missing static resources like `/favicon.ico` returned HTTP 500 instead of 404 | `NoResourceFoundException` uncaught in `GlobalExceptionHandler` | Added `@ExceptionHandler(NoResourceFoundException.class)` mapping to 404, generated standard favicon (`69bf1ad`) | `audit-frontend-deep.js` PASS | RESOLVED |
 | 13 | 2026-10-25 | DEF-005 | Frontend API route and entity laziness mismatches across officer board, rules, and hotspots | Lazy relations detached on principal; route alias divergence (`/kanban`, `/keyword-rules`, `/hotspots`) | Added `@Transactional` on stats, added controller route aliases, aligned paths (`014c4c2`) | Playwright Frontend Audit PASS | RESOLVED |
+| 14 | 2026-10-25 | DEF-006 | MySQL 8 production DDL schema mismatches and column drift | Missing columns in `departments`, `users`, `complaints`, `history`, `outbox`, and type mismatch in `keyword_rules`, `system_settings` | Synchronized `schema.sql` with all 17 JPA entities, verified via MySQL 8 boot with `ddl-auto=validate` | Prod boot on MySQL 8 PASS | RESOLVED |
+| 15 | 2026-10-25 | DEF-007 | Public tracking endpoint leaked citizen display name to unauthenticated callers | `ComplaintResponse` did not restrict display name to owner/staff on non-anonymous complaints | Restricted `citizenName` to `isOwner || (isPrivileged && !c.isAnonymous())` and resolved `UserPrincipal` in `PublicController` | `PublicTrackingPrivacyTest` PASS | RESOLVED |
+| 16 | 2026-10-25 | DEF-008 | Non-standard controller aliases and notification read HTTP method drift | Alias endpoints existed on controllers; notifications allowed non-PRD methods | Removed aliases, enforced `PATCH` only for notifications per PRD Section 8, updated frontend & scripts | `smoke-test.sh` PASS | RESOLVED |
+| 17 | 2026-10-25 | DEF-009 | `GlobalExceptionHandler` mapped generic `IllegalArgumentException` to 400 | `IllegalArgumentException.class` included in bad request handler alongside servlet binding errors | Removed `IllegalArgumentException.class`, allowing unexpected runtime errors to return 500 without stack trace leaks | `mvn test` PASS (41/41) | RESOLVED |
+| 18 | 2026-10-25 | DEF-010 | IDE language server reported Lombok false positives | Missing `maven-compiler-plugin` annotation processor config and VS Code settings | Configured `maven-compiler-plugin` in `pom.xml` and enabled Lombok in `.vscode/settings.json` | Compilation / IDE PASS | RESOLVED |
 
 ---
 
