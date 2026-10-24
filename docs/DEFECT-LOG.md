@@ -14,6 +14,7 @@ This document tracks all defects found during the audit, test, and debug process
 | ID | Severity | Area | Found By | Status | Summary |
 |---|---|---|---|---|---|
 | DEF-001 | S2 | backend | Phase C Audit | FIXED | `NotificationController` rejected POST/PATCH on `/{id}/read` and `GlobalExceptionHandler` returned 500 on unsupported methods |
+| DEF-002 | S3 | db/devops | Phase A Static Scan | FIXED | `application-prod.yml` had `ddl-auto: update` and `src/main/resources/db/schema.sql` was missing |
 
 ---
 
@@ -35,3 +36,16 @@ This document tracks all defects found during the audit, test, and debug process
   3. Configured `maven-surefire-plugin` in `pom.xml` to include all unit and integration test suites.
 - **Regression Test:** `NotificationControllerTest` (`testMarkAsReadMethods` and `testUnsupportedMethodReturns405`).
 - **Status:** `FIXED`
+
+### DEF-002: Production Configuration Relied on ddl-auto=update and Authoritative schema.sql Was Missing
+
+- **ID:** `DEF-002`
+- **Severity:** `S3` (Configuration and schema governance)
+- **Area:** `db/devops`
+- **Found by:** Phase A Static Scan & PRD / Rules review
+- **Symptom:** `application-prod.yml` had hardcoded `ddl-auto: update` outside dev, violating `rules.md` Section 2 ("never rely on `ddl-auto=update` outside dev"), and `src/main/resources/db/schema.sql` referenced in `memory.md` was missing.
+- **Root Cause:** Missing authoritative `db/schema.sql` DDL and non-compliant production `ddl-auto` configuration.
+- **Fix:** Created `src/main/resources/db/schema.sql` with full MySQL 8 DDL matching PRD section 7, and updated `application-prod.yml` to `ddl-auto: ${DDL_AUTO:validate}`.
+- **Regression Test:** Verified schema file syntax and application build.
+- **Status:** `FIXED`
+
