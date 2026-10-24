@@ -69,8 +69,8 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.BAD_REQUEST, "File upload size exceeds maximum allowed limit (5 MB per file)", request.getRequestURI());
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex, HttpServletRequest request) {
+    @ExceptionHandler({ResourceNotFoundException.class, org.springframework.web.servlet.resource.NoResourceFoundException.class})
+    public ResponseEntity<ErrorResponse> handleNotFound(Exception ex, HttpServletRequest request) {
         log.warn("Resource not found on {}: {}", request.getRequestURI(), ex.getMessage());
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getRequestURI());
     }

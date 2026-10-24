@@ -16,6 +16,7 @@ This document tracks all defects found during the audit, test, and debug process
 | DEF-001 | S2 | backend | Phase C Audit | FIXED | `NotificationController` rejected POST/PATCH on `/{id}/read` and `GlobalExceptionHandler` returned 500 on unsupported methods |
 | DEF-002 | S3 | db/devops | Phase A Static Scan | FIXED | `application-prod.yml` had `ddl-auto: update` and `src/main/resources/db/schema.sql` was missing |
 | DEF-003 | S2 | backend | Phase C Deep Audit | FIXED | `ComplaintResponse` leaked citizen email, phone, and user ID to unauthenticated callers on public tracking endpoint |
+| DEF-004 | S2 | backend | Phase D Frontend Audit | FIXED | Missing `NoResourceFoundException` handler returned 500 on missing static resources like `favicon.ico` |
 
 ---
 
@@ -61,5 +62,18 @@ This document tracks all defects found during the audit, test, and debug process
 - **Fix:** In `ComplaintResponse.java`, separated citizen display name visibility from contact detail visibility (`canSeeEmail = isOwner || (isPrivileged && !c.isAnonymous())`). For unauthenticated or public viewers of non-anonymous complaints, only the citizen's display name is shown, keeping email, phone, and internal user ID strictly private.
 - **Regression Test:** `scripts/audit-backend-deep.ps1` (Section 4 anti-leak checks) and `ComplaintResponseTest`.
 - **Status:** `FIXED`
+
+### DEF-004: Missing NoResourceFoundException Handler Returned 500 on Missing Static Resources
+
+- **ID:** `DEF-004`
+- **Severity:** `S2` (Backend / HTTP Specification)
+- **Area:** `backend`
+- **Found by:** Phase D Frontend Verification (`scripts/audit-frontend-deep.js`)
+- **Symptom:** Browsers requesting `/favicon.ico` or non-existent static assets received HTTP 500 Internal Server Error instead of HTTP 404 Not Found, polluting error logs and browser consoles.
+- **Root Cause:** In Spring Boot 3 / Spring 6, static resource lookup misses throw `org.springframework.web.servlet.resource.NoResourceFoundException`. Without an explicit `@ExceptionHandler`, it fell into the catch-all `handleGeneral` and returned 500.
+- **Fix:** Added `NoResourceFoundException.class` to `@ExceptionHandler` in `GlobalExceptionHandler.java` mapping to HTTP 404, and generated a valid 16x16 `favicon.ico` in `src/main/resources/static/favicon.ico`.
+- **Regression Test:** Headless browser audit (`scripts/audit-frontend-deep.js`) and curl verification.
+- **Status:** `FIXED`
+
 
 
