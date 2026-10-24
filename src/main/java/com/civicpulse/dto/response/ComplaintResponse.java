@@ -69,11 +69,9 @@ public class ComplaintResponse {
         if (c == null) return null;
 
         boolean isOwner = currentUserId != null && c.getCitizen() != null && currentUserId.equals(c.getCitizen().getId());
-        // Complainant email is confidential; never leaked publicly or to non-owners unless privileged on non-anonymous complaints
-        boolean canSeeEmail = isOwner || (isPrivileged && !c.isAnonymous());
-        // For anonymous complaints, identity is hidden from public and officers (only owner sees their own)
-        boolean canSeeIdentity = (!c.isAnonymous() && currentUserId != null) || isOwner;
-        boolean canSeeCitizenName = !c.isAnonymous() || isOwner;
+        // Complainant personal details (id, name, email, phone) are strictly confidential:
+        // never returned to public/unauthenticated callers or non-owner citizens
+        boolean canSeePersonalInfo = isOwner || (isPrivileged && !c.isAnonymous());
 
         boolean isOverdue = false;
         Double remainingHours = null;
@@ -96,9 +94,9 @@ public class ComplaintResponse {
                 .description(c.getDescription())
                 .category(CategoryResponse.fromEntity(c.getCategory()))
                 .department(DepartmentResponse.fromEntity(c.getDepartment()))
-                .citizenId(canSeeIdentity && c.getCitizen() != null ? c.getCitizen().getId() : null)
-                .citizenName(canSeeCitizenName && c.getCitizen() != null ? c.getCitizen().getName() : "Anonymous Citizen")
-                .citizenEmail(canSeeEmail && c.getCitizen() != null ? c.getCitizen().getEmail() : null)
+                .citizenId(canSeePersonalInfo && c.getCitizen() != null ? c.getCitizen().getId() : null)
+                .citizenName(canSeePersonalInfo && c.getCitizen() != null ? c.getCitizen().getName() : null)
+                .citizenEmail(canSeePersonalInfo && c.getCitizen() != null ? c.getCitizen().getEmail() : null)
                 .assignedOfficer(isPrivileged ? UserResponse.fromEntity(c.getAssignedOfficer()) : null)
                 .assignedOfficerName(c.getAssignedOfficer() != null ? c.getAssignedOfficer().getName() : null)
                 .status(c.getStatus())

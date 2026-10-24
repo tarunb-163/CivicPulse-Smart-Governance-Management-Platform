@@ -34,6 +34,7 @@ public class PublicController {
     private final AnalyticsService analyticsService;
     private final QrService qrService;
     private final ClassifierService classifierService;
+    private final com.civicpulse.repository.UserRepository userRepository;
 
     @Value("${app.public-base-url:http://localhost:8080}")
     private String publicBaseUrl;
@@ -44,10 +45,13 @@ public class PublicController {
         return ResponseEntity.ok(classifierService.classify(request.getQueryText()));
     }
 
-    @GetMapping({"/api/v1/public/complaints/track/{code}", "/api/v1/public/complaints/code/{code}"})
-    @Operation(summary = "Track complaint publicly by tracking code (omits personal data)")
-    public ResponseEntity<ComplaintResponse> trackComplaint(@PathVariable String code) {
-        return ResponseEntity.ok(complaintService.getComplaintByPublicCode(code, null));
+    @GetMapping({"/api/v1/public/track/{code}", "/api/v1/public/complaints/track/{code}", "/api/v1/public/complaints/code/{code}"})
+    @Operation(summary = "Track complaint publicly by tracking code (omits personal data per PRD Section 8)")
+    public ResponseEntity<ComplaintResponse> trackComplaint(
+            @PathVariable String code,
+            @org.springframework.security.core.annotation.AuthenticationPrincipal com.civicpulse.security.UserPrincipal principal) {
+        com.civicpulse.entity.User user = (principal != null) ? userRepository.findById(principal.getId()).orElse(null) : null;
+        return ResponseEntity.ok(complaintService.getComplaintByPublicCode(code, user));
     }
 
     @GetMapping("/api/v1/public/stats")

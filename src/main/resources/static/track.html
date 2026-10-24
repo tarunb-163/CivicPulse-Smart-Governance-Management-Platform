@@ -163,7 +163,7 @@
       result.classList.add('d-none');
 
       try {
-        const c = await apiRequest(`/public/complaints/code/${encodeURIComponent(code)}`, { suppressToast: true });
+        const c = await apiRequest(`/public/track/${encodeURIComponent(code)}`, { suppressToast: true });
         loading.classList.add('d-none');
         result.classList.remove('d-none');
 
