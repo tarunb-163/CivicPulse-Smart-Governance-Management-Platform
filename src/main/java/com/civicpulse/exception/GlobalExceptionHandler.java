@@ -138,8 +138,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             HttpMessageNotReadableException.class,
             MissingServletRequestParameterException.class,
-            MethodArgumentTypeMismatchException.class,
-            IllegalArgumentException.class
+            MethodArgumentTypeMismatchException.class
     })
     public ResponseEntity<ErrorResponse> handleClientBadRequest(Exception ex, HttpServletRequest request) {
         log.warn("Bad request parameter/body on {}: {}", request.getRequestURI(), ex.getMessage());
