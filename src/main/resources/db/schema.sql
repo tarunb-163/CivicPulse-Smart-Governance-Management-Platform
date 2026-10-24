@@ -5,12 +5,13 @@
 
 CREATE TABLE IF NOT EXISTS departments (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(150) NOT NULL,
-    code VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    code VARCHAR(30) NOT NULL UNIQUE,
     head_user_id BIGINT,
     contact_email VARCHAR(150),
-    default_sla_hours INT NOT NULL DEFAULT 48,
+    default_sla_hours INT NOT NULL DEFAULT 72,
     active BOOLEAN NOT NULL DEFAULT TRUE,
+    description VARCHAR(255),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -27,7 +28,10 @@ CREATE TABLE IF NOT EXISTS users (
     locale VARCHAR(10) NOT NULL DEFAULT 'en',
     consent_version VARCHAR(20),
     consent_at TIMESTAMP NULL,
+    email_notifications BOOLEAN NOT NULL DEFAULT TRUE,
+    in_app_notifications BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_users_department FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL,
     INDEX idx_users_email (email),
     INDEX idx_users_role (role)
@@ -35,11 +39,11 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS categories (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(150) NOT NULL,
+    name VARCHAR(100) NOT NULL,
     department_id BIGINT NOT NULL,
-    severity_weight INT NOT NULL DEFAULT 1,
-    default_sla_hours INT NOT NULL DEFAULT 48,
-    icon VARCHAR(100),
+    severity_weight INT NOT NULL DEFAULT 3,
+    default_sla_hours INT NOT NULL DEFAULT 72,
+    icon VARCHAR(50),
     active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_categories_department FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE CASCADE,
@@ -50,7 +54,7 @@ CREATE TABLE IF NOT EXISTS keyword_rules (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     keyword VARCHAR(100) NOT NULL,
     category_id BIGINT NOT NULL,
-    weight DOUBLE NOT NULL DEFAULT 1.0,
+    weight INT NOT NULL DEFAULT 1,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_rules_category FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE,
     INDEX idx_rules_keyword (keyword),
@@ -64,26 +68,28 @@ CREATE TABLE IF NOT EXISTS complaints (
     description TEXT NOT NULL,
     category_id BIGINT NOT NULL,
     department_id BIGINT NOT NULL,
-    citizen_id BIGINT,
+    citizen_id BIGINT NOT NULL,
     assigned_officer_id BIGINT,
-    status VARCHAR(30) NOT NULL DEFAULT 'SUBMITTED',
+    status VARCHAR(20) NOT NULL DEFAULT 'SUBMITTED',
     priority_score DOUBLE NOT NULL DEFAULT 0.0,
     urgency VARCHAR(20) NOT NULL DEFAULT 'MEDIUM',
     anonymous BOOLEAN NOT NULL DEFAULT FALSE,
-    address VARCHAR(255) NOT NULL,
+    address VARCHAR(255),
     latitude DOUBLE,
     longitude DOUBLE,
     upvote_count INT NOT NULL DEFAULT 0,
     content_hash VARCHAR(64),
     duplicate_of_id BIGINT,
-    image_suggestion VARCHAR(150),
+    image_suggestion VARCHAR(100),
     sla_due_at TIMESTAMP NULL,
     resolved_at TIMESTAMP NULL,
+    closed_at TIMESTAMP NULL,
+    escalation_level INT NOT NULL DEFAULT 0,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_complaints_category FOREIGN KEY (category_id) REFERENCES categories(id),
     CONSTRAINT fk_complaints_dept FOREIGN KEY (department_id) REFERENCES departments(id),
-    CONSTRAINT fk_complaints_citizen FOREIGN KEY (citizen_id) REFERENCES users(id) ON DELETE SET NULL,
+    CONSTRAINT fk_complaints_citizen FOREIGN KEY (citizen_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT fk_complaints_officer FOREIGN KEY (assigned_officer_id) REFERENCES users(id) ON DELETE SET NULL,
     CONSTRAINT fk_complaints_duplicate FOREIGN KEY (duplicate_of_id) REFERENCES complaints(id) ON DELETE SET NULL,
     INDEX idx_complaints_status (status),
@@ -113,13 +119,14 @@ CREATE TABLE IF NOT EXISTS complaint_attachments (
 CREATE TABLE IF NOT EXISTS complaint_status_history (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     complaint_id BIGINT NOT NULL,
-    from_status VARCHAR(30),
-    to_status VARCHAR(30) NOT NULL,
-    remark TEXT,
-    changed_by_id BIGINT,
+    from_status VARCHAR(20),
+    to_status VARCHAR(20) NOT NULL,
+    remark VARCHAR(1000) NOT NULL,
+    changed_by_user_id BIGINT,
+    changed_by_name VARCHAR(100),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_history_complaint FOREIGN KEY (complaint_id) REFERENCES complaints(id) ON DELETE CASCADE,
-    CONSTRAINT fk_history_user FOREIGN KEY (changed_by_id) REFERENCES users(id) ON DELETE SET NULL,
+    CONSTRAINT fk_history_user FOREIGN KEY (changed_by_user_id) REFERENCES users(id) ON DELETE SET NULL,
     INDEX idx_status_history_complaint (complaint_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -127,7 +134,7 @@ CREATE TABLE IF NOT EXISTS complaint_comments (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     complaint_id BIGINT NOT NULL,
     author_id BIGINT NOT NULL,
-    body TEXT NOT NULL,
+    body VARCHAR(2000) NOT NULL,
     internal BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_comments_complaint FOREIGN KEY (complaint_id) REFERENCES complaints(id) ON DELETE CASCADE,
@@ -163,7 +170,7 @@ CREATE TABLE IF NOT EXISTS feedback (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     complaint_id BIGINT NOT NULL UNIQUE,
     rating INT NOT NULL,
-    comment TEXT,
+    comment VARCHAR(1000),
     satisfied BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_feedback_complaint FOREIGN KEY (complaint_id) REFERENCES complaints(id) ON DELETE CASCADE,
@@ -173,9 +180,9 @@ CREATE TABLE IF NOT EXISTS feedback (
 CREATE TABLE IF NOT EXISTS notifications (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
-    type VARCHAR(50) NOT NULL,
-    title VARCHAR(200) NOT NULL,
-    message TEXT NOT NULL,
+    type VARCHAR(30) NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    message VARCHAR(1000) NOT NULL,
     link VARCHAR(255),
     is_read BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -188,9 +195,9 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     actor_id BIGINT,
     actor_email VARCHAR(150),
-    action VARCHAR(100) NOT NULL,
-    entity VARCHAR(100) NOT NULL,
-    entity_id VARCHAR(100),
+    action VARCHAR(50) NOT NULL,
+    entity VARCHAR(50),
+    entity_id VARCHAR(50),
     details TEXT,
     ip VARCHAR(50),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -203,9 +210,10 @@ CREATE TABLE IF NOT EXISTS announcements (
     title VARCHAR(200) NOT NULL,
     body TEXT NOT NULL,
     active BOOLEAN NOT NULL DEFAULT TRUE,
-    starts_at TIMESTAMP NOT NULL,
-    ends_at TIMESTAMP NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    starts_at TIMESTAMP NULL,
+    ends_at TIMESTAMP NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_announcements_active (active)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS password_reset_tokens (
@@ -220,18 +228,19 @@ CREATE TABLE IF NOT EXISTS password_reset_tokens (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS system_settings (
-    `key` VARCHAR(100) PRIMARY KEY,
-    `value` TEXT NOT NULL,
+    setting_key VARCHAR(100) PRIMARY KEY,
+    setting_value VARCHAR(500) NOT NULL,
+    description VARCHAR(255),
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS dev_outbox (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    recipient VARCHAR(150) NOT NULL,
-    subject VARCHAR(255) NOT NULL,
-    body TEXT NOT NULL,
-    link VARCHAR(255),
+    recipient_email VARCHAR(150) NOT NULL,
+    subject VARCHAR(200) NOT NULL,
+    body_text TEXT NOT NULL,
+    link VARCHAR(500),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_outbox_recipient (recipient),
+    INDEX idx_outbox_recipient (recipient_email),
     INDEX idx_outbox_created (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
