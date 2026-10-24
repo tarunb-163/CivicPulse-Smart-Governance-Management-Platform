@@ -1,0 +1,65 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  application:
+    name: civicpulse
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+      max-request-size: 25MB
+  jpa:
+    open-in-view: false
+  main:
+    allow-bean-definition-overriding: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
+  health:
+    mail:
+      enabled: false
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+
+app:
+  public-base-url: ${APP_PUBLIC_BASE_URL:http://localhost:8080}
+  upload:
+    dir: ${UPLOAD_DIR:./uploads}
+  jwt:
+    secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000} # 24h
+    refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS:604800000} # 7 days
+  vision:
+    provider: ${VISION_PROVIDER:}
+    api-key: ${VISION_API_KEY:}
+    model: ${VISION_MODEL:gemini-1.5-flash}
+    timeout-ms: 8000
+  duplicate:
+    radius-meters: 300.0
+    similarity-threshold: 0.65
+    exact-window-hours: 24
+  rate-limit:
+    complaints-per-hour: 5
+    complaints-per-day: 15
+    login-max-attempts: 5
+    login-lockout-minutes: 15
+  sla:
+    default-hours: 72
+    auto-close-days: 7

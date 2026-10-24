@@ -1,0 +1,668 @@
+@import url('tokens.css');
+
+/* 1. Cards & Spotlight */
+.cp-card {
+  position: relative;
+  border-radius: var(--r-lg);
+  padding: var(--sp-5);
+  background: var(--cp-surface);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border: 1px solid var(--cp-border);
+  box-shadow: var(--shadow-1);
+  transition: transform var(--t-base) var(--ease-out), box-shadow var(--t-base) var(--ease-out), border-color var(--t-base);
+  overflow: hidden;
+}
+
+.cp-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(59, 130, 246, 0.18), transparent 45%);
+  transition: opacity var(--t-base);
+  z-index: 1;
+}
+
+.cp-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-3);
+  border-color: var(--cp-border-hover);
+}
+
+.cp-card:hover::before {
+  opacity: 1;
+}
+
+.cp-card-solid {
+  background: var(--cp-surface-solid);
+}
+
+.cp-card-flat {
+  box-shadow: none;
+}
+.cp-card-flat:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* 2. Buttons */
+.cp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 22px;
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--t-fast) var(--ease-out);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  min-height: 44px;
+}
+
+.cp-btn:active {
+  transform: scale(0.97);
+}
+
+.cp-btn-primary {
+  background: var(--cp-grad-brand);
+  background-size: 200% 100%;
+  color: white;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35);
+}
+
+.cp-btn-primary:hover {
+  background-position: 100% 0;
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45);
+  color: white;
+}
+
+.cp-btn-secondary {
+  background: var(--cp-surface);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border: 1px solid var(--cp-border);
+  color: var(--cp-text);
+  box-shadow: var(--shadow-1);
+}
+
+.cp-btn-secondary:hover {
+  background: var(--cp-surface-hover);
+  border-color: var(--cp-border-hover);
+  color: var(--cp-primary-600);
+}
+
+.cp-btn-ghost {
+  background: transparent;
+  color: var(--cp-text-muted);
+}
+
+.cp-btn-ghost:hover {
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--cp-primary-600);
+}
+
+.cp-btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.cp-btn-danger:hover {
+  background: #dc2626;
+  color: white;
+}
+
+.cp-btn-sm {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  min-height: 34px;
+}
+
+.cp-btn-lg {
+  padding: 14px 30px;
+  font-size: 1.1rem;
+  min-height: 52px;
+}
+
+.cp-btn-icon {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+/* 3. Inputs & Forms */
+.cp-form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.cp-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-bottom: 6px;
+  color: var(--cp-text);
+}
+
+.cp-input, .cp-select, .cp-textarea {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  color: var(--cp-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: all var(--t-fast) var(--ease-out);
+  outline: none;
+}
+
+.cp-input:focus, .cp-select:focus, .cp-textarea:focus {
+  border-color: var(--cp-primary-500);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.20);
+  background: var(--cp-surface-hover);
+}
+
+.cp-input::placeholder, .cp-textarea::placeholder {
+  color: var(--cp-text-light);
+}
+
+/* 4. Status Chips */
+.cp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cp-chip::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.cp-chip-submitted   { background: rgba(100, 116, 139, 0.15); color: var(--cp-submitted); }
+.cp-chip-assigned    { background: rgba(59, 130, 246, 0.15); color: var(--cp-assigned); }
+.cp-chip-in_progress { background: rgba(245, 158, 11, 0.15); color: var(--cp-progress); }
+.cp-chip-in_progress::before {
+  animation: pulse-dot 1.5s infinite;
+}
+.cp-chip-resolved    { background: rgba(16, 185, 129, 0.15); color: var(--cp-resolved); }
+.cp-chip-closed      { background: rgba(13, 148, 136, 0.15); color: var(--cp-closed); }
+.cp-chip-rejected    { background: rgba(239, 68, 68, 0.15); color: var(--cp-rejected); }
+.cp-chip-escalated   { background: rgba(244, 63, 94, 0.15); color: var(--cp-escalated); }
+.cp-chip-reopened    { background: rgba(168, 85, 247, 0.15); color: var(--cp-reopened); }
+.cp-chip-merged      { background: rgba(148, 163, 184, 0.18); color: var(--cp-merged); }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.4); }
+}
+
+/* 5. SLA Circular Progress Ring */
+.cp-sla-ring {
+  width: 44px;
+  height: 44px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cp-sla-ring svg {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.cp-sla-ring circle {
+  fill: none;
+  stroke-width: 4;
+}
+
+.cp-sla-ring-bg {
+  stroke: var(--cp-border);
+}
+
+.cp-sla-ring-progress {
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.8s ease;
+}
+
+.cp-sla-ring-text {
+  position: absolute;
+  font-size: 0.65rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+/* 6. Stepper (Wizard) */
+.cp-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.cp-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.cp-step-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--cp-surface);
+  border: 2px solid var(--cp-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--cp-text-muted);
+  transition: all var(--t-base) var(--ease-out);
+}
+
+.cp-step.active .cp-step-circle {
+  border-color: var(--cp-primary-500);
+  color: white;
+  background: var(--cp-primary-500);
+  box-shadow: 0 0 16px rgba(59, 130, 246, 0.4);
+}
+
+.cp-step.completed .cp-step-circle {
+  border-color: var(--cp-accent);
+  color: white;
+  background: var(--cp-accent);
+}
+
+.cp-step-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cp-text-muted);
+}
+
+.cp-step.active .cp-step-label {
+  color: var(--cp-text);
+}
+
+.cp-stepper-line {
+  position: absolute;
+  top: 21px;
+  left: 30px;
+  right: 30px;
+  height: 3px;
+  background: var(--cp-border);
+  z-index: 1;
+}
+
+.cp-stepper-progress {
+  height: 100%;
+  background: var(--cp-grad-brand);
+  width: 0%;
+  transition: width var(--t-base) var(--ease-out);
+}
+
+/* 7. Timeline */
+.cp-timeline {
+  position: relative;
+  padding-left: 28px;
+}
+
+.cp-timeline::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 9px;
+  width: 2px;
+  background: var(--cp-border);
+}
+
+.cp-timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.cp-timeline-node {
+  position: absolute;
+  left: -28px;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--cp-surface-solid);
+  border: 3px solid var(--cp-primary-500);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.cp-timeline-item.active .cp-timeline-node {
+  border-color: var(--cp-accent);
+  animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(20, 184, 166, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0); }
+}
+
+.cp-timeline-content {
+  background: var(--cp-surface);
+  border: 1px solid var(--cp-border);
+  border-radius: var(--r-md);
+  padding: 12px 16px;
+}
+
+/* 8. Kanban Board */
+.cp-kanban-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.cp-kanban-col {
+  background: var(--cp-surface);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--cp-border);
+  border-radius: var(--r-lg);
+  padding: 16px;
+  min-height: 500px;
+}
+
+.cp-kanban-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+
+.cp-kanban-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 400px;
+}
+
+.cp-kanban-card {
+  cursor: grab;
+  padding: 14px;
+  border-radius: var(--r-md);
+  background: var(--cp-surface-solid);
+  border: 1px solid var(--cp-border);
+  box-shadow: var(--shadow-1);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+
+.cp-kanban-card:active {
+  cursor: grabbing;
+}
+
+.cp-kanban-card.sortable-ghost {
+  opacity: 0.35;
+  background: rgba(59, 130, 246, 0.1);
+  border: 2px dashed var(--cp-primary-500);
+}
+
+.cp-kanban-card.sortable-chosen {
+  transform: scale(1.04) rotate(1.2deg);
+  box-shadow: var(--shadow-3);
+}
+
+/* 9. Skeleton Loader */
+.cp-skeleton {
+  background: linear-gradient(90deg, rgba(150, 150, 150, 0.1) 25%, rgba(150, 150, 150, 0.25) 50%, rgba(150, 150, 150, 0.1) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--r-sm);
+  display: inline-block;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* 10. Toasts */
+.cp-toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 380px;
+  width: 100%;
+  pointer-events: none;
+}
+
+.cp-toast {
+  pointer-events: auto;
+  background: var(--cp-surface-solid);
+  backdrop-filter: var(--blur);
+  border-radius: var(--r-md);
+  border: 1px solid var(--cp-border);
+  box-shadow: var(--shadow-2);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  animation: slideInRight 0.35s var(--ease-spring);
+}
+
+.cp-toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--cp-primary-500);
+  width: 100%;
+  animation: toast-timer 4s linear forwards;
+}
+
+@keyframes toast-timer {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(110%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* 11. Modal & Drawer */
+.cp-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-base);
+}
+
+.cp-modal-backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cp-modal-dialog {
+  background: var(--cp-surface-solid);
+  border: 1px solid var(--cp-border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-3);
+  max-width: 580px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.92);
+  transition: transform var(--t-base) var(--ease-spring);
+}
+
+.cp-modal-backdrop.show .cp-modal-dialog {
+  transform: scale(1);
+}
+
+.cp-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 480px;
+  max-width: 95vw;
+  background: var(--cp-surface-solid);
+  border-left: 1px solid var(--cp-border);
+  box-shadow: var(--shadow-3);
+  z-index: 1060;
+  transform: translateX(100%);
+  transition: transform var(--t-base) var(--ease-out);
+  display: flex;
+  flex-direction: column;
+}
+
+.cp-drawer.show {
+  transform: translateX(0);
+}
+
+/* 12. Floating CivicBot Widget */
+.cp-bot-orb {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--cp-grad-brand);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  cursor: pointer;
+  z-index: 1040;
+  transition: transform var(--t-fast) var(--ease-spring);
+}
+
+.cp-bot-orb:hover {
+  transform: scale(1.1);
+}
+
+.cp-bot-panel {
+  position: fixed;
+  bottom: 96px;
+  right: 28px;
+  width: 380px;
+  max-width: calc(100vw - 40px);
+  height: 520px;
+  background: var(--cp-surface-solid);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--cp-border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-3);
+  z-index: 1040;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.92) translateY(20px);
+  transform-origin: bottom right;
+  transition: all var(--t-base) var(--ease-spring);
+}
+
+.cp-bot-panel.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1) translateY(0);
+}
+
+.cp-bot-messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cp-bot-msg {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: var(--r-md);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.cp-bot-msg-bot {
+  align-self: flex-start;
+  background: var(--cp-surface);
+  border: 1px solid var(--cp-border);
+  border-bottom-left-radius: 2px;
+}
+
+.cp-bot-msg-user {
+  align-self: flex-end;
+  background: var(--cp-primary-500);
+  color: white;
+  border-bottom-right-radius: 2px;
+}
+
+.cp-bot-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 8px 16px;
+  border-top: 1px solid var(--cp-border);
+}
+
+.cp-bot-chip {
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--cp-primary-600);
+  cursor: pointer;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: all var(--t-fast);
+}
+
+.cp-bot-chip:hover {
+  background: var(--cp-primary-500);
+  color: white;
+}

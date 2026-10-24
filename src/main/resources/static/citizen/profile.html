@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile — CivicPulse</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+</head>
+<body>
+  <div class="cp-aurora-bg">
+    <div class="cp-blob cp-blob-1"></div>
+    <div class="cp-blob cp-blob-2"></div>
+  </div>
+
+  <div class="cp-app-layout">
+    <aside class="cp-sidebar" id="cpSidebar">
+      <div class="cp-sidebar-header">
+        <a href="/citizen/dashboard.html" class="cp-nav-brand">
+          <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
+          <span class="cp-sidebar-text">Civic<span class="cp-gradient-text">Pulse</span></span>
+        </a>
+      </div>
+      <ul class="cp-sidebar-menu">
+        <li class="cp-sidebar-item"><a href="/citizen/dashboard.html" class="cp-sidebar-link"><i class="bi bi-grid-fill"></i><span class="cp-sidebar-text">Dashboard</span></a></li>
+        <li class="cp-sidebar-item"><a href="/citizen/new-complaint.html" class="cp-sidebar-link"><i class="bi bi-plus-circle-fill"></i><span class="cp-sidebar-text">File Complaint</span></a></li>
+        <li class="cp-sidebar-item"><a href="/citizen/my-complaints.html" class="cp-sidebar-link"><i class="bi bi-collection-fill"></i><span class="cp-sidebar-text">My Grievances</span></a></li>
+        <li class="cp-sidebar-item"><a href="/citizen/profile.html" class="cp-sidebar-link active"><i class="bi bi-person-circle"></i><span class="cp-sidebar-text">My Profile</span></a></li>
+      </ul>
+      <div class="p-3 border-top">
+        <button id="logoutBtn" class="cp-btn cp-btn-ghost w-100 justify-content-start text-danger">
+          <i class="bi bi-box-arrow-right me-2"></i><span class="cp-sidebar-text">Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <div class="cp-main-content">
+      <header class="cp-topbar">
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-sm cp-btn-ghost d-lg-none" id="sidebarToggle"><i class="bi bi-list fs-4"></i></button>
+          <h5 class="fw-bold mb-0">Citizen Profile & Settings</h5>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-sm cp-btn-ghost cp-open-palette" title="Search (Ctrl+K)"><i class="bi bi-search"></i></button>
+          <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
+        </div>
+      </header>
+
+      <div class="cp-page-container" style="max-width: 800px;">
+        <!-- Profile Card -->
+        <div class="cp-card p-4 mb-4">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 64px; height: 64px; font-size: 1.8rem;">
+              <i class="bi bi-person"></i>
+            </div>
+            <div>
+              <h4 class="fw-bold mb-0" id="profName">User</h4>
+              <span class="badge bg-primary-subtle text-primary" id="profRole">CITIZEN</span>
+            </div>
+          </div>
+
+          <form id="profileForm">
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="cp-label">Full Name</label>
+                <input type="text" id="inputName" class="form-control cp-input" required>
+              </div>
+              <div class="col-sm-6">
+                <label class="cp-label">Email Address</label>
+                <input type="email" id="inputEmail" class="form-control cp-input" disabled>
+              </div>
+              <div class="col-sm-6">
+                <label class="cp-label">Phone Number</label>
+                <input type="tel" id="inputPhone" class="form-control cp-input" placeholder="e.g. 9876543210">
+              </div>
+            </div>
+
+            <div class="mt-4 text-end">
+              <button type="submit" class="btn cp-btn-primary rounded-pill px-4">Save Changes</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Change Password Card -->
+        <div class="cp-card p-4 mb-4">
+          <h5 class="fw-bold mb-3"><i class="bi bi-key-fill text-warning me-2"></i>Security & Password</h5>
+          <form id="changePwdForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="cp-label">New Password</label>
+                <input type="password" id="newPwd" class="form-control cp-input" required minlength="8" placeholder="Min. 8 characters">
+              </div>
+              <div class="col-md-6">
+                <label class="cp-label">Confirm New Password</label>
+                <input type="password" id="confirmPwd" class="form-control cp-input" required placeholder="Repeat password">
+              </div>
+            </div>
+            <div class="mt-3 text-end">
+              <button type="submit" class="btn cp-btn-secondary rounded-pill px-4">Update Password</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <footer class="cp-footer-slim">
+        <div>&copy; 2026 CivicPulse Municipal Redressal.</div>
+      </footer>
+    </div>
+  </div>
+
+  <script type="module">
+    import { checkRouteGuard } from '/assets/js/core/router-guard.js';
+    import { getUser, logout } from '/assets/js/core/auth.js';
+    import { apiRequest } from '/assets/js/core/api.js';
+    import { showToast } from '/assets/js/core/toast.js';
+    import '/assets/js/core/theme.js';
+    import '/assets/js/ui/palette.js';
+    import '/assets/js/ui/bot.js';
+
+    checkRouteGuard(['CITIZEN', 'OFFICER', 'DEPT_HEAD', 'ADMIN']);
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+      document.getElementById('cpSidebar').classList.toggle('show');
+    });
+
+    async function loadProfile() {
+      try {
+        const u = await apiRequest('/users/profile');
+        document.getElementById('profName').textContent = u.name;
+        document.getElementById('profRole').textContent = u.role;
+        document.getElementById('inputName').value = u.name || '';
+        document.getElementById('inputEmail').value = u.email || '';
+        document.getElementById('inputPhone').value = u.phone || '';
+      } catch {}
+    }
+
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        await apiRequest('/users/profile', {
+          method: 'PUT',
+          body: JSON.stringify({
+            name: document.getElementById('inputName').value.trim(),
+            phone: document.getElementById('inputPhone').value.trim()
+          })
+        });
+        showToast('Profile updated', 'success');
+        loadProfile();
+      } catch {}
+    });
+
+    document.getElementById('changePwdForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const newPassword = document.getElementById('newPwd').value;
+      const confirm = document.getElementById('confirmPwd').value;
+      if (newPassword !== confirm) {
+        showToast('Passwords do not match', 'error');
+        return;
+      }
+      try {
+        await apiRequest('/users/password', {
+          method: 'PUT',
+          body: JSON.stringify({ newPassword })
+        });
+        showToast('Password changed successfully', 'success');
+        document.getElementById('newPwd').value = '';
+        document.getElementById('confirmPwd').value = '';
+      } catch {}
+    });
+
+    loadProfile();
+  </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: civicpulse-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: civicplus
+      MYSQL_ROOT_PASSWORD: Root@2806.
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pRoot@2806."]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: civicpulse-app
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/civicplus?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Root@2806.
+      JWT_SECRET: c2VjdXJlX2NpdmljcHVsc2VfZGV2ZWxvcG1lbnRfc2VjcmV0X2tleV81MTJiaXRzX3N1cGVyX3NlY3VyZV9mb3JfdGVzdGluZ19vbmx5IQ==
+      UPLOAD_DIR: /app/uploads
+      APP_PUBLIC_BASE_URL: http://localhost:8080
+    volumes:
+      - uploads_data:/app/uploads
+
+volumes:
+  mysql_data:
+    driver: local
+  uploads_data:
+    driver: local

@@ -1,0 +1,39 @@
+package com.civicpulse.dto.response;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.Instant;
+import java.util.List;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ErrorResponse {
+    private Instant timestamp;
+    private int status;
+    private String error;
+    private String message;
+    private String path;
+    private List<FieldErrorItem> fieldErrors;
+
+    // Optional fields for duplicate conflicts
+    private String conflictType; // e.g. "DUPLICATE_EXACT", "DUPLICATE_SUSPECTED"
+    private String existingCode;
+    private List<?> candidates;
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FieldErrorItem {
+        private String field;
+        private String message;
+        private Object rejectedValue;
+    }
+}

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CivicPulse — Smart Citizen Governance & Redressal Platform</title>
+  <meta name="description" content="AI-assisted citizen grievance redressal, smart municipal department routing, and real-time SLA accountability.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/animations.css">
+  <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+  <!-- Aurora Background Drift -->
+  <div class="cp-aurora-bg">
+    <div class="cp-blob cp-blob-1"></div>
+    <div class="cp-blob cp-blob-2"></div>
+    <div class="cp-blob cp-blob-3"></div>
+  </div>
+
+  <!-- Floating Glass Navbar -->
+  <nav class="cp-navbar d-flex justify-content-between align-items-center mt-3">
+    <a href="/index.html" class="cp-nav-brand">
+      <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
+      <span>Civic<span class="cp-gradient-text">Pulse</span></span>
+    </a>
+
+    <div class="d-none d-md-flex align-items-center gap-1">
+      <a href="/index.html" class="cp-nav-link active" data-i18n="navHome">Home</a>
+      <a href="/track.html" class="cp-nav-link" data-i18n="navTrack">Track Complaint</a>
+      <a href="/transparency.html" class="cp-nav-link" data-i18n="navTransparency">Transparency</a>
+      <button class="btn btn-sm cp-btn-ghost cp-open-palette" title="Search (Ctrl+K)">
+        <i class="bi bi-search"></i> <span class="badge bg-secondary-subtle text-muted ms-1" style="font-size: 0.7rem;">Ctrl+K</span>
+      </button>
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <!-- Language Selector -->
+      <select class="form-select form-select-sm rounded-pill cp-lang-select border-0 shadow-none bg-transparent" style="width: 105px; font-weight: 500;">
+        <option value="en">English</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="hi">हिंदी</option>
+      </select>
+
+      <!-- Theme Switcher -->
+      <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme">
+        <i class="bi bi-moon-stars"></i>
+      </button>
+
+      <a href="/login.html" class="btn cp-btn-primary cp-btn-sm rounded-pill px-3" data-i18n="navLogin">Sign In</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="container py-5 text-center mt-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-9" data-reveal>
+        <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill mb-3">
+          <i class="bi bi-lightning-charge-fill me-1"></i>Next-Generation Smart Governance
+        </div>
+        <h1 class="display-4 fw-extrabold mb-3" data-i18n="heroTitle">
+          Smart Citizen Governance & Grievance Redressal
+        </h1>
+        <p class="lead text-muted mx-auto mb-4" style="max-width: 720px;" data-i18n="heroSubtitle">
+          Empowering citizens with AI-assisted grievance tracking, transparent municipal routing, and real-time SLA enforcement.
+        </p>
+
+        <!-- Inline Live Tracking Box -->
+        <div class="row justify-content-center mb-5">
+          <div class="col-md-9 col-lg-7">
+            <form action="/track.html" method="GET" class="d-flex gap-2 p-2 cp-card rounded-pill shadow-2">
+              <input type="text" name="code" class="form-control border-0 shadow-none bg-transparent px-3 cp-mono" placeholder="Enter Complaint Code (e.g. CP-2026-000001)" required>
+              <button type="submit" class="btn cp-btn-primary rounded-pill px-4" data-i18n="trackButton">
+                <i class="bi bi-arrow-right-circle me-1"></i>Track Now
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Real-Time Impact Counters Strip -->
+    <div class="row g-4 justify-content-center" data-reveal>
+      <div class="col-6 col-md-3">
+        <div class="cp-card cp-tilt p-4 text-center">
+          <div class="display-6 fw-bold text-primary mb-1" id="statTotal" data-counter="204">204</div>
+          <div class="text-muted small" data-i18n="statTotal">Complaints Registered</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="cp-card cp-tilt p-4 text-center">
+          <div class="display-6 fw-bold text-success mb-1" id="statResolved" data-counter="148">148</div>
+          <div class="text-muted small" data-i18n="statResolved">Resolved Cases</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="cp-card cp-tilt p-4 text-center">
+          <div class="display-6 fw-bold text-info mb-1">94.2%</div>
+          <div class="text-muted small" data-i18n="statRate">Resolution Rate</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="cp-card cp-tilt p-4 text-center">
+          <div class="display-6 fw-bold text-warning mb-1">26.5h</div>
+          <div class="text-muted small" data-i18n="statAvgHours">Avg Redressal Time</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="container py-5 my-4">
+    <div class="text-center mb-5" data-reveal>
+      <div class="badge bg-secondary-subtle text-muted px-3 py-1 rounded-pill mb-2">Workflow</div>
+      <h2 class="fw-bold" data-i18n="howItWorks">How CivicPulse Works</h2>
+      <p class="text-muted">A seamless 4-step pipeline from complaint registration to field verification</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3" data-reveal data-stagger="1">
+        <div class="cp-card p-4 h-100 text-center">
+          <div class="rounded-circle bg-primary-subtle text-primary mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 58px; height: 58px; font-size: 1.5rem;">
+            <i class="bi bi-camera"></i>
+          </div>
+          <h5 class="fw-bold mb-2" data-i18n="step1Title">1. Report Issue</h5>
+          <p class="text-muted small mb-0" data-i18n="step1Desc">
+            Upload photos, drop a map pin, and let our AI categorize your grievance instantly.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3" data-reveal data-stagger="2">
+        <div class="cp-card p-4 h-100 text-center">
+          <div class="rounded-circle bg-info-subtle text-info mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 58px; height: 58px; font-size: 1.5rem;">
+            <i class="bi bi-diagram-3"></i>
+          </div>
+          <h5 class="fw-bold mb-2" data-i18n="step2Title">2. Smart Routing</h5>
+          <p class="text-muted small mb-0" data-i18n="step2Desc">
+            Auto-routed to the exact municipal department and assigned to the least-loaded officer.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3" data-reveal data-stagger="3">
+        <div class="cp-card p-4 h-100 text-center">
+          <div class="rounded-circle bg-warning-subtle text-warning mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 58px; height: 58px; font-size: 1.5rem;">
+            <i class="bi bi-stopwatch"></i>
+          </div>
+          <h5 class="fw-bold mb-2" data-i18n="step3Title">3. Timed Redressal</h5>
+          <p class="text-muted small mb-0" data-i18n="step3Desc">
+            Strict SLA timers with automatic administrative escalation ensure speedy action.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3" data-reveal data-stagger="4">
+        <div class="cp-card p-4 h-100 text-center">
+          <div class="rounded-circle bg-success-subtle text-success mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 58px; height: 58px; font-size: 1.5rem;">
+            <i class="bi bi-star"></i>
+          </div>
+          <h5 class="fw-bold mb-2" data-i18n="step4Title">4. Verify & Rate</h5>
+          <p class="text-muted small mb-0" data-i18n="step4Desc">
+            Review photographic resolution proof and grade municipal service quality.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Grid Section -->
+  <section class="container py-5 my-4">
+    <div class="text-center mb-5" data-reveal>
+      <div class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill mb-2">Capabilities</div>
+      <h2 class="fw-bold">Engineered for Municipal Excellence</h2>
+      <p class="text-muted">Built to end citizen frustration and streamline government operations</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-4" data-reveal data-stagger="1">
+        <div class="cp-card p-4 h-100">
+          <i class="bi bi-cpu-fill text-primary fs-2 mb-3"></i>
+          <h5 class="fw-bold">AI Category Classifier</h5>
+          <p class="text-muted small">Keyword rules and optional Vision AI infer department routing with high accuracy, reducing misrouted tickets.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-reveal data-stagger="2">
+        <div class="cp-card p-4 h-100">
+          <i class="bi bi-geo-alt-fill text-danger fs-2 mb-3"></i>
+          <h5 class="fw-bold">Duplicate Prevention</h5>
+          <p class="text-muted small">Automatic 300m geo-proximity and text similarity matching prevents duplicate queues while accumulating citizen upvotes.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-reveal data-stagger="3">
+        <div class="cp-card p-4 h-100">
+          <i class="bi bi-qr-code text-success fs-2 mb-3"></i>
+          <h5 class="fw-bold">Verified QR Receipts</h5>
+          <p class="text-muted small">Every complaint generates a signed printable PDF receipt with an official QR code for instant mobile verification.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-reveal data-stagger="4">
+        <div class="cp-card p-4 h-100">
+          <i class="bi bi-kanban text-warning fs-2 mb-3"></i>
+          <h5 class="fw-bold">Officer Kanban Workspace</h5>
+          <p class="text-muted solid">Drag-and-drop workflow progression, photo proof verification, and internal departmental remarks.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-reveal data-stagger="5">
+        <div class="cp-card p-4 h-100">
+          <i class="bi bi-incognito text-secondary fs-2 mb-3"></i>
+          <h5 class="fw-bold">Anonymous Filing Option</h5>
+          <p class="text-muted small">Protects whistleblowers and citizen privacy without compromising geographic precision or resolution quality.</p>
+        </div>
+      </div>
+      <div class="col-md-4" data-reveal data-stagger="6">
+        <div class="cp-card p-4 h-100">
+          <i class="bi bi-robot text-info fs-2 mb-3"></i>
+          <h5 class="fw-bold">CivicBot Assistant</h5>
+          <p class="text-muted small">Interactive 24/7 rule-based chatbot for status checks, FAQs, department contacts, and filing guidance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="container py-5 my-4" data-reveal>
+    <div class="cp-card p-5 text-center" style="background: var(--cp-grad-aurora);">
+      <h2 class="display-6 fw-bold mb-3">Ready to Make Your City Better?</h2>
+      <p class="text-muted lead mx-auto mb-4" style="max-width: 600px;">
+        Join thousands of active citizens tracking municipal improvements in real time.
+      </p>
+      <div class="d-flex justify-content-center gap-3">
+        <a href="/register.html" class="btn cp-btn-primary cp-btn-lg rounded-pill px-5">Get Started Free</a>
+        <a href="/transparency.html" class="btn cp-btn-secondary cp-btn-lg rounded-pill px-4">View Public Data</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="cp-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
+            <h5 class="fw-bold mb-0">CivicPulse</h5>
+          </div>
+          <p class="text-muted small">
+            Autonomous smart governance and citizen grievance management system. Certified e-governance platform.
+          </p>
+        </div>
+        <div class="col-md-2 col-6">
+          <h6 class="fw-bold mb-3">Public Portal</h6>
+          <ul class="list-unstyled small d-grid gap-2 text-muted">
+            <li><a href="/index.html" class="text-decoration-none text-muted">Home</a></li>
+            <li><a href="/track.html" class="text-decoration-none text-muted">Track Complaint</a></li>
+            <li><a href="/transparency.html" class="text-decoration-none text-muted">Transparency</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2 col-6">
+          <h6 class="fw-bold mb-3">Account</h6>
+          <ul class="list-unstyled small d-grid gap-2 text-muted">
+            <li><a href="/login.html" class="text-decoration-none text-muted">Citizen Login</a></li>
+            <li><a href="/register.html" class="text-decoration-none text-muted">Register</a></li>
+            <li><a href="/forgot-password.html" class="text-decoration-none text-muted">Password Reset</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h6 class="fw-bold mb-3">Governance & Privacy</h6>
+          <p class="text-muted small mb-2">Read our citizen charter and data retention specifications.</p>
+          <div class="d-flex gap-3">
+            <a href="/privacy.html" class="small text-muted text-decoration-none">Privacy Policy</a>
+            <span class="text-muted">&bull;</span>
+            <a href="/terms.html" class="small text-muted text-decoration-none">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+      <hr class="my-4">
+      <div class="d-flex justify-content-between align-items-center flex-wrap small text-muted">
+        <div>&copy; 2026 CivicPulse Municipal Redressal. All rights reserved.</div>
+        <div>Engineered with Aurora Glass Design System</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module">
+    import { initTheme } from '/assets/js/core/theme.js';
+    import { initI18n } from '/assets/js/core/i18n.js';
+    import { apiRequest } from '/assets/js/core/api.js';
+    import { animateCounter } from '/assets/js/ui/counter.js';
+    import '/assets/js/ui/spotlight.js';
+    import '/assets/js/ui/tilt.js';
+    import '/assets/js/ui/magnetic.js';
+    import '/assets/js/ui/reveal.js';
+    import '/assets/js/ui/palette.js';
+    import '/assets/js/ui/bot.js';
+
+    initTheme();
+    initI18n();
+
+    // Fetch live summary stats
+    apiRequest('/public/stats').then(stats => {
+      const elTotal = document.getElementById('statTotal');
+      const elResolved = document.getElementById('statResolved');
+      if (stats.totalComplaints) animateCounter(elTotal, stats.totalComplaints);
+      if (stats.resolvedComplaints) animateCounter(elResolved, stats.resolvedComplaints);
+    }).catch(() => {});
+  </script>
+</body>
+</html>

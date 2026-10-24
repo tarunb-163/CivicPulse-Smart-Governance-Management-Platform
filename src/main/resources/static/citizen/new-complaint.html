@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File New Grievance — CivicPulse</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/animations.css">
+</head>
+<body>
+  <div class="cp-aurora-bg">
+    <div class="cp-blob cp-blob-1"></div>
+    <div class="cp-blob cp-blob-2"></div>
+  </div>
+
+  <div class="cp-app-layout">
+    <!-- Sidebar -->
+    <aside class="cp-sidebar" id="cpSidebar">
+      <div class="cp-sidebar-header">
+        <a href="/citizen/dashboard.html" class="cp-nav-brand">
+          <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
+          <span class="cp-sidebar-text">Civic<span class="cp-gradient-text">Pulse</span></span>
+        </a>
+      </div>
+      <ul class="cp-sidebar-menu">
+        <li class="cp-sidebar-item"><a href="/citizen/dashboard.html" class="cp-sidebar-link"><i class="bi bi-grid-fill"></i><span class="cp-sidebar-text">Dashboard</span></a></li>
+        <li class="cp-sidebar-item"><a href="/citizen/new-complaint.html" class="cp-sidebar-link active"><i class="bi bi-plus-circle-fill"></i><span class="cp-sidebar-text">File Complaint</span></a></li>
+        <li class="cp-sidebar-item"><a href="/citizen/my-complaints.html" class="cp-sidebar-link"><i class="bi bi-collection-fill"></i><span class="cp-sidebar-text">My Grievances</span></a></li>
+        <li class="cp-sidebar-item"><a href="/citizen/profile.html" class="cp-sidebar-link"><i class="bi bi-person-circle"></i><span class="cp-sidebar-text">My Profile</span></a></li>
+      </ul>
+      <div class="p-3 border-top">
+        <button id="logoutBtn" class="cp-btn cp-btn-ghost w-100 justify-content-start text-danger">
+          <i class="bi bi-box-arrow-right me-2"></i><span class="cp-sidebar-text">Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="cp-main-content">
+      <header class="cp-topbar">
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-sm cp-btn-ghost d-lg-none" id="sidebarToggle"><i class="bi bi-list fs-4"></i></button>
+          <h5 class="fw-bold mb-0">File Grievance Wizard</h5>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-sm cp-btn-ghost cp-open-palette" title="Search (Ctrl+K)"><i class="bi bi-search"></i></button>
+          <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
+        </div>
+      </header>
+
+      <div class="cp-page-container" style="max-width: 900px;">
+        <!-- Stepper Navigation -->
+        <div class="cp-stepper my-4">
+          <div class="cp-stepper-line"><div class="cp-stepper-progress" id="stepperProgress"></div></div>
+          <div class="cp-step active" id="stepIndicator1">
+            <div class="cp-step-circle">1</div>
+            <div class="cp-step-label">Details</div>
+          </div>
+          <div class="cp-step" id="stepIndicator2">
+            <div class="cp-step-circle">2</div>
+            <div class="cp-step-label">Location</div>
+          </div>
+          <div class="cp-step" id="stepIndicator3">
+            <div class="cp-step-circle">3</div>
+            <div class="cp-step-label">Evidence</div>
+          </div>
+          <div class="cp-step" id="stepIndicator4">
+            <div class="cp-step-circle">4</div>
+            <div class="cp-step-label">Review</div>
+          </div>
+        </div>
+
+        <!-- Wizard Card Form -->
+        <div class="cp-card p-4 p-sm-5 shadow-2">
+          <!-- Step 1: Details -->
+          <div id="stepPanel1">
+            <h4 class="fw-bold mb-3"><i class="bi bi-card-text text-primary me-2"></i>1. Grievance Details</h4>
+            <p class="text-muted small mb-4">Provide a clear title and description. Our AI classifier will automatically infer the appropriate municipal category.</p>
+
+            <div class="cp-form-group mb-3">
+              <label class="cp-label" for="complaintTitle">Grievance Title *</label>
+              <input type="text" id="complaintTitle" class="form-control cp-input" placeholder="e.g. Large pothole on PB Road near bus stop" required>
+            </div>
+
+            <div class="cp-form-group mb-3">
+              <label class="cp-label" for="complaintDesc">Detailed Description *</label>
+              <textarea id="complaintDesc" class="form-control cp-textarea" rows="4" placeholder="Describe the issue, hazards, landmark details..." required></textarea>
+            </div>
+
+            <!-- AI Text Classifier Suggestion Chip -->
+            <div id="textClassifierChipContainer" class="mb-4"></div>
+
+            <div class="cp-form-group mb-3">
+              <label class="cp-label" for="categorySelect">Municipal Category *</label>
+              <select id="categorySelect" class="form-select cp-select" required>
+                <option value="">Loading categories...</option>
+              </select>
+            </div>
+
+            <div class="cp-form-group mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <label class="cp-label mb-0">Urgency Level: <span id="urgencyValueText" class="text-primary fw-bold">3 - Medium</span></label>
+                <span id="urgencyEmoji" class="fs-5">⚠️</span>
+              </div>
+              <input type="range" class="form-range" id="urgencyRange" min="1" max="5" value="3">
+              <div class="d-flex justify-content-between text-muted" style="font-size: 0.75rem;">
+                <span>1 - Minor</span>
+                <span>2 - Low</span>
+                <span>3 - Medium</span>
+                <span>4 - High</span>
+                <span>5 - Critical/Emergency</span>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+              <button type="button" class="btn cp-btn-primary rounded-pill px-4" id="btnToStep2">
+                Next: Select Location &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Location -->
+          <div id="stepPanel2" class="d-none">
+            <h4 class="fw-bold mb-3"><i class="bi bi-geo-alt-fill text-danger me-2"></i>2. Pinpoint Incident Location</h4>
+            <p class="text-muted small mb-3">Drag the map pin to mark the exact spot. The street address will be reverse-geocoded automatically.</p>
+
+            <div id="pickerMap" style="height: 340px; border-radius: var(--r-md); margin-bottom: 16px;"></div>
+
+            <div class="cp-form-group mb-4">
+              <label class="cp-label" for="complaintAddress">Address / Landmark Details *</label>
+              <input type="text" id="complaintAddress" class="form-control cp-input" placeholder="e.g. Near Gandhi Circle, Ward 7, Davanagere" required>
+              <input type="hidden" id="complaintLat" value="14.4644">
+              <input type="hidden" id="complaintLng" value="75.9218">
+            </div>
+
+            <!-- Proximity Check indicator -->
+            <div id="proximityAlert" class="mb-3"></div>
+
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn cp-btn-ghost rounded-pill" id="btnBackToStep1">&larr; Back</button>
+              <button type="button" class="btn cp-btn-primary rounded-pill px-4" id="btnToStep3">
+                Next: Add Evidence &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Evidence -->
+          <div id="stepPanel3" class="d-none">
+            <h4 class="fw-bold mb-3"><i class="bi bi-camera-fill text-info me-2"></i>3. Upload Photographic Evidence</h4>
+            <p class="text-muted small mb-3">Attach up to 5 photos (JPG, PNG, WEBP, max 5 MB each). Visual evidence accelerates field assignment.</p>
+
+            <!-- File Drop Area -->
+            <div class="border border-2 border-dashed rounded-3 p-4 text-center mb-3 bg-surface" id="dropArea" style="cursor: pointer;">
+              <i class="bi bi-cloud-arrow-up text-primary display-4 mb-2 d-block"></i>
+              <div class="fw-semibold">Click or drag & drop photos here</div>
+              <small class="text-muted">Supports JPG, PNG, WEBP (Max 5 files)</small>
+              <input type="file" id="fileInput" class="d-none" multiple accept="image/jpeg,image/png,image/webp">
+            </div>
+
+            <!-- AI Vision Suggestion Chip -->
+            <div id="visionSuggestContainer" class="mb-3"></div>
+
+            <!-- Thumbnails Container -->
+            <div class="row g-2 mb-4" id="thumbnailsContainer"></div>
+
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn cp-btn-ghost rounded-pill" id="btnBackToStep2">&larr; Back</button>
+              <button type="button" class="btn cp-btn-primary rounded-pill px-4" id="btnToStep4">
+                Next: Review & Submit &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4: Review and Submit -->
+          <div id="stepPanel4" class="d-none">
+            <h4 class="fw-bold mb-3"><i class="bi bi-check2-circle text-success me-2"></i>4. Review Grievance Summary</h4>
+            <p class="text-muted small mb-4">Please verify the details before officially submitting your report into the municipal queue.</p>
+
+            <div class="p-3 rounded-3 bg-light mb-4">
+              <div class="row g-3">
+                <div class="col-12">
+                  <small class="text-muted d-block">Title</small>
+                  <strong id="revTitle" class="fs-6"></strong>
+                </div>
+                <div class="col-sm-6">
+                  <small class="text-muted d-block">Category</small>
+                  <span id="revCategory" class="badge bg-primary-subtle text-primary"></span>
+                </div>
+                <div class="col-sm-6">
+                  <small class="text-muted d-block">Urgency</small>
+                  <span id="revUrgency" class="badge bg-warning-subtle text-warning"></span>
+                </div>
+                <div class="col-12">
+                  <small class="text-muted d-block">Location</small>
+                  <span id="revAddress" class="text-secondary small"></span>
+                </div>
+                <div class="col-12">
+                  <small class="text-muted d-block">Description</small>
+                  <p id="revDesc" class="text-muted small mb-0"></p>
+                </div>
+                <div class="col-12">
+                  <small class="text-muted d-block">Attached Photos</small>
+                  <span id="revPhotoCount" class="small fw-semibold">0 files</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Anonymous Option -->
+            <div class="form-check form-switch mb-4 p-3 rounded-3 border bg-surface">
+              <input class="form-check-input ms-0 me-3" type="checkbox" id="anonymousSwitch">
+              <label class="form-check-label fw-semibold" for="anonymousSwitch">
+                Submit as Anonymous Grievance
+              </label>
+              <small class="d-block text-muted mt-1">Your identity will be masked on all public tracking screens and officer workspaces.</small>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn cp-btn-ghost rounded-pill" id="btnBackToStep3">&larr; Back</button>
+              <button type="button" class="btn cp-btn-primary rounded-pill px-5" id="btnSubmitGrievance">
+                <i class="bi bi-send-fill me-1"></i>Official Submit
+              </button>
+            </div>
+          </div>
+
+          <!-- Success Card (Shown after submit) -->
+          <div id="stepSuccess" class="d-none text-center py-4">
+            <div class="rounded-circle bg-success text-white mx-auto mb-3 d-flex align-items-center justify-content-center animate__animated animate__zoomIn" style="width: 72px; height: 72px; font-size: 2.2rem;">
+              <i class="bi bi-check-lg"></i>
+            </div>
+            <h3 class="fw-bold mb-1">Grievance Registered Successfully!</h3>
+            <p class="text-muted small mb-4">Your complaint reference code is:</p>
+            <div class="display-6 fw-bold cp-mono text-primary mb-3" id="successCode">CP-2026-000001</div>
+
+            <div class="row justify-content-center mb-4">
+              <div class="col-md-7">
+                <div id="successQrContainer"></div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3">
+              <button type="button" class="btn btn-outline-primary rounded-pill" id="btnDownloadReceipt">
+                <i class="bi bi-file-earmark-pdf me-1"></i>Download PDF Receipt
+              </button>
+              <a href="#" id="btnViewComplaint" class="btn cp-btn-primary rounded-pill px-4">
+                View Grievance Status
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="cp-footer-slim">
+        <div>&copy; 2026 CivicPulse Municipal Redressal.</div>
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script type="module">
+    import { checkRouteGuard } from '/assets/js/core/router-guard.js';
+    import { logout } from '/assets/js/core/auth.js';
+    import { apiRequest } from '/assets/js/core/api.js';
+    import { showToast } from '/assets/js/core/toast.js';
+    import { classifyText, checkDuplicates, submitComplaint, triggerConfetti, showDuplicateDialog, supportComplaint, downloadReceipt } from '/assets/js/modules/complaints.js';
+    import { requestImageClassification } from '/assets/js/modules/image-suggest.js';
+    import { initComplaintPickerMap } from '/assets/js/modules/map.js';
+    import { renderQrCard } from '/assets/js/modules/qr.js';
+    import '/assets/js/core/theme.js';
+    import '/assets/js/ui/palette.js';
+    import '/assets/js/ui/bot.js';
+
+    checkRouteGuard(['CITIZEN', 'OFFICER', 'DEPT_HEAD', 'ADMIN']);
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+      document.getElementById('cpSidebar').classList.toggle('show');
+    });
+
+    let mapHandle = null;
+    let selectedFiles = [];
+    let categories = [];
+    let submittedComplaint = null;
+
+    // Load categories
+    apiRequest('/public/categories').then(cats => {
+      categories = cats || [];
+      const sel = document.getElementById('categorySelect');
+      sel.innerHTML = '<option value="">-- Choose Category --</option>' +
+        categories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    });
+
+    // Urgency slider
+    const urgencyRange = document.getElementById('urgencyRange');
+    const urgencyText = document.getElementById('urgencyValueText');
+    const urgencyEmoji = document.getElementById('urgencyEmoji');
+    const emojis = ['', '🟢 1 - Minor', '🟡 2 - Low', '🟠 3 - Medium', '🔴 4 - High', '🚨 5 - Critical'];
+    urgencyRange.addEventListener('input', (e) => {
+      const v = e.target.value;
+      urgencyText.textContent = emojis[v];
+    });
+
+    // Live Keyword Classifier
+    const titleInp = document.getElementById('complaintTitle');
+    const descInp = document.getElementById('complaintDesc');
+    const chipContainer = document.getElementById('textClassifierChipContainer');
+
+    async function triggerLiveClassifier() {
+      const combined = `${titleInp.value} ${descInp.value}`.trim();
+      if (combined.length < 5) {
+        chipContainer.innerHTML = '';
+        return;
+      }
+      try {
+        const res = await classifyText(combined);
+        if (res && res.categoryName) {
+          chipContainer.innerHTML = `
+            <div class="d-inline-flex align-items-center gap-2 p-2 px-3 rounded-pill bg-primary-subtle text-primary border border-primary-subtle shadow-sm animate__animated animate__fadeIn">
+              <i class="bi bi-cpu-fill"></i>
+              <span class="small">Suggested Category: <strong>${res.categoryName}</strong> (${Math.round((res.confidence || 0.8) * 100)}%)</span>
+              <button type="button" class="btn btn-sm btn-primary rounded-pill py-0 px-2 cp-accept-chip" style="font-size: 0.75rem;">Accept</button>
+            </div>
+          `;
+          chipContainer.querySelector('.cp-accept-chip').addEventListener('click', () => {
+            document.getElementById('categorySelect').value = res.categoryId;
+            chipContainer.innerHTML = `<span class="text-success small"><i class="bi bi-check-circle-fill me-1"></i>Selected: ${res.categoryName}</span>`;
+          });
+        }
+      } catch {}
+    }
+
+    titleInp.addEventListener('blur', triggerLiveClassifier);
+    descInp.addEventListener('blur', triggerLiveClassifier);
+
+    // Navigation between steps
+    const step1 = document.getElementById('stepPanel1');
+    const step2 = document.getElementById('stepPanel2');
+    const step3 = document.getElementById('stepPanel3');
+    const step4 = document.getElementById('stepPanel4');
+    const stepSuccess = document.getElementById('stepSuccess');
+
+    const ind1 = document.getElementById('stepIndicator1');
+    const ind2 = document.getElementById('stepIndicator2');
+    const ind3 = document.getElementById('stepIndicator3');
+    const ind4 = document.getElementById('stepIndicator4');
+    const prog = document.getElementById('stepperProgress');
+
+    function goToStep(n) {
+      [step1, step2, step3, step4].forEach(p => p.classList.add('d-none'));
+      [ind1, ind2, ind3, ind4].forEach(i => i.classList.remove('active', 'completed'));
+
+      if (n === 1) {
+        step1.classList.remove('d-none');
+        ind1.classList.add('active');
+        prog.style.width = '0%';
+      } else if (n === 2) {
+        step2.classList.remove('d-none');
+        ind1.classList.add('completed');
+        ind2.classList.add('active');
+        prog.style.width = '33%';
+        if (!mapHandle) {
+          setTimeout(() => {
+            mapHandle = initComplaintPickerMap('pickerMap', 14.4644, 75.9218, (loc) => {
+              document.getElementById('complaintLat').value = loc.lat;
+              document.getElementById('complaintLng').value = loc.lng;
+              if (loc.address) document.getElementById('complaintAddress').value = loc.address;
+            });
+          }, 100);
+        } else {
+          setTimeout(() => mapHandle.map.invalidateSize(), 100);
+        }
+      } else if (n === 3) {
+        step3.classList.remove('d-none');
+        ind1.classList.add('completed');
+        ind2.classList.add('completed');
+        ind3.classList.add('active');
+        prog.style.width = '66%';
+      } else if (n === 4) {
+        step4.classList.remove('d-none');
+        ind1.classList.add('completed');
+        ind2.classList.add('completed');
+        ind3.classList.add('completed');
+        ind4.classList.add('active');
+        prog.style.width = '100%';
+
+        // Populate review summary
+        document.getElementById('revTitle').textContent = titleInp.value;
+        const selCat = document.getElementById('categorySelect');
+        document.getElementById('revCategory').textContent = selCat.options[selCat.selectedIndex]?.text || '';
+        document.getElementById('revUrgency').textContent = emojis[urgencyRange.value];
+        document.getElementById('revAddress').textContent = document.getElementById('complaintAddress').value;
+        document.getElementById('revDesc').textContent = descInp.value;
+        document.getElementById('revPhotoCount').textContent = `${selectedFiles.length} file(s) attached`;
+      }
+    }
+
+    document.getElementById('btnToStep2').addEventListener('click', () => {
+      if (!titleInp.value.trim() || !descInp.value.trim() || !document.getElementById('categorySelect').value) {
+        showToast('Please fill out Title, Description and Category', 'warn');
+        return;
+      }
+      goToStep(2);
+    });
+
+    document.getElementById('btnBackToStep1').addEventListener('click', () => goToStep(1));
+
+    document.getElementById('btnToStep3').addEventListener('click', async () => {
+      const lat = parseFloat(document.getElementById('complaintLat').value);
+      const lng = parseFloat(document.getElementById('complaintLng').value);
+      const text = `${titleInp.value} ${descInp.value}`;
+
+      // Check duplicates
+      try {
+        const dupRes = await checkDuplicates(lat, lng, text);
+        if (dupRes && dupRes.candidates && dupRes.candidates.length > 0) {
+          showDuplicateDialog(dupRes.candidates, async (supId) => {
+            await supportComplaint(supId);
+            window.location.href = `/citizen/complaint.html?id=${supId}`;
+          }, () => {
+            goToStep(3);
+          });
+          return;
+        }
+      } catch {}
+      goToStep(3);
+    });
+
+    document.getElementById('btnBackToStep2').addEventListener('click', () => goToStep(2));
+    document.getElementById('btnToStep4').addEventListener('click', () => goToStep(4));
+    document.getElementById('btnBackToStep3').addEventListener('click', () => goToStep(3));
+
+    // File Drop & Selection
+    const dropArea = document.getElementById('dropArea');
+    const fileInput = document.getElementById('fileInput');
+    const thumbs = document.getElementById('thumbnailsContainer');
+    const visionCont = document.getElementById('visionSuggestContainer');
+
+    dropArea.addEventListener('click', () => fileInput.click());
+    dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('bg-primary-subtle'); });
+    dropArea.addEventListener('dragleave', () => dropArea.classList.remove('bg-primary-subtle'));
+    dropArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropArea.classList.remove('bg-primary-subtle');
+      handleFiles(e.dataTransfer.files);
+    });
+    fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+    function handleFiles(files) {
+      for (const f of files) {
+        if (selectedFiles.length >= 5) {
+          showToast('Maximum 5 files allowed', 'warn');
+          break;
+        }
+        if (f.size > 5 * 1024 * 1024) {
+          showToast(`File ${f.name} exceeds 5 MB limit`, 'error');
+          continue;
+        }
+        selectedFiles.push(f);
+      }
+      renderThumbnails();
+
+      // Vision Suggestion for first image
+      if (selectedFiles.length > 0) {
+        requestImageClassification(selectedFiles[0], visionCont, (catId, catName) => {
+          document.getElementById('categorySelect').value = catId;
+        });
+      }
+    }
+
+    function renderThumbnails() {
+      thumbs.innerHTML = selectedFiles.map((f, i) => `
+        <div class="col-4 col-sm-3 col-md-2 position-relative">
+          <img src="${URL.createObjectURL(f)}" class="img-thumbnail rounded-3 w-100" style="height: 80px; object-fit: cover;">
+          <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-circle p-0 cp-del-file" data-idx="${i}" style="width: 20px; height: 20px; font-size: 0.65rem;">&times;</button>
+        </div>
+      `).join('');
+
+      thumbs.querySelectorAll('.cp-del-file').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const idx = parseInt(btn.getAttribute('data-idx'));
+          selectedFiles.splice(idx, 1);
+          renderThumbnails();
+        });
+      });
+    }
+
+    // Submit Grievance
+    const btnSubmit = document.getElementById('btnSubmitGrievance');
+    btnSubmit.addEventListener('click', async () => {
+      btnSubmit.disabled = true;
+      btnSubmit.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Registering in municipal ledger...`;
+
+      const formData = new FormData();
+      formData.append('title', titleInp.value.trim());
+      formData.append('description', descInp.value.trim());
+      formData.append('categoryId', document.getElementById('categorySelect').value);
+      formData.append('urgency', urgencyRange.value);
+      formData.append('latitude', document.getElementById('complaintLat').value);
+      formData.append('longitude', document.getElementById('complaintLng').value);
+      formData.append('address', document.getElementById('complaintAddress').value.trim());
+      formData.append('anonymous', document.getElementById('anonymousSwitch').checked);
+      formData.append('confirmNotDuplicate', 'true');
+
+      for (const f of selectedFiles) {
+        formData.append('files', f);
+      }
+
+      try {
+        const res = await submitComplaint(formData);
+        submittedComplaint = res;
+
+        // Hide Stepper & Panels, show Success
+        document.querySelector('.cp-stepper').classList.add('d-none');
+        step4.classList.add('d-none');
+        stepSuccess.classList.remove('d-none');
+        document.getElementById('successCode').textContent = res.code;
+        document.getElementById('btnViewComplaint').href = `/citizen/complaint.html?id=${res.id}`;
+
+        // QR Card
+        renderQrCard(res.code, 'successQrContainer');
+
+        // Confetti burst!
+        triggerConfetti();
+
+        // PDF Receipt handler
+        document.getElementById('btnDownloadReceipt').addEventListener('click', () => {
+          downloadReceipt(res.id, res.code);
+        });
+
+      } catch (err) {
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = `<i class="bi bi-send-fill me-1"></i>Official Submit`;
+        if (err.status === 409 && err.data && err.data.candidates) {
+          showDuplicateDialog(err.data.candidates, async (supId) => {
+            await supportComplaint(supId);
+            window.location.href = `/citizen/complaint.html?id=${supId}`;
+          }, async () => {
+            // submit with confirmNotDuplicate
+            formData.set('confirmNotDuplicate', 'true');
+            const retryRes = await submitComplaint(formData);
+            window.location.href = `/citizen/complaint.html?id=${retryRes.id}`;
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>

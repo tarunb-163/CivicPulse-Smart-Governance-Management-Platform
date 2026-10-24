@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — CivicPulse Governance Portal</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/animations.css">
+</head>
+<body class="d-flex flex-column min-vh-100 justify-content-between">
+  <div class="cp-aurora-bg">
+    <div class="cp-blob cp-blob-1"></div>
+    <div class="cp-blob cp-blob-2"></div>
+    <div class="cp-blob cp-blob-3"></div>
+  </div>
+
+  <nav class="cp-navbar d-flex justify-content-between align-items-center mt-3">
+    <a href="/index.html" class="cp-nav-brand">
+      <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
+      <span>Civic<span class="cp-gradient-text">Pulse</span></span>
+    </a>
+    <div class="d-flex align-items-center gap-3">
+      <a href="/index.html" class="cp-nav-link">Home</a>
+      <a href="/track.html" class="cp-nav-link">Track</a>
+      <a href="/transparency.html" class="cp-nav-link">Transparency</a>
+      <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
+    </div>
+  </nav>
+
+  <main class="container my-auto py-5">
+    <div class="row g-4 align-items-center justify-content-center">
+      <!-- Left Hero Column -->
+      <div class="col-lg-5 d-none d-lg-block">
+        <div class="pe-4">
+          <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill mb-3">
+            <i class="bi bi-award-fill me-1"></i>Next-Gen Municipal Redressal
+          </div>
+          <h1 class="display-5 fw-bold mb-4">Empowering Citizens with Transparent Governance</h1>
+          <p class="text-muted lead mb-4">
+            Sign in to track your grievances, receive instant SMS/email resolution updates, and participate directly in municipal accountability.
+          </p>
+          <div class="d-flex align-items-center gap-3 p-3 cp-card">
+            <i class="bi bi-patch-check-fill text-success fs-2"></i>
+            <div>
+              <div class="fw-bold">Fast-Track Resolution</div>
+              <small class="text-muted">Strict SLA tracking and automated escalation to municipal department heads.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Form Column -->
+      <div class="col-md-8 col-lg-5">
+        <div class="cp-card p-4 p-sm-5 shadow-2">
+          <div class="text-center mb-4">
+            <h3 class="fw-bold mb-1">Welcome Back</h3>
+            <p class="text-muted small">Sign in with your registered email and password</p>
+          </div>
+
+          <div id="loginAlert" class="alert alert-danger d-none py-2 px-3 small" role="alert"></div>
+
+          <form id="loginForm">
+            <div class="cp-form-group mb-3">
+              <label class="cp-label" for="email">Email Address</label>
+              <div class="input-group">
+                <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="bi bi-envelope"></i></span>
+                <input type="email" id="email" class="form-control cp-input border-start-0" placeholder="name@example.com" required autocomplete="email">
+              </div>
+            </div>
+
+            <div class="cp-form-group mb-3">
+              <div class="d-flex justify-content-between">
+                <label class="cp-label" for="password">Password</label>
+                <a href="/forgot-password.html" class="small text-decoration-none text-primary">Forgot password?</a>
+              </div>
+              <div class="input-group">
+                <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="bi bi-lock"></i></span>
+                <input type="password" id="password" class="form-control cp-input border-start-0 border-end-0" placeholder="••••••••" required autocomplete="current-password">
+                <button type="button" class="btn btn-outline-secondary border-start-0 bg-transparent text-muted" id="togglePasswordBtn"><i class="bi bi-eye"></i></button>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="rememberMe">
+                <label class="form-check-label small text-muted" for="rememberMe">Remember me</label>
+              </div>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn cp-btn-primary w-100 py-2 mb-3">
+              <span id="btnText">Sign In</span>
+              <span id="btnSpinner" class="spinner-border spinner-border-sm d-none ms-2" role="status"></span>
+            </button>
+
+            <div class="text-center">
+              <span class="small text-muted">Don't have an account? </span>
+              <a href="/register.html" class="small text-decoration-none fw-semibold text-primary">Register as Citizen</a>
+            </div>
+          </form>
+
+          <!-- Quick Demo Accounts helper -->
+          <div class="mt-4 pt-3 border-top">
+            <div class="small fw-bold text-muted mb-2">Demo Quick Sign-In (Click to fill):</div>
+            <div class="d-flex flex-wrap gap-2">
+              <button type="button" class="btn btn-xs btn-outline-primary py-0 px-2 rounded-pill demo-fill" data-email="admin@civicpulse.test" data-pwd="Password@123">Admin</button>
+              <button type="button" class="btn btn-xs btn-outline-success py-0 px-2 rounded-pill demo-fill" data-email="officer.roads@civicpulse.test" data-pwd="Password@123">Officer (Roads)</button>
+              <button type="button" class="btn btn-xs btn-outline-info py-0 px-2 rounded-pill demo-fill" data-email="arun@civicpulse.test" data-pwd="Password@123">Citizen (Arun)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="cp-footer-slim">
+    <div>&copy; 2026 CivicPulse Municipal Redressal.</div>
+    <div class="d-flex gap-3">
+      <a href="/privacy.html" class="text-decoration-none text-muted">Privacy Policy</a>
+      <a href="/terms.html" class="text-decoration-none text-muted">Terms</a>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { checkRouteGuard } from '/assets/js/core/router-guard.js';
+    import { login, getHomeRouteForRole } from '/assets/js/core/auth.js';
+    import { showToast } from '/assets/js/core/toast.js';
+    import '/assets/js/core/theme.js';
+    import '/assets/js/ui/magnetic.js';
+
+    checkRouteGuard();
+
+    const form = document.getElementById('loginForm');
+    const alertBox = document.getElementById('loginAlert');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const btnSpinner = document.getElementById('btnSpinner');
+    const pwdInput = document.getElementById('password');
+    const togglePwd = document.getElementById('togglePasswordBtn');
+
+    togglePwd.addEventListener('click', () => {
+      const isPwd = pwdInput.type === 'password';
+      pwdInput.type = isPwd ? 'text' : 'password';
+      togglePwd.querySelector('i').className = isPwd ? 'bi bi-eye-slash' : 'bi bi-eye';
+    });
+
+    document.querySelectorAll('.demo-fill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('email').value = btn.getAttribute('data-email');
+        pwdInput.value = btn.getAttribute('data-pwd');
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      alertBox.classList.add('d-none');
+      submitBtn.disabled = true;
+      btnSpinner.classList.remove('d-none');
+      btnText.textContent = 'Authenticating...';
+
+      const email = document.getElementById('email').value.trim();
+      const password = pwdInput.value;
+
+      try {
+        const data = await login(email, password);
+        showToast('Signed in successfully', 'success');
+
+        const params = new URLSearchParams(window.location.search);
+        const redirect = params.get('redirect');
+        if (redirect) {
+          window.location.href = redirect;
+        } else {
+          window.location.href = getHomeRouteForRole(data.user.role);
+        }
+      } catch (err) {
+        alertBox.textContent = err.message || 'Invalid credentials or account locked';
+        alertBox.classList.remove('d-none');
+        submitBtn.disabled = false;
+        btnSpinner.classList.add('d-none');
+        btnText.textContent = 'Sign In';
+      }
+    });
+  </script>
+</body>
+</html>

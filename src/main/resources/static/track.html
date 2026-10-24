@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Grievance Status — CivicPulse</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/animations.css">
+</head>
+<body class="d-flex flex-column min-vh-100 justify-content-between">
+  <div class="cp-aurora-bg">
+    <div class="cp-blob cp-blob-1"></div>
+    <div class="cp-blob cp-blob-2"></div>
+    <div class="cp-blob cp-blob-3"></div>
+  </div>
+
+  <nav class="cp-navbar d-flex justify-content-between align-items-center mt-3">
+    <a href="/index.html" class="cp-nav-brand">
+      <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
+      <span>Civic<span class="cp-gradient-text">Pulse</span></span>
+    </a>
+    <div class="d-flex align-items-center gap-3">
+      <a href="/index.html" class="cp-nav-link">Home</a>
+      <a href="/track.html" class="cp-nav-link active">Track</a>
+      <a href="/transparency.html" class="cp-nav-link">Transparency</a>
+      <a href="/login.html" class="btn cp-btn-primary cp-btn-sm">Sign In</a>
+      <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
+    </div>
+  </nav>
+
+  <main class="container py-5 my-auto">
+    <div class="text-center mb-5" data-reveal>
+      <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill mb-3">
+        <i class="bi bi-crosshair me-1"></i>Public Citizen Tracking
+      </div>
+      <h1 class="display-5 fw-bold mb-3">Track Grievance Redressal</h1>
+      <p class="text-muted lead mx-auto" style="max-width: 650px;">
+        Enter your unique complaint reference code or scan your QR receipt to view real-time SLA timelines, officer notes, and photographic completion proof.
+      </p>
+
+      <!-- Search Input Box -->
+      <div class="row justify-content-center mt-4">
+        <div class="col-md-8 col-lg-6">
+          <form id="trackForm" class="d-flex gap-2 p-2 cp-card rounded-pill shadow-2">
+            <input type="text" id="trackCodeInput" class="form-control border-0 shadow-none bg-transparent px-3 cp-mono" placeholder="Enter code (e.g. CP-2026-000001)" required>
+            <button type="submit" class="btn cp-btn-primary rounded-pill px-4">
+              <i class="bi bi-search me-1"></i>Track
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="trackLoading" class="text-center py-5 d-none">
+      <div class="spinner-border text-primary" role="status"></div>
+      <div class="text-muted small mt-2">Retrieving real-time municipal records...</div>
+    </div>
+
+    <!-- Error State -->
+    <div id="trackNotFound" class="alert alert-warning text-center mx-auto d-none" style="max-width: 600px;">
+      <i class="bi bi-exclamation-triangle-fill fs-4 me-2"></i>
+      No grievance record was found with reference code <strong id="errCodeText"></strong>. Please check the digits and try again.
+    </div>
+
+    <!-- Result Card -->
+    <div id="trackResult" class="d-none animate__animated animate__fadeIn">
+      <div class="row g-4">
+        <!-- Main Timeline & Details -->
+        <div class="col-lg-8">
+          <div class="cp-card p-4 mb-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 border-bottom pb-3 mb-3">
+              <div>
+                <span class="cp-mono fw-bold fs-4 text-primary" id="resCode">CP-2026-000001</span>
+                <span id="resStatusChip" class="ms-2"></span>
+              </div>
+              <div id="resSlaRing"></div>
+            </div>
+
+            <h4 class="fw-bold mb-2" id="resTitle">Grievance Title</h4>
+            <p class="text-muted" id="resDescription">Detailed description of the civic problem.</p>
+
+            <div class="row g-3 p-3 rounded-3 bg-light my-3">
+              <div class="col-sm-6">
+                <small class="text-muted d-block">Department</small>
+                <strong id="resDept">Roads & Infrastructure</strong>
+              </div>
+              <div class="col-sm-6">
+                <small class="text-muted d-block">Category</small>
+                <strong id="resCategory">Pothole Repair</strong>
+              </div>
+              <div class="col-sm-6">
+                <small class="text-muted d-block">Registered On</small>
+                <span id="resCreatedAt" class="text-secondary"></span>
+              </div>
+              <div class="col-sm-6">
+                <small class="text-muted d-block">Location</small>
+                <span id="resLocation" class="text-secondary"></span>
+              </div>
+            </div>
+
+            <!-- Merged banner if applicable -->
+            <div id="resMergedBanner" class="alert alert-secondary d-none">
+              <i class="bi bi-intersect me-2 text-primary"></i>
+              This grievance was merged into parent ticket: <a href="#" id="resMergedLink" class="fw-bold cp-mono text-decoration-none"></a>
+            </div>
+
+            <h5 class="fw-bold mt-4 mb-3"><i class="bi bi-clock-history text-primary me-2"></i>Workflow Timeline</h5>
+            <div class="cp-timeline" id="resTimeline"></div>
+          </div>
+        </div>
+
+        <!-- Right Side: QR & Resolution Proof -->
+        <div class="col-lg-4">
+          <div id="resQrContainer" class="mb-4"></div>
+
+          <div class="cp-card p-4" id="resProofCard">
+            <h6 class="fw-bold mb-3"><i class="bi bi-camera-fill text-primary me-2"></i>Resolution Proof</h6>
+            <div id="resProofContainer" class="text-center text-muted small py-3">
+              No resolution photo uploaded yet.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="cp-footer-slim">
+    <div>&copy; 2026 CivicPulse Municipal Redressal.</div>
+    <div class="d-flex gap-3">
+      <a href="/privacy.html" class="text-decoration-none text-muted">Privacy Policy</a>
+      <a href="/terms.html" class="text-decoration-none text-muted">Terms</a>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { apiRequest } from '/assets/js/core/api.js';
+    import { escapeHtml, formatDate, getStatusChip, renderSlaRing } from '/assets/js/core/utils.js';
+    import { renderQrCard } from '/assets/js/modules/qr.js';
+    import '/assets/js/core/theme.js';
+    import '/assets/js/ui/reveal.js';
+    import '/assets/js/ui/palette.js';
+    import '/assets/js/ui/bot.js';
+
+    const form = document.getElementById('trackForm');
+    const input = document.getElementById('trackCodeInput');
+    const loading = document.getElementById('trackLoading');
+    const notFound = document.getElementById('trackNotFound');
+    const errCodeText = document.getElementById('errCodeText');
+    const result = document.getElementById('trackResult');
+
+    async function doTrack(code) {
+      if (!code) return;
+      code = code.trim().toUpperCase();
+      input.value = code;
+
+      loading.classList.remove('d-none');
+      notFound.classList.add('d-none');
+      result.classList.add('d-none');
+
+      try {
+        const c = await apiRequest(`/public/complaints/code/${encodeURIComponent(code)}`, { suppressToast: true });
+        loading.classList.add('d-none');
+        result.classList.remove('d-none');
+
+        document.getElementById('resCode').textContent = c.code;
+        document.getElementById('resStatusChip').innerHTML = getStatusChip(c.status);
+        document.getElementById('resSlaRing').innerHTML = renderSlaRing(c.slaDueAt, c.status);
+        document.getElementById('resTitle').textContent = c.title;
+        document.getElementById('resDescription').textContent = c.description;
+        document.getElementById('resDept').textContent = c.departmentName || 'General';
+        document.getElementById('resCategory').textContent = c.categoryName || 'Civic Issue';
+        document.getElementById('resCreatedAt').textContent = formatDate(c.createdAt);
+        document.getElementById('resLocation').textContent = c.address || 'Ward 7, Davanagere';
+
+        // Merged banner
+        const mergedBanner = document.getElementById('resMergedBanner');
+        if (c.status === 'MERGED' && c.duplicateOfCode) {
+          mergedBanner.classList.remove('d-none');
+          const mLink = document.getElementById('resMergedLink');
+          mLink.textContent = c.duplicateOfCode;
+          mLink.href = `/track.html?code=${encodeURIComponent(c.duplicateOfCode)}`;
+        } else {
+          mergedBanner.classList.add('d-none');
+        }
+
+        // Timeline
+        const timeline = document.getElementById('resTimeline');
+        const history = c.statusHistory || [];
+        if (history.length === 0) {
+          timeline.innerHTML = `<div class="text-muted small">No history logged yet.</div>`;
+        } else {
+          timeline.innerHTML = history.map((h, i) => `
+            <div class="cp-timeline-item ${i === history.length - 1 ? 'active' : ''}">
+              <div class="cp-timeline-node"></div>
+              <div class="cp-timeline-content">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <strong>${escapeHtml(h.toStatus)}</strong>
+                  <small class="text-muted">${formatDate(h.createdAt)}</small>
+                </div>
+                <div class="small text-muted">${escapeHtml(h.remark || 'Status updated')}</div>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        // QR Card
+        renderQrCard(c.code, 'resQrContainer');
+
+        // Resolution proof photo
+        const proofCont = document.getElementById('resProofContainer');
+        if (c.proofAttachmentUrl) {
+          proofCont.innerHTML = `
+            <a href="${c.proofAttachmentUrl}" target="_blank">
+              <img src="${c.proofAttachmentUrl}" alt="Resolution proof" class="img-fluid rounded-3 shadow-sm border">
+            </a>
+            <small class="text-success fw-semibold mt-2 d-block"><i class="bi bi-check-circle-fill me-1"></i>Official Completion Photo</small>
+          `;
+        } else {
+          proofCont.innerHTML = `<span class="text-muted small">No resolution photo uploaded yet.</span>`;
+        }
+
+      } catch (err) {
+        loading.classList.add('d-none');
+        errCodeText.textContent = code;
+        notFound.classList.remove('d-none');
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const code = input.value;
+      if (code) {
+        const url = new URL(window.location);
+        url.searchParams.set('code', code.trim().toUpperCase());
+        window.history.pushState({}, '', url);
+        doTrack(code);
+      }
+    });
+
+    // Auto-load if ?code= provided
+    const params = new URLSearchParams(window.location.search);
+    const codeParam = params.get('code');
+    if (codeParam) {
+      doTrack(codeParam);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Officer Kanban Board — CivicPulse</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/animations.css">
+</head>
+<body>
+  <div class="cp-aurora-bg">
+    <div class="cp-blob cp-blob-1"></div>
+    <div class="cp-blob cp-blob-2"></div>
+  </div>
+
+  <div class="cp-app-layout">
+    <aside class="cp-sidebar" id="cpSidebar">
+      <div class="cp-sidebar-header">
+        <a href="/officer/dashboard.html" class="cp-nav-brand">
+          <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
+          <span class="cp-sidebar-text">Civic<span class="cp-gradient-text">Pulse</span></span>
+        </a>
+      </div>
+      <ul class="cp-sidebar-menu">
+        <li class="cp-sidebar-item"><a href="/officer/dashboard.html" class="cp-sidebar-link"><i class="bi bi-speedometer2"></i><span class="cp-sidebar-text">Dashboard</span></a></li>
+        <li class="cp-sidebar-item"><a href="/officer/queue.html" class="cp-sidebar-link"><i class="bi bi-inbox-fill"></i><span class="cp-sidebar-text">Work Queue</span></a></li>
+        <li class="cp-sidebar-item"><a href="/officer/board.html" class="cp-sidebar-link active"><i class="bi bi-kanban-fill"></i><span class="cp-sidebar-text">Kanban Board</span></a></li>
+      </ul>
+      <div class="p-3 border-top">
+        <button id="logoutBtn" class="cp-btn cp-btn-ghost w-100 justify-content-start text-danger">
+          <i class="bi bi-box-arrow-right me-2"></i><span class="cp-sidebar-text">Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <div class="cp-main-content">
+      <header class="cp-topbar">
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-sm cp-btn-ghost d-lg-none" id="sidebarToggle"><i class="bi bi-list fs-4"></i></button>
+          <h5 class="fw-bold mb-0">Workflow Kanban Board</h5>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <a href="/officer/queue.html" class="btn btn-sm btn-outline-secondary rounded-pill"><i class="bi bi-list-ul me-1"></i>List View</a>
+          <button class="btn btn-sm cp-btn-ghost cp-open-palette" title="Search (Ctrl+K)"><i class="bi bi-search"></i></button>
+          <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
+        </div>
+      </header>
+
+      <div class="cp-page-container">
+        <!-- 3-Column Kanban Board -->
+        <div class="cp-kanban-board">
+          <!-- Col 1: Assigned / Backlog -->
+          <div class="cp-kanban-col">
+            <div class="cp-kanban-header">
+              <span class="text-primary"><i class="bi bi-inbox-fill me-2"></i>Assigned (<span id="countAssigned">0</span>)</span>
+            </div>
+            <div class="cp-kanban-cards" id="colAssigned" data-status="ASSIGNED">
+              <div class="text-center py-4 text-muted small"><span class="spinner-border spinner-border-sm me-2"></span>Loading...</div>
+            </div>
+          </div>
+
+          <!-- Col 2: In Progress -->
+          <div class="cp-kanban-col">
+            <div class="cp-kanban-header">
+              <span class="text-warning"><i class="bi bi-gear-wide-connected me-2"></i>In Progress (<span id="countInProgress">0</span>)</span>
+            </div>
+            <div class="cp-kanban-cards" id="colInProgress" data-status="IN_PROGRESS">
+              <div class="text-center py-4 text-muted small"><span class="spinner-border spinner-border-sm me-2"></span>Loading...</div>
+            </div>
+          </div>
+
+          <!-- Col 3: Resolved -->
+          <div class="cp-kanban-col">
+            <div class="cp-kanban-header">
+              <span class="text-success"><i class="bi bi-check-circle-fill me-2"></i>Resolved (<span id="countResolved">0</span>)</span>
+            </div>
+            <div class="cp-kanban-cards" id="colResolved" data-status="RESOLVED">
+              <div class="text-center py-4 text-muted small"><span class="spinner-border spinner-border-sm me-2"></span>Loading...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="cp-footer-slim">
+        <div>&copy; 2026 CivicPulse Municipal Redressal.</div>
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+  <script type="module">
+    import { checkRouteGuard } from '/assets/js/core/router-guard.js';
+    import { logout } from '/assets/js/core/auth.js';
+    import { apiRequest } from '/assets/js/core/api.js';
+    import { showToast } from '/assets/js/core/toast.js';
+    import { escapeHtml, renderSlaRing, renderPriorityBadge } from '/assets/js/core/utils.js';
+    import { updateStatus, openOfficerWorkspaceDrawer } from '/assets/js/modules/officer.js';
+    import '/assets/js/core/theme.js';
+    import '/assets/js/ui/palette.js';
+    import '/assets/js/ui/bot.js';
+
+    checkRouteGuard(['OFFICER', 'DEPT_HEAD', 'ADMIN']);
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+      document.getElementById('cpSidebar').classList.toggle('show');
+    });
+
+    const colAssigned = document.getElementById('colAssigned');
+    const colInProgress = document.getElementById('colInProgress');
+    const colResolved = document.getElementById('colResolved');
+
+    let allComplaints = [];
+
+    async function loadKanban() {
+      try {
+        const board = await apiRequest('/officer/kanban');
+        allComplaints = [
+          ...(board.assigned || []),
+          ...(board.inProgress || []),
+          ...(board.resolved || [])
+        ];
+
+        document.getElementById('countAssigned').textContent = (board.assigned || []).length;
+        document.getElementById('countInProgress').textContent = (board.inProgress || []).length;
+        document.getElementById('countResolved').textContent = (board.resolved || []).length;
+
+        renderCol(colAssigned, board.assigned || []);
+        renderCol(colInProgress, board.inProgress || []);
+        renderCol(colResolved, board.resolved || []);
+
+        initSortables();
+      } catch (err) {
+        showToast('Failed to load kanban cards', 'error');
+      }
+    }
+
+    function renderCol(colEl, items) {
+      if (items.length === 0) {
+        colEl.innerHTML = `<div class="text-center py-4 text-muted small">No cards</div>`;
+        return;
+      }
+      colEl.innerHTML = items.map(c => `
+        <div class="cp-kanban-card" data-id="${c.id}">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <span class="cp-mono fw-bold text-primary small">${escapeHtml(c.code)}</span>
+            ${renderSlaRing(c.slaDueAt, c.status)}
+          </div>
+          <div class="fw-semibold small mb-1">${escapeHtml(c.title)}</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="badge bg-secondary-subtle text-dark" style="font-size: 0.7rem;">${escapeHtml(c.categoryName || 'General')}</span>
+            <button type="button" class="btn btn-xs btn-outline-primary py-0 px-2 rounded-pill cp-card-click" data-id="${c.id}" style="font-size: 0.7rem;">
+              Drawer &rarr;
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      colEl.querySelectorAll('.cp-card-click').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = parseInt(btn.getAttribute('data-id'));
+          const comp = allComplaints.find(x => x.id === id);
+          if (comp) {
+            openOfficerWorkspaceDrawer(comp, () => loadKanban());
+          }
+        });
+      });
+    }
+
+    let sortableInstances = [];
+
+    function initSortables() {
+      sortableInstances.forEach(s => s.destroy());
+      sortableInstances = [];
+
+      [colAssigned, colInProgress, colResolved].forEach(col => {
+        const s = new Sortable(col, {
+          group: 'kanban',
+          animation: 200,
+          ghostClass: 'sortable-ghost',
+          chosenClass: 'sortable-chosen',
+          onEnd: async function (evt) {
+            const itemEl = evt.item;
+            const targetStatus = evt.to.getAttribute('data-status');
+            const complaintId = itemEl.getAttribute('data-id');
+
+            if (!targetStatus || evt.from === evt.to) return;
+
+            const remark = prompt(`Enter remark for moving to ${targetStatus}:`);
+            if (!remark) {
+              // cancel move
+              evt.from.appendChild(itemEl);
+              return;
+            }
+
+            try {
+              await updateStatus(complaintId, targetStatus, remark);
+              showToast(`Status updated to ${targetStatus}`, 'success');
+              loadKanban();
+            } catch (err) {
+              // revert
+              loadKanban();
+            }
+          }
+        });
+        sortableInstances.push(s);
+      });
+    }
+
+    loadKanban();
+  </script>
+</body>
+</html>

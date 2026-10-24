@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Citizen Registration — CivicPulse</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/animations.css">
+</head>
+<body class="d-flex flex-column min-vh-100 justify-content-between">
+  <div class="cp-aurora-bg">
+    <div class="cp-blob cp-blob-1"></div>
+    <div class="cp-blob cp-blob-2"></div>
+    <div class="cp-blob cp-blob-3"></div>
+  </div>
+
+  <nav class="cp-navbar d-flex justify-content-between align-items-center mt-3">
+    <a href="/index.html" class="cp-nav-brand">
+      <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
+      <span>Civic<span class="cp-gradient-text">Pulse</span></span>
+    </a>
+    <div class="d-flex align-items-center gap-3">
+      <a href="/index.html" class="cp-nav-link">Home</a>
+      <a href="/track.html" class="cp-nav-link">Track</a>
+      <a href="/login.html" class="cp-nav-link">Sign In</a>
+      <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
+    </div>
+  </nav>
+
+  <main class="container my-auto py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-9 col-lg-6">
+        <div class="cp-card p-4 p-sm-5 shadow-2">
+          <div class="text-center mb-4">
+            <h3 class="fw-bold mb-1">Create Citizen Account</h3>
+            <p class="text-muted small">Join your municipal portal to report issues and track resolutions</p>
+          </div>
+
+          <div id="registerAlert" class="alert alert-danger d-none py-2 px-3 small" role="alert"></div>
+
+          <form id="registerForm">
+            <div class="cp-form-group mb-3">
+              <label class="cp-label" for="name">Full Name *</label>
+              <div class="input-group">
+                <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="bi bi-person"></i></span>
+                <input type="text" id="name" class="form-control cp-input border-start-0" placeholder="e.g. Arun Kumar" required>
+              </div>
+            </div>
+
+            <div class="cp-form-group mb-3">
+              <label class="cp-label" for="email">Email Address *</label>
+              <div class="input-group">
+                <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="bi bi-envelope"></i></span>
+                <input type="email" id="email" class="form-control cp-input border-start-0" placeholder="arun@example.com" required>
+              </div>
+            </div>
+
+            <div class="cp-form-group mb-3">
+              <label class="cp-label" for="phone">Phone Number (Optional)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="bi bi-telephone"></i></span>
+                <input type="tel" id="phone" class="form-control cp-input border-start-0" placeholder="e.g. 9876543210">
+              </div>
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-sm-6">
+                <div class="cp-form-group mb-0">
+                  <label class="cp-label" for="password">Password *</label>
+                  <input type="password" id="password" class="form-control cp-input" placeholder="Min. 8 chars" required minlength="8">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="cp-form-group mb-0">
+                  <label class="cp-label" for="confirmPassword">Confirm Password *</label>
+                  <input type="password" id="confirmPassword" class="form-control cp-input" placeholder="Repeat password" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mandatory Consent Checkbox -->
+            <div class="form-check mb-4 p-2 rounded-2" id="consentGroup">
+              <input class="form-check-input ms-0 me-2" type="checkbox" id="acceptedTerms" required>
+              <label class="form-check-label small text-muted" for="acceptedTerms">
+                I agree to the <a href="/terms.html" target="_blank" class="text-primary text-decoration-none">Terms of Service</a> and acknowledge the <a href="/privacy.html" target="_blank" class="text-primary text-decoration-none">Privacy Policy</a> (v1.0).
+              </label>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn cp-btn-primary w-100 py-2 mb-3">
+              <span id="btnText">Create Account</span>
+              <span id="btnSpinner" class="spinner-border spinner-border-sm d-none ms-2" role="status"></span>
+            </button>
+
+            <div class="text-center">
+              <span class="small text-muted">Already registered? </span>
+              <a href="/login.html" class="small text-decoration-none fw-semibold text-primary">Sign In</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="cp-footer-slim">
+    <div>&copy; 2026 CivicPulse Municipal Redressal.</div>
+    <div class="d-flex gap-3">
+      <a href="/privacy.html" class="text-decoration-none text-muted">Privacy Policy</a>
+      <a href="/terms.html" class="text-decoration-none text-muted">Terms</a>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { checkRouteGuard } from '/assets/js/core/router-guard.js';
+    import { register } from '/assets/js/core/auth.js';
+    import { showToast } from '/assets/js/core/toast.js';
+    import '/assets/js/core/theme.js';
+    import '/assets/js/ui/magnetic.js';
+
+    checkRouteGuard();
+
+    const form = document.getElementById('registerForm');
+    const alertBox = document.getElementById('registerAlert');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const btnSpinner = document.getElementById('btnSpinner');
+    const consentGroup = document.getElementById('consentGroup');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      alertBox.classList.add('d-none');
+
+      const accepted = document.getElementById('acceptedTerms').checked;
+      if (!accepted) {
+        consentGroup.classList.add('cp-shake', 'border', 'border-danger');
+        setTimeout(() => consentGroup.classList.remove('cp-shake'), 400);
+        showToast('Please accept the Terms of Service to register', 'warn');
+        return;
+      }
+
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirmPassword').value;
+      if (password !== confirm) {
+        alertBox.textContent = 'Passwords do not match';
+        alertBox.classList.remove('d-none');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      btnSpinner.classList.remove('d-none');
+      btnText.textContent = 'Creating Account...';
+
+      const citizenData = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim() || null,
+        password: password,
+        acceptedTerms: true
+      };
+
+      try {
+        await register(citizenData);
+        showToast('Account created successfully! Verification email sent.', 'success');
+        setTimeout(() => {
+          window.location.href = '/login.html?registered=true';
+        }, 1200);
+      } catch (err) {
+        alertBox.textContent = err.message || 'Registration failed';
+        alertBox.classList.remove('d-none');
+        submitBtn.disabled = false;
+        btnSpinner.classList.add('d-none');
+        btnText.textContent = 'Create Account';
+      }
+    });
+  </script>
+</body>
+</html>

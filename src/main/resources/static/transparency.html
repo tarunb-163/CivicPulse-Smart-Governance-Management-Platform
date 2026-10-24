@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Transparency Dashboard — CivicPulse</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/animations.css">
+  <style>
+    .cp-marquee {
+      overflow: hidden;
+      white-space: nowrap;
+      box-sizing: border-box;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: var(--r-pill);
+      padding: 10px 0;
+    }
+    .cp-marquee-content {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 35s linear infinite;
+    }
+    @keyframes marquee {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(-100%, 0); }
+    }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100 justify-content-between">
+  <div class="cp-aurora-bg">
+    <div class="cp-blob cp-blob-1"></div>
+    <div class="cp-blob cp-blob-2"></div>
+    <div class="cp-blob cp-blob-3"></div>
+  </div>
+
+  <nav class="cp-navbar d-flex justify-content-between align-items-center mt-3">
+    <a href="/index.html" class="cp-nav-brand">
+      <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
+      <span>Civic<span class="cp-gradient-text">Pulse</span></span>
+    </a>
+    <div class="d-flex align-items-center gap-3">
+      <a href="/index.html" class="cp-nav-link">Home</a>
+      <a href="/track.html" class="cp-nav-link">Track</a>
+      <a href="/transparency.html" class="cp-nav-link active">Transparency</a>
+      <a href="/login.html" class="btn cp-btn-primary cp-btn-sm">Sign In</a>
+      <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
+    </div>
+  </nav>
+
+  <main class="container py-5 my-auto">
+    <!-- Header -->
+    <div class="text-center mb-5" data-reveal>
+      <div class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill mb-3">
+        <i class="bi bi-eye-fill me-1"></i>Open Municipal Governance
+      </div>
+      <h1 class="display-5 fw-bold mb-3">Public Transparency Portal</h1>
+      <p class="text-muted lead mx-auto" style="max-width: 680px;">
+        Real-time municipal performance metrics, resolution rates, department accountability leaderboards, and geo-incident distribution.
+      </p>
+    </div>
+
+    <!-- Live Resolved Ticker Marquee -->
+    <div class="cp-marquee mb-5" data-reveal>
+      <div class="cp-marquee-content" id="resolvedTicker">
+        <span class="me-4"><i class="bi bi-check-circle-fill text-success me-1"></i> CP-2026-000012: Pothole repaired on PB Road (Ward 7)</span>
+        <span class="me-4"><i class="bi bi-check-circle-fill text-success me-1"></i> CP-2026-000018: Streetlight restored in Mandipet</span>
+        <span class="me-4"><i class="bi bi-check-circle-fill text-success me-1"></i> CP-2026-000025: Pipeline burst fixed in MCC B Block</span>
+        <span class="me-4"><i class="bi bi-check-circle-fill text-success me-1"></i> CP-2026-000031: Garbage clearance verified at Gandhi Circle</span>
+      </div>
+    </div>
+
+    <!-- KPI Cards Strip -->
+    <div class="row g-4 mb-5" data-reveal>
+      <div class="col-sm-6 col-lg-3">
+        <div class="cp-card cp-tilt text-center p-4">
+          <div class="text-primary fs-1 mb-2"><i class="bi bi-card-checklist"></i></div>
+          <div class="display-6 fw-bold" id="statTotal" data-counter="0">0</div>
+          <div class="text-muted small mt-1">Total Grievances Registered</div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="cp-card cp-tilt text-center p-4">
+          <div class="text-success fs-1 mb-2"><i class="bi bi-check-circle-fill"></i></div>
+          <div class="display-6 fw-bold text-success" id="statResolved" data-counter="0">0</div>
+          <div class="text-muted small mt-1">Grievances Resolved</div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="cp-card cp-tilt text-center p-4">
+          <div class="text-info fs-1 mb-2"><i class="bi bi-percent"></i></div>
+          <div class="display-6 fw-bold text-info" id="statRate">0%</div>
+          <div class="text-muted small mt-1">Resolution Compliance Rate</div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="cp-card cp-tilt text-center p-4">
+          <div class="text-warning fs-1 mb-2"><i class="bi bi-clock-history"></i></div>
+          <div class="display-6 fw-bold" id="statAvgTime">28.4h</div>
+          <div class="text-muted small mt-1">Average Resolution Time</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts & Leaderboard Row -->
+    <div class="row g-4 mb-5">
+      <!-- Category Breakdown Chart -->
+      <div class="col-lg-6">
+        <div class="cp-card p-4 h-100">
+          <h5 class="fw-bold mb-3"><i class="bi bi-pie-chart-fill text-primary me-2"></i>Grievance Distribution by Category</h5>
+          <div style="height: 320px;">
+            <canvas id="transparencyCatChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Department Leaderboard -->
+      <div class="col-lg-6">
+        <div class="cp-card p-4 h-100">
+          <h5 class="fw-bold mb-3"><i class="bi bi-trophy-fill text-warning me-2"></i>Municipal Department Leaderboard</h5>
+          <div class="list-group list-group-flush" id="leaderboardList">
+            <div class="p-4 text-center text-muted"><span class="spinner-border spinner-border-sm me-2"></span>Loading leaderboard...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Geo-Incident Heatmap -->
+    <div class="cp-card p-4" data-reveal>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h5 class="fw-bold mb-1"><i class="bi bi-map-fill text-danger me-2"></i>City-Wide Grievance Density Heatmap</h5>
+          <p class="text-muted small mb-0">Visual distribution of municipal incidents reported across Davanagere districts</p>
+        </div>
+        <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill">Live Geo Data</span>
+      </div>
+      <div id="transparencyMap" style="height: 420px; border-radius: var(--r-md); overflow: hidden;"></div>
+    </div>
+  </main>
+
+  <footer class="cp-footer-slim">
+    <div>&copy; 2026 CivicPulse Municipal Redressal.</div>
+    <div class="d-flex gap-3">
+      <a href="/privacy.html" class="text-decoration-none text-muted">Privacy Policy</a>
+      <a href="/terms.html" class="text-decoration-none text-muted">Terms</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <script type="module">
+    import { apiRequest } from '/assets/js/core/api.js';
+    import { escapeHtml } from '/assets/js/core/utils.js';
+    import { renderCategoryChart } from '/assets/js/modules/charts.js';
+    import { initHeatmap } from '/assets/js/modules/map.js';
+    import { animateCounter } from '/assets/js/ui/counter.js';
+    import '/assets/js/core/theme.js';
+    import '/assets/js/ui/reveal.js';
+    import '/assets/js/ui/tilt.js';
+    import '/assets/js/ui/bot.js';
+
+    async function loadTransparencyData() {
+      try {
+        const stats = await apiRequest('/public/stats');
+
+        const elTotal = document.getElementById('statTotal');
+        const elResolved = document.getElementById('statResolved');
+        const elRate = document.getElementById('statRate');
+        const elAvg = document.getElementById('statAvgTime');
+
+        if (stats.totalComplaints !== undefined) {
+          animateCounter(elTotal, stats.totalComplaints);
+          animateCounter(elResolved, stats.resolvedComplaints || 0);
+
+          const rate = stats.totalComplaints > 0
+            ? Math.round(((stats.resolvedComplaints || 0) / stats.totalComplaints) * 100)
+            : 0;
+          elRate.textContent = `${rate}%`;
+        }
+
+        if (stats.avgResolutionHours !== undefined) {
+          elAvg.textContent = `${stats.avgResolutionHours.toFixed(1)}h`;
+        }
+
+        // Leaderboard
+        const lb = stats.departmentLeaderboard || [];
+        const lbContainer = document.getElementById('leaderboardList');
+        if (lb.length === 0) {
+          lbContainer.innerHTML = `<div class="p-3 text-center text-muted">No department data available.</div>`;
+        } else {
+          lbContainer.innerHTML = lb.map((d, i) => `
+            <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom py-3">
+              <div class="d-flex align-items-center gap-3">
+                <span class="badge ${i === 0 ? 'bg-warning text-dark' : (i === 1 ? 'bg-secondary text-white' : 'bg-light text-dark border')} rounded-circle p-2" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                  ${i + 1}
+                </span>
+                <div>
+                  <h6 class="mb-0 fw-bold">${escapeHtml(d.departmentName)}</h6>
+                  <small class="text-muted">${d.totalAssigned || 0} assigned · ${d.resolvedCount || 0} resolved</small>
+                </div>
+              </div>
+              <div class="text-end">
+                <span class="badge bg-success-subtle text-success fs-6">${Math.round(d.resolutionRate || 0)}%</span>
+                <small class="d-block text-muted" style="font-size: 0.75rem;">Compliance</small>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        // Category Chart
+        const catMap = stats.categoryCounts || {};
+        const catLabels = Object.keys(catMap);
+        const catCounts = Object.values(catMap);
+        if (catLabels.length > 0) {
+          renderCategoryChart('transparencyCatChart', catLabels, catCounts);
+        }
+
+        // Heatmap
+        const points = stats.heatmapPoints || [];
+        initHeatmap('transparencyMap', points);
+
+      } catch (err) {
+        console.error('Failed to load transparency metrics', err);
+      }
+    }
+
+    loadTransparencyData();
+  </script>
+</body>
+</html>
