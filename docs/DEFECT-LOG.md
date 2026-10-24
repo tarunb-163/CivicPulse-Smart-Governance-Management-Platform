@@ -15,6 +15,7 @@ This document tracks all defects found during the audit, test, and debug process
 |---|---|---|---|---|---|
 | DEF-001 | S2 | backend | Phase C Audit | FIXED | `NotificationController` rejected POST/PATCH on `/{id}/read` and `GlobalExceptionHandler` returned 500 on unsupported methods |
 | DEF-002 | S3 | db/devops | Phase A Static Scan | FIXED | `application-prod.yml` had `ddl-auto: update` and `src/main/resources/db/schema.sql` was missing |
+| DEF-003 | S2 | backend | Phase C Deep Audit | FIXED | `ComplaintResponse` leaked citizen email, phone, and user ID to unauthenticated callers on public tracking endpoint |
 
 ---
 
@@ -48,4 +49,17 @@ This document tracks all defects found during the audit, test, and debug process
 - **Fix:** Created `src/main/resources/db/schema.sql` with full MySQL 8 DDL matching PRD section 7, and updated `application-prod.yml` to `ddl-auto: ${DDL_AUTO:validate}`.
 - **Regression Test:** Verified schema file syntax and application build.
 - **Status:** `FIXED`
+
+### DEF-003: Public Tracking Leaked Citizen Email, Phone, and User ID to Unauthenticated Callers
+
+- **ID:** `DEF-003`
+- **Severity:** `S2` (Security / Privacy: PII leak in public API)
+- **Area:** `backend`
+- **Found by:** Phase C Deep Backend Verification (`scripts/audit-backend-deep.ps1`)
+- **Symptom:** Calling unauthenticated `GET /api/v1/public/complaints/track/{code}` returned `citizenEmail`, `citizenPhone`, and internal `citizenId` when a grievance was submitted non-anonymously.
+- **Root Cause:** In `ComplaintResponse.fromEntity(Complaint c, User currentUser)`, `canSeeIdentity` evaluated to `true` whenever `!c.isAnonymous()`, without checking whether the requester is the complaint owner or a privileged staff member (`OFFICER`, `DEPT_HEAD`, `ADMIN`).
+- **Fix:** In `ComplaintResponse.java`, separated citizen display name visibility from contact detail visibility (`canSeeEmail = isOwner || (isPrivileged && !c.isAnonymous())`). For unauthenticated or public viewers of non-anonymous complaints, only the citizen's display name is shown, keeping email, phone, and internal user ID strictly private.
+- **Regression Test:** `scripts/audit-backend-deep.ps1` (Section 4 anti-leak checks) and `ComplaintResponseTest`.
+- **Status:** `FIXED`
+
 

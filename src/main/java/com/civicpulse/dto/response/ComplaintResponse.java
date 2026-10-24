@@ -69,7 +69,11 @@ public class ComplaintResponse {
         if (c == null) return null;
 
         boolean isOwner = currentUserId != null && c.getCitizen() != null && currentUserId.equals(c.getCitizen().getId());
-        boolean canSeeIdentity = !c.isAnonymous() || isOwner || isPrivileged;
+        // Complainant email is confidential; never leaked publicly or to non-owners unless privileged on non-anonymous complaints
+        boolean canSeeEmail = isOwner || (isPrivileged && !c.isAnonymous());
+        // For anonymous complaints, identity is hidden from public and officers (only owner sees their own)
+        boolean canSeeIdentity = (!c.isAnonymous() && currentUserId != null) || isOwner;
+        boolean canSeeCitizenName = !c.isAnonymous() || isOwner;
 
         boolean isOverdue = false;
         Double remainingHours = null;
@@ -93,9 +97,9 @@ public class ComplaintResponse {
                 .category(CategoryResponse.fromEntity(c.getCategory()))
                 .department(DepartmentResponse.fromEntity(c.getDepartment()))
                 .citizenId(canSeeIdentity && c.getCitizen() != null ? c.getCitizen().getId() : null)
-                .citizenName(canSeeIdentity && c.getCitizen() != null ? c.getCitizen().getName() : "Anonymous Citizen")
-                .citizenEmail(canSeeIdentity && c.getCitizen() != null ? c.getCitizen().getEmail() : null)
-                .assignedOfficer(UserResponse.fromEntity(c.getAssignedOfficer()))
+                .citizenName(canSeeCitizenName && c.getCitizen() != null ? c.getCitizen().getName() : "Anonymous Citizen")
+                .citizenEmail(canSeeEmail && c.getCitizen() != null ? c.getCitizen().getEmail() : null)
+                .assignedOfficer(isPrivileged ? UserResponse.fromEntity(c.getAssignedOfficer()) : null)
                 .assignedOfficerName(c.getAssignedOfficer() != null ? c.getAssignedOfficer().getName() : null)
                 .status(c.getStatus())
                 .priorityScore(c.getPriorityScore())
