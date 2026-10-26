@@ -37,7 +37,7 @@ export function initTheme() {
   });
 
   // Setup contrast toggle buttons
-  document.querySelectorAll('.cp-contrast-btn, .cp-contrast-toggle').forEach(btn => {
+  document.querySelectorAll('.cp-contrast-btn:not(.cp-theme-toggle), .cp-contrast-toggle').forEach(btn => {
     btn.addEventListener('click', toggleContrast);
   });
 

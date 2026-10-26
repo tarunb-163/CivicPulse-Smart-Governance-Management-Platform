@@ -7,18 +7,20 @@
 
 export function initGovUi() {
   // 1. Ticker Pause/Play Control
-  const tickerBtn = document.getElementById('tickerPauseBtn');
-  const tickerTrack = document.querySelector('.cp-ticker-track');
+  const tickerBtn = document.getElementById('tickerToggle') || document.getElementById('tickerPauseBtn');
+  const tickerTrack = document.getElementById('tickerText') || document.querySelector('.cp-ticker-text') || document.querySelector('.cp-ticker-track');
   if (tickerBtn && tickerTrack) {
     let isPaused = false;
     tickerBtn.addEventListener('click', () => {
       isPaused = !isPaused;
       if (isPaused) {
         tickerTrack.style.animationPlayState = 'paused';
+        tickerTrack.classList.add('paused');
         tickerBtn.innerHTML = '<i class="bi bi-play-fill"></i> Play';
         tickerBtn.setAttribute('aria-label', 'Play Announcements');
       } else {
         tickerTrack.style.animationPlayState = 'running';
+        tickerTrack.classList.remove('paused');
         tickerBtn.innerHTML = '<i class="bi bi-pause-fill"></i> Pause';
         tickerBtn.setAttribute('aria-label', 'Pause Announcements');
       }
@@ -27,6 +29,7 @@ export function initGovUi() {
     // Automatically pause if reduced motion is preferred
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       tickerTrack.style.animationPlayState = 'paused';
+      tickerTrack.classList.add('paused');
       tickerBtn.innerHTML = '<i class="bi bi-play-fill"></i> Play';
       tickerBtn.setAttribute('aria-label', 'Play Announcements');
     }
