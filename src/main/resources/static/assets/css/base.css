@@ -208,7 +208,8 @@ body {
   flex-shrink: 0;
 }
 
-.cp-brand-text h1 {
+.cp-brand-text h1,
+.cp-brand-text .cp-brand-title {
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--cp-primary);
@@ -217,7 +218,8 @@ body {
   letter-spacing: -0.01em;
 }
 
-[data-theme="dark"] .cp-brand-text h1 {
+[data-theme="dark"] .cp-brand-text h1,
+[data-theme="dark"] .cp-brand-text .cp-brand-title {
   color: #9AB6DD;
 }
 

@@ -18,6 +18,8 @@ This document tracks all defects found during the audit, test, and debug process
 | DEF-003 | S2 | backend | Phase C Deep Audit | FIXED | `ComplaintResponse` leaked citizen email, phone, and user ID to unauthenticated callers on public tracking endpoint |
 | DEF-004 | S2 | backend | Phase D Frontend Audit | FIXED | Missing `NoResourceFoundException` handler returned 500 on missing static resources like `favicon.ico` |
 | DEF-005 | S2 | backend/frontend | Phase D Frontend Audit | FIXED | Controller endpoint and DTO mismatches on `/officer/stats` (LazyInit), `/officer/kanban`, `/admin/keyword-rules`, `/analytics/hotspots`, and `/complaints/my` |
+| DEF-011 | S1 | security/backend | 4A Smoke Suite (SMK) | FIXED | Public documentation, error, and info pages returned 401 Unauthorized due to omission from `SecurityConfig` static resource `permitAll()` |
+| DEF-012 | S2 | frontend/a11y | 4A Smoke Suite (SMK) | FIXED | `citizen/profile.html` called `/users/profile` instead of `/users/me` and informational pages contained duplicate `<h1>` headers violating single `<h1>` hierarchy |
 
 ---
 
@@ -166,6 +168,37 @@ This document tracks all defects found during the audit, test, and debug process
   3. Removed unused import in `BotMessageRequest.java` and cleaned up imports in `WebConfig.java`.
 - **Regression Test:** `mvn clean compile` and IDE diagnostic validation.
 - **Status:** `FIXED`
+
+### DEF-011: Public Documentation, Error, and Informational Pages Returned 401 Unauthorized
+
+- **ID:** `DEF-011`
+- **Severity:** `S1` (Core Public Accessibility & Route Access)
+- **Area:** `security/backend`
+- **Found by:** 4A Smoke Suite (`01-smoke-crawler.spec.js`)
+- **Symptom:** Unauthenticated citizens and visitors navigating to `/accessibility.html`, `/screen-reader.html`, `/sitemap.html`, `/help.html`, `/contact.html`, `/forgot-password.html`, `/reset-password.html`, `/404.html`, `/403.html`, and `/500.html` were blocked with HTTP 401 Unauthorized JSON responses instead of receiving the public HTML pages.
+- **Root Cause:** `SecurityConfig.java` line 98 enumerated a partial list of static HTML assets in `requestMatchers(...).permitAll()` and fell through to `.anyRequest().authenticated()`, omitting newly added public governance pages and error views.
+- **Fix:** Added `"/*.html"` wildcard and explicitly included `/forgot-password.html`, `/reset-password.html`, `/accessibility.html`, `/screen-reader.html`, `/sitemap.html`, `/help.html`, `/contact.html`, `/404.html`, `/403.html`, and `/500.html` in `SecurityConfig.java` `permitAll()`.
+- **Regression Test:** `tests/e2e/suites/01-smoke-crawler.spec.js` (verifies all 28 public and authenticated pages return HTTP 200).
+- **Status:** `FIXED`
+
+### DEF-012: Profile Endpoint Misalignment and Duplicate H1 Header Hierarchy
+
+- **ID:** `DEF-012`
+- **Severity:** `S2` (Functional & Accessibility: Route 404 & WCAG Heading Structure)
+- **Area:** `frontend/a11y`
+- **Found by:** 4A Smoke Suite (`01-smoke-crawler.spec.js`)
+- **Symptom:**
+  1. `citizen/profile.html` threw console errors attempting to fetch `api/v1/users/profile` which was not mapped in `UserController.java` (throwing `NoResourceFoundException`).
+  2. Informational pages (`privacy.html`, `terms.html`, `sitemap.html`, `screen-reader.html`, `help.html`, `contact.html`, `accessibility.html`) contained two `<h1>` tags simultaneously (one in the brand header and one in the page body), violating WCAG 2.1 AA single `<h1>` hierarchy rule.
+- **Root Cause:**
+  1. `citizen/profile.html` invoked `/users/profile` rather than PRD Section 8 canonical `/users/me`.
+  2. Subpages used `<h1 data-i18n="brandName">` in the common header while also specifying `<h1 class="h2 fw-bold text-navy">` for page content.
+- **Fix:**
+  1. Updated `citizen/profile.html` to invoke `/users/me`, and added `@GetMapping({"/me", "/profile"})` and `@PutMapping({"/me", "/profile"})` aliases to `UserController.java`.
+  2. Updated subpages to use `<span class="cp-brand-title">` in the header seal and styled `.cp-brand-title` identically in `base.css`, leaving the page title as the unique `<h1>`.
+- **Regression Test:** `tests/e2e/suites/01-smoke-crawler.spec.js` (all 33 tests pass with 0 console errors and 1 `<h1>` per page).
+- **Status:** `FIXED`
+
 
 
 

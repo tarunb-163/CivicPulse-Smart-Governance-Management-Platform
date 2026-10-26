@@ -23,13 +23,13 @@ public class UserController {
 
     private final AuthService authService;
 
-    @GetMapping("/me")
+    @GetMapping({"/me", "/profile"})
     @Operation(summary = "Get current authenticated user profile")
     public ResponseEntity<UserResponse> getMe(@AuthenticationPrincipal UserPrincipal principal) {
         return ResponseEntity.ok(authService.getCurrentUser(principal));
     }
 
-    @PutMapping("/me")
+    @PutMapping({"/me", "/profile"})
     @Operation(summary = "Update current user profile details")
     public ResponseEntity<UserResponse> updateMe(@AuthenticationPrincipal UserPrincipal principal,
                                                  @Valid @RequestBody UpdateProfileRequest request) {

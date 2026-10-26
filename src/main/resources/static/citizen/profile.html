@@ -225,7 +225,7 @@
 
     async function loadProfile() {
       try {
-        const u = await apiRequest('/users/profile');
+        const u = await apiRequest('/users/me');
         document.getElementById('profName').textContent = u.name;
         document.getElementById('profRole').textContent = u.role;
         document.getElementById('inputName').value = u.name || '';
@@ -237,7 +237,7 @@
     document.getElementById('profileForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       try {
-        await apiRequest('/users/profile', {
+        await apiRequest('/users/me', {
           method: 'PUT',
           body: JSON.stringify({
             name: document.getElementById('inputName').value.trim(),

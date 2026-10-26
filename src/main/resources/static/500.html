@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>500 — Server Error | CivicPulse</title>
+  <title>500 — Internal Server Error | CivicPulse</title>
   <meta name="description" content="An internal server error occurred on the CivicPulse Smart Governance Portal.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="/assets/css/components.css">
 </head>
 <body class="d-flex flex-column min-vh-100 bg-page">
+  <a href="#main-content" class="cp-skip-link">Skip to main content</a>
+
   <!-- National Tricolour Strip -->
   <div class="cp-tricolour-strip" aria-hidden="true"></div>
 
@@ -20,20 +22,39 @@
     Demonstration project. Not an official Government website.
   </div>
 
-  <main class="container my-auto py-5" style="max-width: 540px;">
+  <!-- Header -->
+  <header class="cp-gov-header" role="banner">
+    <div class="cp-gov-header-inner">
+      <a href="/index.html" class="cp-brand-seal" aria-label="CivicPulse Smart Governance Portal - Home">
+        <svg class="cp-emblem-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CivicPulse Emblem">
+          <circle cx="32" cy="32" r="30" stroke="#1F3A6E" stroke-width="3" fill="#FFFFFF"/>
+          <circle cx="32" cy="32" r="24" stroke="#D9531E" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M32 12V52M12 32H52M18 18L46 46M18 46L46 18" stroke="#1F3A6E" stroke-width="1.5"/>
+          <circle cx="32" cy="32" r="8" fill="#1F3A6E"/>
+          <circle cx="32" cy="32" r="4" fill="#FF9933"/>
+        </svg>
+        <div class="cp-brand-text">
+          <span class="cp-brand-title">CivicPulse Smart Governance Portal</span>
+          <span class="cp-portal-sub">Citizen Grievance Redressal Portal</span>
+        </div>
+      </a>
+    </div>
+  </header>
+
+  <main id="main-content" class="container my-auto py-5" style="max-width: 540px;">
     <div class="cp-card text-center p-4 p-sm-5 border-2 shadow-sm">
       <div class="display-3 fw-bold text-danger mb-2">500</div>
       <h1 class="h4 fw-bold text-navy mb-2">Internal Service Error</h1>
-      <p class="text-muted small mb-4">An unexpected system error occurred while processing your request. The technical cell has been notified. Please try again in a few moments.</p>
+      <p class="text-muted small mb-4">Our municipal backend system encountered an unexpected condition while processing your request. The technical team has been notified.</p>
       
       <div class="d-flex justify-content-center gap-2">
-        <a href="/index.html" class="btn cp-btn cp-btn-primary"><i class="bi bi-house-door-fill me-1"></i> Return to Homepage</a>
-        <a href="/contact.html" class="btn cp-btn cp-btn-secondary"><i class="bi bi-telephone-fill me-1"></i> Help Desk</a>
+        <a href="/index.html" class="btn cp-btn cp-btn-primary"><i class="bi bi-house-door-fill me-1"></i> Return Home</a>
+        <button onclick="window.location.reload()" class="btn cp-btn cp-btn-secondary"><i class="bi bi-arrow-clockwise me-1"></i> Retry Action</button>
       </div>
     </div>
   </main>
 
-  <footer class="cp-footer-slim">
+  <footer class="cp-footer-slim" role="contentinfo">
     <div>&copy; 2026 CivicPulse Municipal Redressal developed by Tarun B</div>
     <div class="d-flex gap-3">
       <a href="/help.html" class="text-decoration-none text-muted">Help</a>
