@@ -233,18 +233,23 @@
     async function loadSettings() {
       try {
         const settings = await fetchSettings();
-        tbody.innerHTML = (settings || []).map(s => `
+        tbody.innerHTML = (settings || []).map(s => {
+          const key = s.settingKey || s.key || '';
+          const val = s.settingValue || s.value || '';
+          const desc = s.description || '—';
+          return `
           <tr>
-            <td><code class="text-navy">${escapeHtml(s.key)}</code></td>
-            <td><strong class="text-navy">${escapeHtml(s.value)}</strong></td>
-            <td class="small text-muted">${escapeHtml(s.description || '—')}</td>
+            <td class="cp-mono"><code class="text-navy">${escapeHtml(key)}</code></td>
+            <td><strong class="text-navy">${escapeHtml(val)}</strong></td>
+            <td class="small text-muted">${escapeHtml(desc)}</td>
             <td class="text-end">
-              <button type="button" class="btn btn-sm btn-outline-secondary edit-btn" data-key="${escapeHtml(s.key)}" data-val="${escapeHtml(s.value)}" data-desc="${escapeHtml(s.description || '')}" aria-label="Edit parameter ${escapeHtml(s.key)}">
+              <button type="button" class="btn btn-sm btn-outline-secondary edit-btn" data-key="${escapeHtml(key)}" data-val="${escapeHtml(val)}" data-desc="${escapeHtml(desc)}" aria-label="Edit parameter ${escapeHtml(key)}">
                 Edit
               </button>
             </td>
           </tr>
-        `).join('');
+        `;
+        }).join('');
 
         tbody.querySelectorAll('.edit-btn').forEach(btn => {
           btn.addEventListener('click', () => {

@@ -293,10 +293,13 @@
         tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">No users found matching filter.</td></tr>`;
         return;
       }
-      tbody.innerHTML = users.map(u => `
+      tbody.innerHTML = users.map(u => {
+        const isEnabled = u.enabled !== undefined ? u.enabled : (u.active !== false);
+        const displayName = u.name || u.fullName || 'N/A';
+        return `
         <tr>
           <td><span class="cp-mono text-muted">${u.id}</span></td>
-          <td><strong class="text-navy">${escapeHtml(u.fullName || 'N/A')}</strong></td>
+          <td><strong class="text-navy">${escapeHtml(displayName)}</strong></td>
           <td>${escapeHtml(u.email)}</td>
           <td>
             <span class="badge ${u.role === 'ADMIN' ? 'bg-danger' : u.role.includes('OFFICER') || u.role === 'DEPT_HEAD' ? 'bg-primary' : 'bg-secondary'}">
@@ -305,17 +308,17 @@
           </td>
           <td>${escapeHtml(u.departmentName || 'General / None')}</td>
           <td>
-            <span class="badge ${u.active !== false ? 'bg-success' : 'bg-danger'}">
-              ${u.active !== false ? 'Active' : 'Suspended'}
+            <span class="badge ${isEnabled ? 'bg-success' : 'bg-danger'}">
+              ${isEnabled ? 'Active' : 'Suspended'}
             </span>
           </td>
           <td class="text-end">
-            <button type="button" class="btn btn-sm ${u.active !== false ? 'btn-outline-danger' : 'btn-outline-success'} toggle-btn" data-id="${u.id}" data-active="${u.active !== false}" aria-label="${u.active !== false ? 'Suspend' : 'Activate'} user ${escapeHtml(u.fullName || u.email)}">
-              ${u.active !== false ? 'Suspend' : 'Activate'}
+            <button type="button" class="btn btn-sm ${isEnabled ? 'btn-outline-danger' : 'btn-outline-success'} toggle-btn" data-id="${u.id}" data-active="${isEnabled}" aria-label="${isEnabled ? 'Suspend' : 'Activate'} user ${escapeHtml(displayName)}">
+              ${isEnabled ? 'Suspend' : 'Activate'}
             </button>
           </td>
         </tr>
-      `).join('');
+      `;}).join('');
 
       tbody.querySelectorAll('.toggle-btn').forEach(btn => {
         btn.addEventListener('click', async () => {

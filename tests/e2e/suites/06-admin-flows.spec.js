@@ -9,7 +9,7 @@ test.describe('4F. Admin Configuration, Governance, Management & Exports', () =>
     await page.waitForLoadState('networkidle');
 
     // KPI Summary cards
-    const kpiCards = page.locator('.stat-card, .metric-card, .cp-card');
+    const kpiCards = page.locator('.stat-card, .metric-card, .cp-card, .cp-stat-card');
     expect(await kpiCards.count()).toBeGreaterThanOrEqual(4);
   });
 
@@ -18,7 +18,7 @@ test.describe('4F. Admin Configuration, Governance, Management & Exports', () =>
     await page.goto('/admin/dashboard.html');
     await page.waitForLoadState('networkidle');
 
-    // Verification: Charts have accessible table alternative or visually-hidden data table
+    // Verification: Charts have accessible table alternative or data table
     const tablesOrAlternates = page.locator('table, [role="table"], .chart-table-alt, .table-responsive');
     expect(await tablesOrAlternates.count()).toBeGreaterThanOrEqual(1);
   });
@@ -28,15 +28,14 @@ test.describe('4F. Admin Configuration, Governance, Management & Exports', () =>
     await page.goto('/admin/dashboard.html');
     await page.waitForLoadState('networkidle');
 
-    const csvBtn = page.locator('a:has-text("CSV"), button:has-text("CSV"), a[href*="export/csv"]').first();
-    if (await csvBtn.count() > 0) {
-      const [ download ] = await Promise.all([
-        page.waitForEvent('download', { timeout: 8000 }).catch(() => null),
-        csvBtn.click()
-      ]);
-      if (download) {
-        expect(download.suggestedFilename()).toContain('.csv');
-      }
+    const csvBtn = page.locator('#btnExportCsv, button:has-text("Export CSV")').first();
+    await expect(csvBtn).toBeVisible({ timeout: 6000 });
+    const [ download ] = await Promise.all([
+      page.waitForEvent('download', { timeout: 8000 }).catch(() => null),
+      csvBtn.click()
+    ]);
+    if (download) {
+      expect(download.suggestedFilename()).toContain('.csv');
     }
   });
 
@@ -45,15 +44,14 @@ test.describe('4F. Admin Configuration, Governance, Management & Exports', () =>
     await page.goto('/admin/dashboard.html');
     await page.waitForLoadState('networkidle');
 
-    const pdfBtn = page.locator('a:has-text("PDF"), button:has-text("PDF"), a[href*="export/pdf"]').first();
-    if (await pdfBtn.count() > 0) {
-      const [ download ] = await Promise.all([
-        page.waitForEvent('download', { timeout: 8000 }).catch(() => null),
-        pdfBtn.click()
-      ]);
-      if (download) {
-        expect(download.suggestedFilename()).toContain('.pdf');
-      }
+    const pdfBtn = page.locator('#btnExportPdf, button:has-text("Export PDF")').first();
+    await expect(pdfBtn).toBeVisible({ timeout: 6000 });
+    const [ download ] = await Promise.all([
+      page.waitForEvent('download', { timeout: 8000 }).catch(() => null),
+      pdfBtn.click()
+    ]);
+    if (download) {
+      expect(download.suggestedFilename()).toContain('.pdf');
     }
   });
 
@@ -104,7 +102,9 @@ test.describe('4F. Admin Configuration, Governance, Management & Exports', () =>
     await page.goto('/admin/users.html');
     await page.waitForLoadState('networkidle');
 
-    const userRows = page.locator('table tbody tr');
+    // Wait for async users to render
+    await expect(page.locator('#userTableBody tr td .badge').first()).toBeVisible({ timeout: 8000 });
+    const userRows = page.locator('#userTableBody tr');
     expect(await userRows.count()).toBeGreaterThanOrEqual(3);
   });
 
@@ -131,8 +131,16 @@ test.describe('4F. Admin Configuration, Governance, Management & Exports', () =>
     await page.goto('/admin/settings.html');
     await page.waitForLoadState('networkidle');
 
-    const saveSettingsBtn = page.locator('button[type="submit"], #saveSettingsBtn, button:has-text("Save")').first();
-    await expect(saveSettingsBtn).toBeVisible({ timeout: 5000 });
+    // Wait for settings table to populate
+    await expect(page.locator('#settingsTableBody tr td.cp-mono').first()).toBeVisible({ timeout: 8000 });
+
+    // Click the Edit button on the first parameter
+    const editBtn = page.locator('#settingsTableBody button:has-text("Edit")').first();
+    await editBtn.click();
+
+    // Now modal is visible and submit button is visible
+    const updateBtn = page.locator('#settingForm button[type="submit"]');
+    await expect(updateBtn).toBeVisible({ timeout: 5000 });
   });
 
 });

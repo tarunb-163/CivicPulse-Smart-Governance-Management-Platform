@@ -80,7 +80,7 @@ async function loginAs(page, role) {
   await page.click('button[type="submit"]');
 
   // Wait for redirect to expected landing page
-  await page.waitForURL(`**${cred.landingUrl}*`, { timeout: 10000 });
+  await page.waitForURL(`**${cred.landingUrl}*`, { timeout: 10000, waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(500);
 }
 

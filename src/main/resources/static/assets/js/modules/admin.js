@@ -97,6 +97,7 @@ export async function toggleUserStatus(userId, enabled) {
     method: 'PATCH'
   });
 }
+export const toggleUserActive = toggleUserStatus;
 
 export async function changeUserRole(userId, role, departmentId) {
   let url = `/admin/users/${userId}/role?role=${role}`;
@@ -124,9 +125,11 @@ export async function fetchSettings() {
 }
 
 export async function updateSetting(key, value, description) {
+  const val = (value && typeof value === 'object') ? value.value : value;
+  const desc = (value && typeof value === 'object') ? value.description : description;
   return await apiRequest('/admin/settings', {
     method: 'PUT',
-    body: JSON.stringify({ key, value, description })
+    body: JSON.stringify({ key, value: val, settingKey: key, settingValue: val, description: desc })
   });
 }
 
