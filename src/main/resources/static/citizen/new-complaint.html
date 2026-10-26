@@ -29,13 +29,13 @@
     <a href="/screen-reader.html" class="cp-util-link"><i class="bi bi-eye-fill"></i> Screen Reader Access</a>
     <div class="cp-util-group">
       <span class="text-muted small me-1">Text Size:</span>
-      <button type="button" class="cp-text-size-btn" data-size="-" aria-label="Decrease font size">A-</button>
-      <button type="button" class="cp-text-size-btn active" data-size="0" aria-label="Reset font size">A</button>
-      <button type="button" class="cp-text-size-btn" data-size="+" aria-label="Increase font size">A+</button>
+      <button type="button" class="cp-text-size-btn" data-size="-" aria-label="A- Decrease font size">A-</button>
+      <button type="button" class="cp-text-size-btn active" data-size="0" aria-label="A Reset font size">A</button>
+      <button type="button" class="cp-text-size-btn" data-size="+" aria-label="A+ Increase font size">A+</button>
     </div>
     <div class="cp-util-group">
       <button type="button" class="cp-contrast-btn" aria-label="Toggle High Contrast Mode"><i class="bi bi-circle-half"></i> Contrast</button>
-      <button type="button" class="cp-contrast-btn cp-theme-toggle" aria-label="Toggle Dark Mode"><i class="bi bi-moon-fill text-primary"></i> Theme</button>
+      <button type="button" class="cp-contrast-btn cp-theme-toggle" aria-label="Theme: Toggle Dark Mode"><i class="bi bi-moon-fill text-primary"></i> Theme</button>
     </div>
     <div class="cp-util-group">
       <label for="langSelect" class="visually-hidden">Select Language</label>
@@ -131,8 +131,10 @@
         </div>
       </div>
 
-      <!-- Step 1: Details -->
-      <div id="stepPanel1" role="region" aria-labelledby="stepIndicator1">
+      <!-- Complaint Form Wizard -->
+      <form id="complaintForm" onsubmit="return false;">
+        <!-- Step 1: Details -->
+        <div id="stepPanel1" role="region" aria-labelledby="stepIndicator1">
         <h3 class="h5 fw-bold text-navy mb-3"><i class="bi bi-card-text text-primary me-2"></i>Step 1: Grievance Details</h3>
         <p class="text-muted small mb-4">Provide a clear title and description. All mandatory fields are marked with a red asterisk.</p>
 
@@ -296,6 +298,7 @@
           </button>
         </div>
       </div>
+    </form>
 
       <!-- Success Card (Shown after submit) -->
       <div id="stepSuccess" class="d-none text-center py-4">

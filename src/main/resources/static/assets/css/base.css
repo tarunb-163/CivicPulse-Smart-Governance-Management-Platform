@@ -418,10 +418,19 @@ body {
    PAGE CONTENT WRAPPERS & LAYOUT
    ------------------------------------------------------------- */
 .cp-gov-main {
+  width: 100%;
   max-width: 1320px;
+  min-width: 0;
   margin: 0 auto;
   padding: 28px 20px 48px;
   min-height: calc(100vh - 350px);
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .cp-gov-main {
+    padding: 16px 12px 32px;
+  }
 }
 
 /* Internal Portal Sidebar (Citizen / Officer / Admin) */

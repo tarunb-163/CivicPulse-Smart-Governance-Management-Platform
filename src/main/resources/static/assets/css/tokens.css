@@ -1,5 +1,6 @@
 :root {
   /* Brand - Deep Government Navy & Saffron */
+  --cp-navy:        #1F3A6E;   /* Main Government Navy */
   --cp-primary:     #1F3A6E;   /* Deep Government Navy */
   --cp-primary-50:  #F0F4FA;
   --cp-primary-100: #DCE5F2;
@@ -13,8 +14,8 @@
 
   /* National Saffron & Green Accents */
   --cp-saffron:     #FF9933;   /* Tricolour Saffron */
-  --cp-saffron-dark:#D9531E;   /* Deep Saffron Accent */
-  --cp-accent:      #D9531E;   /* Saffron Accent */
+  --cp-saffron-dark:#B83E10;   /* Deep Saffron Accent (WCAG AA 4.7:1 vs white) */
+  --cp-accent:      #B83E10;   /* Saffron Accent */
   --cp-accent-light:#FFF5F0;
   --cp-green:       #138808;   /* Tricolour Green */
   --cp-green-light: #E8F5E9;
