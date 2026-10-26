@@ -83,22 +83,28 @@ These rules apply to every contributor and every AI assistant. If a rule must be
 - Mobile-first media queries. Use Bootstrap grid/utilities; override look with tokens, don't fight the framework.
 - Dark theme via `[data-theme="dark"]` variables; every component must work in both themes.
 
-### Animation and performance
-- Animate only `transform` and `opacity` (and `filter` sparingly). Never animate `width/height/top/left` for effects.
-- Use `will-change` only during an active animation. Keep durations within 150–600 ms (ambient loops excepted).
-- Initialize heavy widgets (map, charts, tilt) lazily via `IntersectionObserver`.
-- Always honour `prefers-reduced-motion`; disable tilt, parallax, confetti and magnetic effects for those users and for touch devices.
-- Debounce search and `pointermove` handlers; use `requestAnimationFrame` for pointer-driven effects.
+### Animation and performance (Minimal Motion)
+- **Minimal motion only:** Only 150 to 200 ms subtle color, border-color, underline, and opacity transitions for hover and focus.
+- **Strictly prohibited:** Tilt, magnetic buttons, spotlight glow, parallax, confetti, endless animated counters, scroll-reveal slides, and view transitions.
+- Keep gentle 150ms fade for modals and alerts.
+- Always honour `prefers-reduced-motion`: disable all transitions and animations entirely when active (`none !important`).
+- Initialize heavy widgets (Leaflet maps, Chart.js) cleanly without animated entry ramps longer than 300 ms.
+- Ensure all interactive controls have a visible 3px focus outline.
 
-### Accessibility
-- Semantic HTML, labels on every input, `alt` on images, `aria-label` on icon-only buttons.
-- Visible focus states; full keyboard operability; modals trap focus and close on Esc.
-- Colour is never the only indicator (status chips include text and icon).
-- Announce toasts and chat messages with `aria-live`.
+### Accessibility and GIGW 3.0 Compliance
+- Semantic HTML landmarks (`header`, `nav`, `main`, `footer`), single `h1` per page, logical heading hierarchy.
+- Visible 3px focus outline, skip-to-content links, full keyboard navigability. Modals trap focus and close on Escape.
+- Colour is never the only indicator (status chips must include text + icon + colour).
+- Resizable text up to 200% without clipping or layout breakage; provide header text size buttons (**A- A A+**).
+- High-contrast mode toggle meeting 7:1 contrast for body text.
+- Tables have `<caption>` and `<th scope="col">`; charts have text alternatives ("View as table").
+- Live announcements for toasts and virtual assistant responses via `aria-live`.
 
 ### Content and i18n
+- Formal, plain-language wording across English, Kannada, and Hindi (e.g. "Lodge a Grievance", "Track Grievance Status", "Acknowledgement Number").
+- No emojis in UI text, no slang, no marketing jargon.
 - No hardcoded UI strings in JS; use keys from `assets/i18n/*.json` (`data-i18n` attributes).
-- Dates/numbers formatted with `Intl` using the user's locale.
+- Update `en.json`, `kn.json`, and `hi.json` in sync so no translation key is ever missing.
 
 ---
 

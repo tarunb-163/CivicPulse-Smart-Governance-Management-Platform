@@ -265,22 +265,28 @@ _The script takes an optional base URL (`scripts/smoke-test.sh https://<live-url
 
 ---
 
-## 4. Design and Interaction Verification (from `design.md`)
+## 4. Government UI Verification & Interaction Checks (U01 – U18)
 
-| # | Check | Proof | Status |
+| ID | Check | Verification Method & Evidence | Status |
 |---|---|---|---|
-| D1 | Spotlight hover glow follows cursor on all `.cp-card` | `tokens.css`, `base.css`, pointermove event handler | ✅ PASS |
-| D2 | 3D tilt on feature/stat cards; disabled on touch and reduced-motion | CSS perspective and transform tilt; media queries respected | ✅ PASS |
-| D3 | Magnetic buttons + ripple on primary CTAs | Ripple micro-interaction on `.btn-primary` and CTA click | ✅ PASS |
-| D4 | Scroll reveal and stagger on landing/dashboards | IntersectionObserver animation classes on landing and dashboards | ✅ PASS |
-| D5 | Animated counters on first view | JS counter animation on dashboard stat cards | ✅ PASS |
-| D6 | Page transitions (View Transitions API with CSS fallback) | CSS fallback fade transitions and standard document navigation | ✅ PASS |
-| D7 | Animated timeline, SLA ring, status chip pulse | SVG SLA progress circle, CSS status pulse animation on live chips | ✅ PASS |
-| D8 | Kanban lift/drop animation | Interactive Kanban columns with drag feedback and status updates | ✅ PASS |
-| D9 | Confetti on complaint submit and feedback | JS canvas confetti effect triggered on successful submission | ✅ PASS |
-| D10 | Aurora background and glass surfaces in both themes, text contrast AA | CSS gradient mesh background, backdrop-filter glass, WCAG AA contrast | ✅ PASS |
-| D11 | All animations use only `transform`/`opacity`; no jank (60 fps) | Hardware-accelerated CSS properties used exclusively | ✅ PASS |
-| D12 | Lighthouse: performance ≥ 85, accessibility ≥ 90 on key pages | Clean semantic HTML5, aria labels, optimized bundle size | ✅ PASS |
+| **U01** | User Authentication & Role Routing | Verified `/login.html` routes to `/admin/dashboard.html` for Admin, `/officer/dashboard.html` for Officer, and `/citizen/dashboard.html` for Citizen. | ✅ PASS |
+| **U02** | 4-Step Grievance Filing Wizard | Verified `/citizen/new-complaint.html` stepper (Details, Location, Evidence, Review); mandatory fields marked with `*` and `(required)`; renders official receipt with QR. | ✅ PASS |
+| **U03** | Officer Incident Dossier & Workspace | Verified `/officer/workspace.html` dossier display, departmental activity notes thread, status transition actions with mandatory remarks. | ✅ PASS |
+| **U04** | Sarkari Flat Kanban Board | Verified `/officer/board.html` flat bordered columns, column counters, SortableJS drag-and-drop triage without glow effects. | ✅ PASS |
+| **U05** | Citizen Grievance Feedback Dialog | Verified feedback modal on resolved complaints; single submission enforced; duplicate prevention verified. | ✅ PASS |
+| **U06** | Theme Toggle & High-Contrast Mode | Verified high-contrast mode toggle meeting 7:1 contrast with pure black canvas, gold accents, and white text; persistent in `localStorage`. | ✅ PASS |
+| **U07** | Multilingual Localization (i18n) | Verified language switcher toggles between English, Kannada (ಕನ್ನಡ), and Hindi (हिन्दी) across all pages; formal government terminology verified. | ✅ PASS |
+| **U08** | Command Palette (Ctrl+K) | Verified keyboard shortcut `Ctrl+K` launches accessible modal command palette with arrow-key navigation and quick routes. | ✅ PASS |
+| **U09** | CivicBot Virtual Assistant | Verified help-desk style flat chat panel at bottom right labelled "Virtual Assistant"; `aria-live` screen reader announcements. | ✅ PASS |
+| **U10** | Error & Empty States | Verified custom 404, 403, and 500 error pages with official government wording ("The page you requested could not be found."); clean tabular empty states. | ✅ PASS |
+| **U11** | Responsive Layouts & Mobile Drawer | Verified responsive layouts across 360px, 768px, and 1280px viewports; mobile hamburger drawer operable without horizontal scroll. | ✅ PASS |
+| **U12** | GIGW 3.0 & WCAG 2.1 AA Landmarks | Verified "Skip to main content" link, visible 3px focus outline, semantic landmarks (`header`, `nav`, `main`, `footer`), single `h1` per page. | ✅ PASS |
+| **U13** | Text Resizing & Minimal Motion | Verified **A- A A+** font scaling buttons (87.5% to 112.5%); "What's New" ticker pause/play button; 150ms subtle transitions with no tilt/particles. | ✅ PASS |
+| **U14** | QR Code & Printable Official Receipt | Verified `@media print` stylesheet on `/track.html` and `/citizen/complaint.html` rendering clean black-and-white paper receipt with QR verification code. | ✅ PASS |
+| **U15** | Photo Category Advisory Suggestion | Verified advisory suggestion chip in wizard step 3 suggests matching category without forcing auto-override. | ✅ PASS |
+| **U16** | Duplicate Grievance Warning Modal | Verified duplicate detection modal displays nearby complaints and "Support this instead" upvoting action. | ✅ PASS |
+| **U17** | Statutory Compliance & Terms Consent | Verified statutory pages (`accessibility.html`, `screen-reader.html`, `sitemap.html`, `privacy.html`, `terms.html`); registration consent checkbox required. | ✅ PASS |
+| **U18** | Officer Grievance Merge & Parent Link | Verified officer incident workspace merge tool links duplicate grievances to parent reference code with `MERGED` status. | ✅ PASS |
 
 ---
 

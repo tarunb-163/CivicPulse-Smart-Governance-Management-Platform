@@ -168,6 +168,21 @@ Estimates are for a team of 4–5 working in parallel. Suggested total: **9–11
 
 ---
 
+## Phase 9 — Government UI Redesign (Sarkari Theme)
+- [x] T9.1 Tokens overhaul: Replace Aurora Glass with Sarkari navy `#1F3A6E`, saffron `#D9531E`, India green `#138808`, light grey `#F5F6F8`, 1px solid borders, 2-4px radius, `Noto Sans` typography in `tokens.css` **(MVP)**
+- [x] T9.2 Minimal motion: Enforce 150-200ms transitions, remove tilt, magnetic, spotlight, parallax, confetti, endless counters, add complete `prefers-reduced-motion` overrides in `animations.css` and JS **(MVP)**
+- [x] T9.3 Government furniture: Implement shared national tricolour strip, top demo notice, utility bar (skip link, screen reader access, A-/A/A+ text resizer, high contrast, theme toggle, trilingual switcher), neutral civic emblem SVG seal, main nav, breadcrumb bar, and 4-column statutory footer with developer attribution **(MVP)**
+- [x] T9.4 Statutory pages: Create `accessibility.html`, `screen-reader.html`, `sitemap.html`, `help.html`, `contact.html` **(MVP)**
+- [x] T9.5 Public & Auth redesign: Redesign `index.html`, `login.html`, `register.html`, `forgot-password.html`, `reset-password.html`, `track.html`, `transparency.html`, `privacy.html`, `terms.html`, `404.html`, `403.html`, `500.html` **(MVP)**
+- [x] T9.6 Citizen portal redesign: Redesign `citizen/dashboard.html`, `citizen/new-complaint.html` (accessible stepper), `citizen/my-complaints.html` (accessible table), `citizen/complaint.html` (official receipt & timeline), `citizen/profile.html` **(MVP)**
+- [x] T9.7 Officer operations redesign: Redesign `officer/dashboard.html`, `officer/queue.html` (accessible queue table), `officer/board.html` (flat bordered Kanban), `officer/workspace.html` (dossier & notes) **(MVP)**
+- [x] T9.8 Admin console redesign: Redesign `admin/dashboard.html` (flat charts + accessible table toggles), `admin/departments.html`, `admin/categories.html`, `admin/rules.html`, `admin/users.html`, `admin/sla.html`, `admin/audit.html`, `admin/outbox.html`, `admin/settings.html` **(MVP)**
+- [x] T9.9 Trilingual dictionaries: Update `en.json`, `kn.json`, and `hi.json` with formal government terminology **(MVP)**
+- [x] T9.10 21st.dev Component Documentation: Create `docs/UI-SOURCES.md` documenting inspirations and adaptations **(MVP)**
+- [x] T9.11 Testing & Verification: Clean verify, smoke audit, browser screenshot matrix, UI audit documentation **(MVP)**
+
+---
+
 ## Stretch / Future (LATER)
 - [ ] Voice input for complaint description
 - [ ] SSE/WebSocket real-time notifications
@@ -189,3 +204,4 @@ Estimates are for a team of 4–5 working in parallel. Suggested total: **9–11
 | 7–8 | Admin analytics, exports, transparency page | ✅ COMPLETE |
 | 9 | Polish, CivicBot, themes, i18n | ✅ COMPLETE |
 | 10–11 | Phase 8 finished: Docker, CI green, legal pages, QR, image suggestion, duplicate prevention, live URL; final testing, docs, demo | ✅ COMPLETE |
+| 12 | Phase 9 finished: Sarkari Government UI redesign, GIGW 3.0 / WCAG 2.1 AA accessibility, statutory pages, UI audit | ✅ COMPLETE |
