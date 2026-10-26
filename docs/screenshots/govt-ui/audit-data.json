@@ -1,0 +1,488 @@
+{
+  "timestamp": "2026-10-26T08:16:25.532Z",
+  "pagesTested": 28,
+  "axeScores": {
+    "home": {
+      "criticalCount": 0,
+      "seriousCount": 2,
+      "moderateCount": 1,
+      "minorCount": 1,
+      "passes": 42,
+      "violations": [
+        {
+          "id": "aria-allowed-role",
+          "impact": "minor",
+          "description": "Ensure role attribute has an appropriate value for the element",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 1
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "description": "Ensure all page content is contained by landmarks",
+          "nodes": 3
+        }
+      ]
+    },
+    "login": {
+      "criticalCount": 0,
+      "seriousCount": 2,
+      "moderateCount": 1,
+      "minorCount": 1,
+      "passes": 43,
+      "violations": [
+        {
+          "id": "aria-allowed-role",
+          "impact": "minor",
+          "description": "Ensure role attribute has an appropriate value for the element",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 3
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "description": "Ensure all page content is contained by landmarks",
+          "nodes": 2
+        }
+      ]
+    },
+    "register": {
+      "criticalCount": 0,
+      "seriousCount": 2,
+      "moderateCount": 1,
+      "minorCount": 1,
+      "passes": 44,
+      "violations": [
+        {
+          "id": "aria-allowed-role",
+          "impact": "minor",
+          "description": "Ensure role attribute has an appropriate value for the element",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 2
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "description": "Ensure all page content is contained by landmarks",
+          "nodes": 2
+        }
+      ]
+    },
+    "track-receipt": {
+      "criticalCount": 0,
+      "seriousCount": 2,
+      "moderateCount": 2,
+      "minorCount": 1,
+      "passes": 50,
+      "violations": [
+        {
+          "id": "aria-allowed-role",
+          "impact": "minor",
+          "description": "Ensure role attribute has an appropriate value for the element",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 1
+        },
+        {
+          "id": "heading-order",
+          "impact": "moderate",
+          "description": "Ensure the order of headings is semantically correct",
+          "nodes": 1
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "description": "Ensure all page content is contained by landmarks",
+          "nodes": 2
+        }
+      ]
+    },
+    "accessibility": {
+      "criticalCount": 0,
+      "seriousCount": 2,
+      "moderateCount": 3,
+      "minorCount": 0,
+      "passes": 3,
+      "violations": [
+        {
+          "id": "document-title",
+          "impact": "serious",
+          "description": "Ensure each HTML document contains a non-empty <title> element",
+          "nodes": 1
+        },
+        {
+          "id": "html-has-lang",
+          "impact": "serious",
+          "description": "Ensure every HTML document has a lang attribute",
+          "nodes": 1
+        },
+        {
+          "id": "landmark-one-main",
+          "impact": "moderate",
+          "description": "Ensure the document has a main landmark",
+          "nodes": 1
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "nodes": 1
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "description": "Ensure all page content is contained by landmarks",
+          "nodes": 1
+        }
+      ]
+    },
+    "citizen-new-complaint": {
+      "criticalCount": 0,
+      "seriousCount": 2,
+      "moderateCount": 1,
+      "minorCount": 1,
+      "passes": 42,
+      "violations": [
+        {
+          "id": "aria-allowed-role",
+          "impact": "minor",
+          "description": "Ensure role attribute has an appropriate value for the element",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 1
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "description": "Ensure all page content is contained by landmarks",
+          "nodes": 2
+        }
+      ]
+    },
+    "admin-dashboard": {
+      "criticalCount": 0,
+      "seriousCount": 2,
+      "moderateCount": 1,
+      "minorCount": 1,
+      "passes": 45,
+      "violations": [
+        {
+          "id": "aria-allowed-role",
+          "impact": "minor",
+          "description": "Ensure role attribute has an appropriate value for the element",
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "nodes": 5
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "nodes": 1
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "description": "Ensure all page content is contained by landmarks",
+          "nodes": 2
+        }
+      ]
+    }
+  },
+  "overflowChecks": [
+    {
+      "label": "home (360px Mobile)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "login (360px Mobile)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "register (360px Mobile)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "track-receipt (360px Mobile)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "transparency (360px Mobile)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "privacy (360px Mobile)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "terms (360px Mobile)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "accessibility (360px Mobile)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "screen-reader (360px Mobile)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "sitemap (360px Mobile)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "help (360px Mobile)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "contact (360px Mobile)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "404 (360px Mobile)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "home (360px Mobile - KN)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "track-receipt (360px Mobile - KN)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "login (360px Mobile - KN)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "home (360px Mobile - HI)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "track-receipt (360px Mobile - HI)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "login (360px Mobile - HI)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "citizen-dashboard (360px)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "citizen-new-complaint (360px)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "citizen-my-complaints (360px)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "citizen-profile (360px)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "officer-dashboard (360px)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "officer-queue (360px)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    },
+    {
+      "label": "officer-kanban-board (360px)",
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "hasOverflow": false
+    }
+  ],
+  "screenshotsCaptured": [
+    "home-1280-light.png",
+    "home-1280-highcontrast.png",
+    "home-360-light.png",
+    "login-1280-light.png",
+    "login-1280-highcontrast.png",
+    "login-360-light.png",
+    "register-1280-light.png",
+    "register-1280-highcontrast.png",
+    "register-360-light.png",
+    "track-receipt-1280-light.png",
+    "track-receipt-1280-highcontrast.png",
+    "track-receipt-360-light.png",
+    "transparency-1280-light.png",
+    "transparency-1280-highcontrast.png",
+    "transparency-360-light.png",
+    "privacy-1280-light.png",
+    "privacy-1280-highcontrast.png",
+    "privacy-360-light.png",
+    "terms-1280-light.png",
+    "terms-1280-highcontrast.png",
+    "terms-360-light.png",
+    "accessibility-1280-light.png",
+    "accessibility-1280-highcontrast.png",
+    "accessibility-360-light.png",
+    "screen-reader-1280-light.png",
+    "screen-reader-1280-highcontrast.png",
+    "screen-reader-360-light.png",
+    "sitemap-1280-light.png",
+    "sitemap-1280-highcontrast.png",
+    "sitemap-360-light.png",
+    "help-1280-light.png",
+    "help-1280-highcontrast.png",
+    "help-360-light.png",
+    "contact-1280-light.png",
+    "contact-1280-highcontrast.png",
+    "contact-360-light.png",
+    "404-1280-light.png",
+    "404-1280-highcontrast.png",
+    "404-360-light.png",
+    "home-1280-kn.png",
+    "home-360-kn.png",
+    "track-receipt-1280-kn.png",
+    "track-receipt-360-kn.png",
+    "login-1280-kn.png",
+    "login-360-kn.png",
+    "home-1280-hi.png",
+    "home-360-hi.png",
+    "track-receipt-1280-hi.png",
+    "track-receipt-360-hi.png",
+    "login-1280-hi.png",
+    "login-360-hi.png",
+    "citizen-dashboard-1280-light.png",
+    "citizen-dashboard-1280-highcontrast.png",
+    "citizen-dashboard-360-light.png",
+    "citizen-new-complaint-1280-light.png",
+    "citizen-new-complaint-1280-highcontrast.png",
+    "citizen-new-complaint-360-light.png",
+    "citizen-my-complaints-1280-light.png",
+    "citizen-my-complaints-1280-highcontrast.png",
+    "citizen-my-complaints-360-light.png",
+    "citizen-profile-1280-light.png",
+    "citizen-profile-1280-highcontrast.png",
+    "citizen-profile-360-light.png",
+    "officer-dashboard-1280-light.png",
+    "officer-dashboard-360-light.png",
+    "officer-queue-1280-light.png",
+    "officer-queue-360-light.png",
+    "officer-kanban-board-1280-light.png",
+    "officer-kanban-board-360-light.png",
+    "admin-dashboard-1280-light.png",
+    "admin-departments-1280-light.png",
+    "admin-categories-1280-light.png",
+    "admin-rules-1280-light.png",
+    "admin-users-1280-light.png",
+    "admin-sla-1280-light.png",
+    "admin-audit-1280-light.png",
+    "admin-settings-1280-light.png",
+    "official-receipt-print-preview.png",
+    "civicbot-drawer-opened.png"
+  ]
+}

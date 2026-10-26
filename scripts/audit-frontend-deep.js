@@ -117,14 +117,18 @@ async function runAudit() {
   await page.fill('#email', 'citizen@civicpulse.test');
   await page.fill('#password', 'Password@123');
   await page.click('button[type="submit"]');
-  await page.waitForTimeout(1000);
+  try {
+    await page.waitForURL('**/citizen/**', { timeout: 6000 });
+  } catch (e) {
+    await page.waitForTimeout(2000);
+  }
 
   assertTest('Citizen login navigates to citizen dashboard', page.url().includes('/citizen/dashboard.html'), `Current URL: ${page.url()}`);
   await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'citizen-dashboard-desktop.png'), fullPage: false });
 
   // New Complaint Wizard
   await page.goto(`${BASE_URL}/citizen/new-complaint.html`, { waitUntil: 'domcontentloaded' });
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(800);
   assertTest('New Complaint Wizard loads with multi-step form', await page.isVisible('#complaintForm') || await page.isVisible('form'));
   await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'citizen-wizard-step1.png'), fullPage: false });
 
@@ -140,7 +144,11 @@ async function runAudit() {
   await page.fill('#email', 'officer.roads@civicpulse.test');
   await page.fill('#password', 'Password@123');
   await page.click('button[type="submit"]');
-  await page.waitForTimeout(1000);
+  try {
+    await page.waitForURL('**/officer/**', { timeout: 6000 });
+  } catch (e) {
+    await page.waitForTimeout(2000);
+  }
 
   assertTest('Officer login navigates to officer dashboard/queue', page.url().includes('/officer/'), `Current URL: ${page.url()}`);
   await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'officer-dashboard-desktop.png'), fullPage: false });
@@ -160,7 +168,11 @@ async function runAudit() {
   await page.fill('#email', 'admin@civicpulse.test');
   await page.fill('#password', 'Password@123');
   await page.click('button[type="submit"]');
-  await page.waitForTimeout(1000);
+  try {
+    await page.waitForURL('**/admin/**', { timeout: 6000 });
+  } catch (e) {
+    await page.waitForTimeout(2000);
+  }
 
   assertTest('Admin login navigates to admin dashboard', page.url().includes('/admin/'), `Current URL: ${page.url()}`);
   await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'admin-dashboard-desktop.png'), fullPage: false });
