@@ -2,46 +2,51 @@ import { apiRequest } from '../core/api.js';
 import { escapeHtml } from '../core/utils.js';
 
 export function initCivicBot() {
-  if (document.getElementById('cpBotOrb')) return;
+  if (document.getElementById('cpBotPanel')) return;
 
-  const orb = document.createElement('div');
-  orb.id = 'cpBotOrb';
-  orb.className = 'cp-bot-orb';
-  orb.title = 'Ask CivicBot';
-  orb.innerHTML = `<i class="bi bi-robot"></i>`;
+  const trigger = document.createElement('button');
+  trigger.id = 'botTrigger';
+  trigger.className = 'cp-bot-trigger';
+  trigger.setAttribute('type', 'button');
+  trigger.setAttribute('aria-expanded', 'false');
+  trigger.setAttribute('aria-controls', 'cpBotPanel');
+  trigger.setAttribute('aria-label', 'Open Virtual Assistant');
+  trigger.innerHTML = `<i class="bi bi-headset"></i> <span>Virtual Assistant</span>`;
 
   const panel = document.createElement('div');
   panel.id = 'cpBotPanel';
   panel.className = 'cp-bot-panel';
+  panel.setAttribute('role', 'region');
+  panel.setAttribute('aria-label', 'Virtual Assistant Dialog');
   panel.innerHTML = `
-    <div class="d-flex align-items-center justify-content-between p-3 border-bottom bg-primary text-white">
+    <div class="cp-bot-header">
       <div class="d-flex align-items-center gap-2">
-        <i class="bi bi-robot fs-5"></i>
+        <i class="bi bi-shield-check fs-5"></i>
         <div>
-          <h6 class="mb-0 fw-bold">CivicBot Assistant</h6>
-          <small style="opacity: 0.85; font-size: 0.75rem;">AI Citizen Support</small>
+          <h2 class="h6 mb-0 fw-bold text-white">Virtual Assistant</h2>
+          <small style="opacity: 0.9; font-size: 0.75rem;">CivicPulse Citizen Helpdesk</small>
         </div>
       </div>
-      <button type="button" class="btn btn-sm text-white border-0" id="cpBotClose"><i class="bi bi-x-lg"></i></button>
+      <button type="button" class="btn btn-sm text-white border-0 p-1" id="cpBotClose" aria-label="Close Assistant"><i class="bi bi-x-lg"></i></button>
     </div>
-    <div class="cp-bot-messages" id="cpBotMessages">
-      <div class="cp-bot-msg cp-bot-msg-bot">
-        Hello! I am <strong>CivicBot</strong>. I can assist you with filing grievances, tracking complaint status by code, department contact numbers, and municipal FAQs.
+    <div class="cp-bot-messages" id="cpBotMessages" aria-live="polite" aria-atomic="false">
+      <div class="cp-bot-bubble-bot">
+        Namaste! I am the <strong>CivicPulse Virtual Assistant</strong>. I can assist you with lodging grievances, checking complaint status, department information, and operating hours.
       </div>
     </div>
-    <div class="cp-bot-chips" id="cpBotChips">
-      <span class="cp-bot-chip" data-msg="How do I file a complaint?">How to file</span>
-      <span class="cp-bot-chip" data-msg="Track CP-2026-000001">Track Sample</span>
-      <span class="cp-bot-chip" data-msg="What are your working hours?">Working hours</span>
-      <span class="cp-bot-chip" data-msg="What departments are available?">Departments</span>
+    <div class="p-2 border-top bg-light" id="cpBotChips" style="display: flex; gap: 6px; flex-wrap: wrap;">
+      <button type="button" class="btn btn-sm cp-btn-secondary cp-btn-sm cp-bot-chip" data-msg="How do I file a complaint?">How to lodge</button>
+      <button type="button" class="btn btn-sm cp-btn-secondary cp-btn-sm cp-bot-chip" data-msg="Track CP-2026-000001">Track Sample</button>
+      <button type="button" class="btn btn-sm cp-btn-secondary cp-btn-sm cp-bot-chip" data-msg="What are your working hours?">Office timings</button>
+      <button type="button" class="btn btn-sm cp-btn-secondary cp-btn-sm cp-bot-chip" data-msg="What departments are available?">Departments</button>
     </div>
-    <form id="cpBotForm" class="p-2 border-top d-flex gap-2">
-      <input type="text" id="cpBotInput" class="form-control form-control-sm rounded-pill" placeholder="Ask a question..." autocomplete="off">
-      <button type="submit" class="btn btn-sm btn-primary rounded-circle cp-btn-icon" style="width: 34px; height: 34px;"><i class="bi bi-send-fill"></i></button>
+    <form id="cpBotForm" class="p-2 border-top d-flex gap-2 bg-white">
+      <input type="text" id="cpBotInput" class="form-control form-control-sm" placeholder="Type your query (e.g. Track CP-...)" autocomplete="off" aria-label="Assistant question">
+      <button type="submit" class="btn btn-sm cp-btn-primary" aria-label="Send Message"><i class="bi bi-send-fill"></i></button>
     </form>
   `;
 
-  document.body.appendChild(orb);
+  document.body.appendChild(trigger);
   document.body.appendChild(panel);
 
   const messages = panel.querySelector('#cpBotMessages');
@@ -50,19 +55,25 @@ export function initCivicBot() {
   const closeBtn = panel.querySelector('#cpBotClose');
   const chips = panel.querySelector('#cpBotChips');
 
-  orb.addEventListener('click', () => {
-    panel.classList.toggle('show');
-    if (panel.classList.contains('show')) {
+  trigger.addEventListener('click', () => {
+    const isShowing = panel.classList.toggle('show');
+    trigger.setAttribute('aria-expanded', isShowing ? 'true' : 'false');
+    if (isShowing) {
       input.focus();
     }
   });
 
-  closeBtn.addEventListener('click', () => panel.classList.remove('show'));
+  closeBtn.addEventListener('click', () => {
+    panel.classList.remove('show');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.focus();
+  });
 
   chips.addEventListener('click', (e) => {
-    if (e.target.classList.contains('cp-bot-chip')) {
-      const msg = e.target.getAttribute('data-msg');
-      sendUserMessage(msg);
+    const targetBtn = e.target.closest('.cp-bot-chip');
+    if (targetBtn) {
+      const msg = targetBtn.getAttribute('data-msg');
+      if (msg) sendUserMessage(msg);
     }
   });
 
@@ -80,8 +91,8 @@ export function initCivicBot() {
 
     // Add typing indicator
     const typing = document.createElement('div');
-    typing.className = 'cp-bot-msg cp-bot-msg-bot text-muted';
-    typing.innerHTML = `<span class="spinner-grow spinner-grow-sm me-1" role="status"></span> CivicBot is thinking...`;
+    typing.className = 'cp-bot-bubble-bot text-muted';
+    typing.innerHTML = `<span class="spinner-border spinner-border-sm me-1" role="status"></span> Assistant is processing your request...`;
     messages.appendChild(typing);
     messages.scrollTop = messages.scrollHeight;
 
@@ -92,23 +103,23 @@ export function initCivicBot() {
       });
 
       typing.remove();
-      appendMessage(res.reply || 'I am sorry, I could not understand that request.', 'bot');
+      appendMessage(res.reply || 'Information received.', 'bot');
 
       // Update chips if suggestions provided
       if (res.quickReplies && res.quickReplies.length > 0) {
         chips.innerHTML = res.quickReplies.map(qr => `
-          <span class="cp-bot-chip" data-msg="${escapeHtml(qr)}">${escapeHtml(qr)}</span>
+          <button type="button" class="btn btn-sm cp-btn-secondary cp-btn-sm cp-bot-chip" data-msg="${escapeHtml(qr)}">${escapeHtml(qr)}</button>
         `).join('');
       }
     } catch {
       typing.remove();
-      appendMessage('Sorry, I am having trouble connecting to the civic knowledge service. Please try again later.', 'bot');
+      appendMessage('Sorry, the citizen helpdesk service is currently unreachable. Please try again later or contact the civic helpline.', 'bot');
     }
   }
 
   function appendMessage(text, sender) {
     const msg = document.createElement('div');
-    msg.className = `cp-bot-msg cp-bot-msg-${sender}`;
+    msg.className = sender === 'user' ? 'cp-bot-bubble-user' : 'cp-bot-bubble-bot';
     msg.innerHTML = escapeHtml(text).replace(/\n/g, '<br>');
     messages.appendChild(msg);
     messages.scrollTop = messages.scrollHeight;
@@ -116,5 +127,9 @@ export function initCivicBot() {
 }
 
 if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', initCivicBot);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCivicBot);
+  } else {
+    initCivicBot();
+  }
 }

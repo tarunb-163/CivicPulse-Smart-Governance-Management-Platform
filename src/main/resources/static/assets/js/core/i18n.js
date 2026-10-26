@@ -1,7 +1,12 @@
-let currentLang = localStorage.getItem('cp_lang') || 'en';
+let currentLang = 'en';
+try {
+  currentLang = localStorage.getItem('cp_lang') || 'en';
+} catch (e) {}
+
 let translations = {};
 
 export async function initI18n() {
+  document.documentElement.setAttribute('lang', currentLang);
   await loadTranslations(currentLang);
   applyTranslations();
 
@@ -11,13 +16,30 @@ export async function initI18n() {
       await switchLanguage(e.target.value);
     });
   });
+
+  document.querySelectorAll('[data-lang-switch]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const targetLang = e.currentTarget.getAttribute('data-lang-switch');
+      if (targetLang) {
+        await switchLanguage(targetLang);
+      }
+    });
+  });
 }
 
 export async function switchLanguage(lang) {
   currentLang = lang;
-  localStorage.setItem('cp_lang', lang);
+  try {
+    localStorage.setItem('cp_lang', lang);
+  } catch (e) {}
+  document.documentElement.setAttribute('lang', lang);
   await loadTranslations(lang);
   applyTranslations();
+
+  // Update any language selectors on page
+  document.querySelectorAll('.cp-lang-select').forEach(s => {
+    s.value = lang;
+  });
 }
 
 export async function loadTranslations(lang) {
@@ -48,4 +70,13 @@ export function applyTranslations() {
       }
     }
   });
+}
+
+// Auto-run if document is available
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initI18n);
+  } else {
+    initI18n();
+  }
 }

@@ -81,13 +81,7 @@ export async function downloadReceipt(complaintId, code) {
 }
 
 export function triggerConfetti() {
-  if (typeof confetti === 'function') {
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
-  }
+  // Disabled in government theme for calm, minimal UI
 }
 
 export function showDuplicateDialog(candidates = [], onSupport, onSubmitAnyway) {
