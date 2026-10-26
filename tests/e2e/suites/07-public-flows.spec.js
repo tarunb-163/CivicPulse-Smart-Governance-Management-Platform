@@ -7,16 +7,16 @@ test.describe('4G. Public Tracking, Transparency Dashboard & Citizen Privacy', (
     await page.waitForLoadState('networkidle');
 
     // Verification: Track result container visible with details
-    const trackResult = page.locator('#trackResult, .track-card, text=Grievance Status, text=CP-2026-000001').first();
-    await expect(trackResult).toBeVisible({ timeout: 8000 });
+    await expect(page.locator('#trackResult')).toBeVisible({ timeout: 8000 });
+    await expect(page.locator('#resCode')).toHaveText('CP-2026-000001');
   });
 
   test('[PUB-02] Public Track - Invalid Code Displays Friendly Error', async ({ page }) => {
     await page.goto('/track.html');
-    await page.fill('#trackingCodeInput, #publicCodeInput, input[name="code"]', 'CP-9999-999999');
-    await page.click('button[type="submit"], #trackBtn');
+    await page.fill('#trackCodeInput', 'CP-9999-999999');
+    await page.click('#trackForm button[type="submit"]');
 
-    await expect(page.locator('.alert-danger, #errorAlert, text=not found, text=Invalid tracking code').first()).toBeVisible({ timeout: 7000 });
+    await expect(page.locator('#trackNotFound')).toBeVisible({ timeout: 7000 });
   });
 
   test('[PUB-03] Public Track - Privacy Protection: NEVER Leaks Email, Phone or Citizen ID', async ({ page }) => {
@@ -34,7 +34,7 @@ test.describe('4G. Public Tracking, Transparency Dashboard & Citizen Privacy', (
     await page.goto('/track.html?code=CP-2026-000002');
     await page.waitForLoadState('networkidle');
 
-    const inputVal = await page.inputValue('#trackingCodeInput, #publicCodeInput, input[name="code"]');
+    const inputVal = await page.inputValue('#trackCodeInput');
     expect(inputVal).toContain('CP-2026-000002');
   });
 
@@ -43,7 +43,7 @@ test.describe('4G. Public Tracking, Transparency Dashboard & Citizen Privacy', (
     await page.waitForLoadState('networkidle');
 
     // Total Grievances, Resolution Rate, Avg Hours
-    const stats = page.locator('.stat-value, .cp-kpi-value, #totalGrievances, #resolutionRate');
+    const stats = page.locator('.cp-stat-value, #statTotal, #statResolved');
     expect(await stats.count()).toBeGreaterThanOrEqual(2);
   });
 
@@ -51,29 +51,32 @@ test.describe('4G. Public Tracking, Transparency Dashboard & Citizen Privacy', (
     await page.goto('/transparency.html');
     await page.waitForLoadState('networkidle');
 
-    const deptTable = page.locator('table, #deptStatsTable, .department-breakdown');
-    await expect(deptTable.first()).toBeVisible({ timeout: 6000 });
+    // Verify department leaderboard items render
+    const leaderboardItems = page.locator('#leaderboardList .list-group-item');
+    await expect(leaderboardItems.first()).toBeVisible({ timeout: 6000 });
+
+    // Click toggle button to open accessible table view alternative
+    await page.click('#toggleCatTableBtn');
+    await expect(page.locator('#catTableFallback table')).toBeVisible({ timeout: 6000 });
   });
 
   test('[PUB-07] Public FAQ & Help Accordions Expand and Collapse', async ({ page }) => {
     await page.goto('/help.html');
     await page.waitForLoadState('networkidle');
 
-    const faqBtn = page.locator('.accordion-button, details summary').first();
-    if (await faqBtn.count() > 0) {
-      await faqBtn.click();
-      await page.waitForTimeout(400);
-      const isExpanded = await faqBtn.getAttribute('aria-expanded');
-      expect(isExpanded === 'true' || isExpanded === null).toBeTruthy();
-    }
+    const faqBtn = page.locator('#faqH2 button');
+    await expect(faqBtn).toBeVisible({ timeout: 5000 });
+    await faqBtn.click();
+    await expect(faqBtn).toHaveAttribute('aria-expanded', 'true', { timeout: 5000 });
   });
 
   test('[PUB-08] Public Contact Directory Displays Municipal Office Details', async ({ page }) => {
     await page.goto('/contact.html');
     await page.waitForLoadState('networkidle');
 
-    const contactCards = page.locator('.contact-card, .cp-card, text=Toll-Free, text=Helpline');
+    const contactCards = page.locator('.cp-card, table.cp-table');
     expect(await contactCards.count()).toBeGreaterThanOrEqual(1);
   });
 
 });
+

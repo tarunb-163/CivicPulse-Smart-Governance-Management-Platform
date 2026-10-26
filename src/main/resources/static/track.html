@@ -318,8 +318,8 @@
         document.getElementById('resSlaRing').innerHTML = renderSlaRing(c.slaDueAt, c.status);
         document.getElementById('resTitle').textContent = c.title;
         document.getElementById('resDescription').textContent = c.description;
-        document.getElementById('resDept').textContent = c.departmentName || 'General Municipal';
-        document.getElementById('resCategory').textContent = c.categoryName || 'Civic Issue';
+        document.getElementById('resDept').textContent = (c.department && c.department.name) || c.departmentName || 'General Municipal';
+        document.getElementById('resCategory').textContent = (c.category && c.category.name) || c.categoryName || 'Civic Issue';
         document.getElementById('resCreatedAt').textContent = formatDate(c.createdAt);
         document.getElementById('resLocation').textContent = c.address || 'Ward 7, Davanagere';
 
@@ -336,7 +336,7 @@
 
         // Timeline
         const timeline = document.getElementById('resTimeline');
-        const history = c.statusHistory || [];
+        const history = c.statusHistories || c.statusHistory || [];
         if (history.length === 0) {
           timeline.innerHTML = `<div class="text-muted small">No history logged yet.</div>`;
         } else {
