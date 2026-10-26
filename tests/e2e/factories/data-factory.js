@@ -46,6 +46,7 @@ const DataFactory = {
     return {
       title: `Pothole on MG Road near Junction ${id}`,
       description: `Large crater-like pothole causing heavy traffic slowdown and risk of two-wheeler accidents near junction ${id}.`,
+      categoryId: 1,
       category: 'Pothole & Road Damage',
       urgency: 'HIGH',
       address: 'MG Road, Ward 12, Davanagere, Karnataka',
@@ -96,7 +97,7 @@ const DataFactory = {
   },
 
   // Exact Duplicate
-  exactDuplicateComplaint(base) {
+  exactDuplicateComplaint(base = this.validComplaint()) {
     return {
       ...base,
       // Same normalized content hash
@@ -107,15 +108,15 @@ const DataFactory = {
   },
 
   // Near Duplicate (Within proximity radius)
-  nearDuplicateComplaint(base) {
+  nearDuplicateComplaint(base = this.validComplaint()) {
     return {
       title: `${base.title} nearby issue`,
       description: `${base.description} affecting the adjoining street.`,
       category: base.category,
       urgency: base.urgency,
       address: base.address,
-      latitude: base.latitude + 0.0002, // approx 22 meters
-      longitude: base.longitude + 0.0002,
+      latitude: (base.latitude || 14.4644) + 0.0002, // approx 22 meters
+      longitude: (base.longitude || 75.9218) + 0.0002,
       anonymous: false,
       confirmNotDuplicate: false
     };

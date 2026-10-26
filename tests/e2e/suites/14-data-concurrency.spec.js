@@ -60,19 +60,20 @@ test.describe('4N. Data Integrity, Concurrency & Idempotency Guards', () => {
       data: feedbackData
     });
 
-    // Either 201, 200, or 400 (if already submitted or not yet resolved) - must never return 500
-    expect([200, 201, 400]).toContain(res.status());
+    // Either 201, 200, 400 or 409 (if duplicate feedback already recorded) - must never return 500
+    expect([200, 201, 400, 409]).toContain(res.status());
     const body = await res.json();
     expect(body.stackTrace).toBeUndefined();
   });
 
   test('[DATA-04] Exact Duplicate Submission within 24h is Rejected (DUP-1)', async ({ request }) => {
-    const dup = DataFactory.exactDuplicateComplaint();
+    const base = DataFactory.validComplaint();
+    const dup = DataFactory.exactDuplicateComplaint(base);
 
     // First submission
     const res1 = await request.post('/api/v1/complaints', {
       headers: { Authorization: `Bearer ${citizenToken}` },
-      data: dup
+      data: base
     });
 
     if (res1.status() === 201) {
