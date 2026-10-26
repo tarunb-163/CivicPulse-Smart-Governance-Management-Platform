@@ -3,197 +3,237 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Citizen Dashboard — CivicPulse</title>
+  <title>Citizen Dashboard — CivicPulse Smart Governance Portal</title>
+  <meta name="description" content="Citizen Grievance Redressal Dashboard for tracking complaints, SLA timelines, and municipal updates.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/base.css">
   <link rel="stylesheet" href="/assets/css/components.css">
-  <link rel="stylesheet" href="/assets/css/animations.css">
 </head>
-<body>
-  <div class="cp-aurora-bg">
-    <div class="cp-blob cp-blob-1"></div>
-    <div class="cp-blob cp-blob-2"></div>
+<body class="d-flex flex-column min-vh-100">
+  <!-- Skip Link -->
+  <a href="#main-content" class="cp-skip-link">Skip to main content</a>
+
+  <!-- National Tricolour Strip -->
+  <div class="cp-tricolour-strip" aria-hidden="true"></div>
+
+  <!-- Top Demo Notice -->
+  <div class="cp-top-notice" role="region" aria-label="Portal Notice">
+    Demonstration project. Not an official Government website.
   </div>
 
-  <div class="cp-app-layout">
-    <!-- Sidebar -->
-    <aside class="cp-sidebar" id="cpSidebar">
-      <div class="cp-sidebar-header">
-        <a href="/citizen/dashboard.html" class="cp-nav-brand">
-          <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
-          <span class="cp-sidebar-text">Civic<span class="cp-gradient-text">Pulse</span></span>
-        </a>
-      </div>
+  <!-- Utility Bar -->
+  <header class="cp-utility-bar" role="region" aria-label="Accessibility and Language Controls">
+    <a href="/screen-reader.html" class="cp-util-link"><i class="bi bi-eye-fill"></i> Screen Reader Access</a>
+    <div class="cp-util-group">
+      <span class="text-muted small me-1">Text Size:</span>
+      <button type="button" class="cp-text-size-btn" data-size="-" aria-label="Decrease font size">A-</button>
+      <button type="button" class="cp-text-size-btn active" data-size="0" aria-label="Reset font size">A</button>
+      <button type="button" class="cp-text-size-btn" data-size="+" aria-label="Increase font size">A+</button>
+    </div>
+    <div class="cp-util-group">
+      <button type="button" class="cp-contrast-btn" aria-label="Toggle High Contrast Mode"><i class="bi bi-circle-half"></i> Contrast</button>
+      <button type="button" class="cp-contrast-btn cp-theme-toggle" aria-label="Toggle Dark Mode"><i class="bi bi-moon-fill text-primary"></i> Theme</button>
+    </div>
+    <div class="cp-util-group">
+      <label for="langSelect" class="visually-hidden">Select Language</label>
+      <select id="langSelect" class="cp-lang-select" aria-label="Language selection">
+        <option value="en">English</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+    </div>
+  </header>
 
-      <ul class="cp-sidebar-menu">
-        <li class="cp-sidebar-item">
-          <a href="/citizen/dashboard.html" class="cp-sidebar-link active">
-            <i class="bi bi-grid-fill"></i>
-            <span class="cp-sidebar-text">Dashboard</span>
-          </a>
-        </li>
-        <li class="cp-sidebar-item">
-          <a href="/citizen/new-complaint.html" class="cp-sidebar-link">
-            <i class="bi bi-plus-circle-fill"></i>
-            <span class="cp-sidebar-text">File Complaint</span>
-          </a>
-        </li>
-        <li class="cp-sidebar-item">
-          <a href="/citizen/my-complaints.html" class="cp-sidebar-link">
-            <i class="bi bi-collection-fill"></i>
-            <span class="cp-sidebar-text">My Grievances</span>
-          </a>
-        </li>
-        <li class="cp-sidebar-item">
-          <a href="/citizen/profile.html" class="cp-sidebar-link">
-            <i class="bi bi-person-circle"></i>
-            <span class="cp-sidebar-text">My Profile</span>
-          </a>
-        </li>
-      </ul>
-
-      <div class="p-3 border-top">
-        <button id="logoutBtn" class="cp-btn cp-btn-ghost w-100 justify-content-start text-danger">
-          <i class="bi bi-box-arrow-right me-2"></i>
-          <span class="cp-sidebar-text">Sign Out</span>
-        </button>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <div class="cp-main-content">
-      <!-- Topbar -->
-      <header class="cp-topbar">
-        <div class="d-flex align-items-center gap-2">
-          <button class="btn btn-sm cp-btn-ghost d-lg-none" id="sidebarToggle"><i class="bi bi-list fs-4"></i></button>
-          <h5 class="fw-bold mb-0">Citizen Overview</h5>
+  <!-- Portal Header -->
+  <div class="cp-gov-header">
+    <div class="cp-gov-header-inner">
+      <a href="/citizen/dashboard.html" class="cp-brand-seal" aria-label="CivicPulse Portal Dashboard">
+        <svg class="cp-emblem-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CivicPulse Emblem">
+          <circle cx="32" cy="32" r="30" stroke="#1F3A6E" stroke-width="3" fill="#FFFFFF"/>
+          <circle cx="32" cy="32" r="24" stroke="#D9531E" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M32 12V52M12 32H52M18 18L46 46M18 46L46 18" stroke="#1F3A6E" stroke-width="1.5"/>
+          <circle cx="32" cy="32" r="8" fill="#1F3A6E"/>
+          <circle cx="32" cy="32" r="4" fill="#FF9933"/>
+        </svg>
+        <div class="cp-brand-text">
+          <h1>CivicPulse Smart Governance Portal</h1>
+          <span class="cp-portal-sub">Citizen Grievance Redressal Portal</span>
         </div>
-
-        <div class="d-flex align-items-center gap-3">
-          <button class="btn btn-sm cp-btn-ghost cp-open-palette" title="Search (Ctrl+K)"><i class="bi bi-search"></i></button>
-          <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
-
-          <!-- Notifications Dropdown -->
-          <div class="dropdown" id="cpNotifDropdown">
-            <button class="btn btn-sm cp-btn-ghost position-relative" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-bell fs-5"></i>
-              <span id="cpNotifBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none" style="font-size: 0.65rem;">0</span>
-            </button>
-            <div class="dropdown-menu dropdown-menu-end shadow-2 p-2 cp-card-solid" style="width: 320px; max-height: 400px; overflow-y: auto;">
-              <div class="d-flex justify-content-between align-items-center pb-2 border-bottom px-2">
-                <span class="fw-bold small">Alerts & Updates</span>
-                <button type="button" class="btn btn-link p-0 small text-decoration-none" id="cpNotifReadAll">Mark all read</button>
-              </div>
-              <div id="cpNotifList"></div>
+      </a>
+      <div class="cp-header-right">
+        <button class="btn btn-sm cp-btn-outline cp-open-palette" title="Search (Ctrl+K)"><i class="bi bi-search"></i> <span class="d-none d-sm-inline">Search</span></button>
+        <!-- Notifications Dropdown -->
+        <div class="dropdown d-inline-block" id="cpNotifDropdown">
+          <button class="btn btn-sm cp-btn-secondary position-relative" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
+            <i class="bi bi-bell-fill"></i>
+            <span id="cpNotifBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end shadow-sm p-2" style="width: 320px; max-height: 400px; overflow-y: auto;">
+            <div class="d-flex justify-content-between align-items-center pb-2 border-bottom px-2">
+              <span class="fw-bold small text-navy">Alerts &amp; Updates</span>
+              <button type="button" class="btn btn-link p-0 small text-decoration-none" id="cpNotifReadAll">Mark all read</button>
             </div>
-          </div>
-
-          <div class="dropdown">
-            <button class="btn btn-sm cp-btn-secondary rounded-pill d-flex align-items-center gap-2" data-bs-toggle="dropdown">
-              <i class="bi bi-person-fill text-primary"></i>
-              <span id="userNameNav" class="d-none d-sm-inline fw-semibold small">Citizen</span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end cp-card-solid shadow-2">
-              <li><a class="dropdown-item" href="/citizen/profile.html"><i class="bi bi-person me-2"></i>Profile</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item text-danger" href="#" id="menuLogout"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</a></li>
-            </ul>
-          </div>
-        </div>
-      </header>
-
-      <!-- Page Body -->
-      <div class="cp-page-container">
-        <!-- Greeting & CTA Banner -->
-        <div class="cp-card p-4 mb-4 d-flex flex-wrap align-items-center justify-content-between gap-3" style="background: var(--cp-grad-aurora);">
-          <div>
-            <h3 class="fw-bold mb-1" id="greetingText">Good Day, Citizen!</h3>
-            <p class="text-muted mb-0">Track and report civic issues directly to Davanagere Municipal Corporation.</p>
-          </div>
-          <a href="/citizen/new-complaint.html" class="btn cp-btn-primary rounded-pill px-4 py-2">
-            <i class="bi bi-plus-lg me-1"></i>Raise New Grievance
-          </a>
-        </div>
-
-        <!-- Announcements Banner -->
-        <div id="announcementsBanner" class="alert alert-info d-none d-flex align-items-center gap-2 rounded-3 mb-4">
-          <i class="bi bi-megaphone-fill fs-5"></i>
-          <span id="announcementText" class="small"></span>
-        </div>
-
-        <!-- Stat Cards -->
-        <div class="row g-3 mb-4">
-          <div class="col-sm-6 col-xl-3">
-            <div class="cp-card cp-tilt p-3 d-flex align-items-center gap-3">
-              <div class="rounded-circle bg-primary-subtle text-primary p-3 fs-4"><i class="bi bi-collection"></i></div>
-              <div>
-                <div class="text-muted small">My Grievances</div>
-                <h4 class="fw-bold mb-0" id="statMyTotal">0</h4>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="cp-card cp-tilt p-3 d-flex align-items-center gap-3">
-              <div class="rounded-circle bg-warning-subtle text-warning p-3 fs-4"><i class="bi bi-clock-history"></i></div>
-              <div>
-                <div class="text-muted small">In Progress</div>
-                <h4 class="fw-bold mb-0" id="statMyPending">0</h4>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="cp-card cp-tilt p-3 d-flex align-items-center gap-3">
-              <div class="rounded-circle bg-success-subtle text-success p-3 fs-4"><i class="bi bi-check2-circle"></i></div>
-              <div>
-                <div class="text-muted small">Resolved</div>
-                <h4 class="fw-bold mb-0" id="statMyResolved">0</h4>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="cp-card cp-tilt p-3 d-flex align-items-center gap-3">
-              <div class="rounded-circle bg-danger-subtle text-danger p-3 fs-4"><i class="bi bi-heart-fill"></i></div>
-              <div>
-                <div class="text-muted small">Impact Upvotes</div>
-                <h4 class="fw-bold mb-0" id="statMyUpvotes">0</h4>
-              </div>
-            </div>
+            <div id="cpNotifList"></div>
           </div>
         </div>
 
-        <!-- Recent Complaints Section -->
-        <div class="cp-card p-4">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold mb-0"><i class="bi bi-clock-history text-primary me-2"></i>Recent Complaints</h5>
-            <a href="/citizen/my-complaints.html" class="small text-primary text-decoration-none">View All &rarr;</a>
-          </div>
-
-          <div id="recentComplaintsList" class="table-responsive">
-            <div class="text-center py-4 text-muted"><span class="spinner-border spinner-border-sm me-2"></span>Loading your grievances...</div>
-          </div>
+        <!-- User Dropdown -->
+        <div class="dropdown d-inline-block">
+          <button class="btn btn-sm cp-btn-primary d-flex align-items-center gap-2" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-fill"></i>
+            <span id="userNameNav" class="fw-semibold">Citizen</span>
+            <i class="bi bi-caret-down-fill small"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item" href="/citizen/profile.html"><i class="bi bi-person me-2"></i>My Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#" id="menuLogout"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</a></li>
+          </ul>
         </div>
       </div>
-
-      <!-- Slim Footer -->
-      <footer class="cp-footer-slim">
-        <div>&copy; 2026 CivicPulse Municipal Redressal developed by Tarun B</div>
-        <div class="d-flex gap-3">
-          <a href="/privacy.html" class="text-muted text-decoration-none">Privacy</a>
-          <a href="/terms.html" class="text-muted text-decoration-none">Terms</a>
-        </div>
-      </footer>
     </div>
   </div>
 
-  <!-- Mobile Bottom Nav -->
-  <nav class="cp-bottom-nav">
-    <a href="/citizen/dashboard.html" class="cp-bottom-nav-item active"><i class="bi bi-grid-fill fs-5"></i><span>Home</span></a>
-    <a href="/citizen/new-complaint.html" class="cp-bottom-nav-item"><i class="bi bi-plus-circle-fill fs-5"></i><span>File</span></a>
-    <a href="/citizen/my-complaints.html" class="cp-bottom-nav-item"><i class="bi bi-collection-fill fs-5"></i><span>My Issues</span></a>
-    <a href="/citizen/profile.html" class="cp-bottom-nav-item"><i class="bi bi-person-circle fs-5"></i><span>Profile</span></a>
+  <!-- Main Navigation -->
+  <nav class="cp-gov-nav" aria-label="Primary Navigation">
+    <div class="cp-gov-nav-inner">
+      <button class="cp-nav-mobile-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation menu" id="sidebarToggle">
+        <i class="bi bi-list"></i> Menu
+      </button>
+      <ul class="cp-nav-menu" id="cpSidebar">
+        <li class="cp-nav-item"><a href="/citizen/dashboard.html" class="cp-nav-link active"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li class="cp-nav-item"><a href="/citizen/new-complaint.html" class="cp-nav-link"><i class="bi bi-pencil-square"></i> Lodge a Grievance</a></li>
+        <li class="cp-nav-item"><a href="/citizen/my-complaints.html" class="cp-nav-link"><i class="bi bi-collection-fill"></i> My Grievances</a></li>
+        <li class="cp-nav-item"><a href="/track.html" class="cp-nav-link"><i class="bi bi-search"></i> Track Status</a></li>
+        <li class="cp-nav-item"><a href="/transparency.html" class="cp-nav-link"><i class="bi bi-bar-chart-fill"></i> Public Dashboard</a></li>
+        <li class="cp-nav-item"><a href="/citizen/profile.html" class="cp-nav-link"><i class="bi bi-person-circle"></i> Profile</a></li>
+        <li class="cp-nav-item"><button id="logoutBtn" class="cp-nav-link border-0 bg-transparent text-danger"><i class="bi bi-box-arrow-right"></i> Sign Out</button></li>
+      </ul>
+    </div>
   </nav>
+
+  <!-- Breadcrumbs -->
+  <div class="cp-breadcrumb-bar">
+    <div class="cp-breadcrumb-inner">
+      <ol class="cp-breadcrumb-list">
+        <li><a href="/index.html">Home</a></li>
+        <li class="cp-breadcrumb-sep">/</li>
+        <li aria-current="page">Citizen Dashboard</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main id="main-content" class="cp-gov-main">
+    <!-- Greeting & Action Bar -->
+    <div class="cp-card p-4 mb-4 border-2" style="border-left: 4px solid var(--cp-navy) !important;">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+          <h2 class="h4 fw-bold text-navy mb-1" id="greetingText">Good Day, Citizen!</h2>
+          <p class="text-muted small mb-0">Track and report civic issues directly to municipal departments with real-time SLA accountability.</p>
+        </div>
+        <a href="/citizen/new-complaint.html" class="btn cp-btn cp-btn-primary">
+          <i class="bi bi-plus-circle me-1"></i> Lodge New Grievance
+        </a>
+      </div>
+    </div>
+
+    <!-- Announcements Banner -->
+    <div id="announcementsBanner" class="alert alert-secondary border d-none d-flex align-items-center gap-2 mb-4" role="alert" style="border-left: 4px solid var(--cp-saffron) !important;">
+      <i class="bi bi-megaphone-fill fs-5 text-warning"></i>
+      <span id="announcementText" class="small fw-medium"></span>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-md-3">
+        <div class="cp-stat-card">
+          <span class="cp-stat-label">My Grievances</span>
+          <div class="cp-stat-value text-primary" id="statMyTotal">0</div>
+          <span class="cp-stat-help">Lifetime lodged cases</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="cp-stat-card">
+          <span class="cp-stat-label">In Progress</span>
+          <div class="cp-stat-value text-warning" id="statMyPending">0</div>
+          <span class="cp-stat-help">Under active investigation</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="cp-stat-card">
+          <span class="cp-stat-label">Resolved</span>
+          <div class="cp-stat-value text-success" id="statMyResolved">0</div>
+          <span class="cp-stat-help">Remedial work complete</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="cp-stat-card">
+          <span class="cp-stat-label">Citizen Upvotes</span>
+          <div class="cp-stat-value text-navy" id="statMyUpvotes">0</div>
+          <span class="cp-stat-help">Community endorsements</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Complaints Section -->
+    <div class="cp-card p-4 mb-4">
+      <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
+        <h3 class="h5 fw-bold text-navy mb-0"><i class="bi bi-clock-history text-primary me-2"></i>Recent Lodged Grievances</h3>
+        <a href="/citizen/my-complaints.html" class="small text-decoration-none fw-semibold">View All Grievances &rarr;</a>
+      </div>
+
+      <div id="recentComplaintsList" class="table-responsive">
+        <div class="text-center py-4 text-muted"><span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading your grievances...</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 4-Column Government Footer -->
+  <footer class="cp-gov-footer mt-auto" role="contentinfo">
+    <div class="cp-gov-footer-inner">
+      <div class="cp-footer-grid">
+        <div class="cp-footer-col">
+          <h3>About CivicPulse</h3>
+          <p class="small text-light mb-2">CivicPulse Smart Governance Portal is an automated municipal grievance redressal system providing transparent, accountable public service administration.</p>
+          <p class="small text-light mb-0">Demonstration project. Not an official Government website.</p>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Quick Links</h3>
+          <ul class="cp-footer-links">
+            <li><a href="/citizen/new-complaint.html">Lodge a Grievance</a></li>
+            <li><a href="/track.html">Track Grievance Status</a></li>
+            <li><a href="/transparency.html">Public Dashboard</a></li>
+            <li><a href="/help.html">User Guide &amp; FAQs</a></li>
+          </ul>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Policies &amp; Access</h3>
+          <ul class="cp-footer-links">
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms of Use</a></li>
+            <li><a href="/accessibility.html">Accessibility Statement</a></li>
+            <li><a href="/screen-reader.html">Screen Reader Access</a></li>
+            <li><a href="/sitemap.html">Portal Sitemap</a></li>
+          </ul>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Grievance Helpline</h3>
+          <p class="small text-light mb-1"><i class="bi bi-telephone-fill me-1"></i> Toll-Free: <strong>1800-112-233</strong></p>
+          <p class="small text-light mb-1"><i class="bi bi-envelope-fill me-1"></i> grievance@civicpulse.gov.in</p>
+          <p class="small text-light mb-0"><i class="bi bi-clock-fill me-1"></i> 09:00 AM to 06:00 PM (Mon-Sat)</p>
+        </div>
+      </div>
+
+      <div class="cp-footer-bottom">
+        <div>Content owned and maintained by CivicPulse Governance Cell (Demonstration Project).</div>
+        <div>Last updated: October 2026 | Best viewed in latest Chrome, Edge, Firefox, Safari</div>
+        <div>&copy; 2026 CivicPulse Municipal Redressal developed by Tarun B</div>
+      </div>
+    </div>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module">
@@ -202,102 +242,106 @@
     import { apiRequest } from '/assets/js/core/api.js';
     import { escapeHtml, formatDate, getStatusChip, renderSlaRing } from '/assets/js/core/utils.js';
     import '/assets/js/core/theme.js';
+    import '/assets/js/core/i18n.js';
+    import '/assets/js/core/gov-ui.js';
     import '/assets/js/modules/notifications.js';
-    import '/assets/js/ui/spotlight.js';
-    import '/assets/js/ui/tilt.js';
     import '/assets/js/ui/palette.js';
     import '/assets/js/ui/bot.js';
 
     if (checkRouteGuard(['CITIZEN', 'OFFICER', 'DEPT_HEAD', 'ADMIN'])) {
       const user = getUser();
-    if (user) {
-      document.getElementById('userNameNav').textContent = user.name || 'Citizen';
-      const hours = new Date().getHours();
-      const timeGreet = hours < 12 ? 'Good Morning' : (hours < 18 ? 'Good Afternoon' : 'Good Evening');
-      document.getElementById('greetingText').textContent = `${timeGreet}, ${user.name}!`;
-    }
-
-    document.getElementById('logoutBtn').addEventListener('click', logout);
-    document.getElementById('menuLogout').addEventListener('click', logout);
-
-    // Sidebar Toggle
-    const sb = document.getElementById('cpSidebar');
-    document.getElementById('sidebarToggle').addEventListener('click', () => sb.classList.toggle('show'));
-
-    // Load Announcements
-    apiRequest('/public/announcements').then(items => {
-      if (items && items.length > 0) {
-        const banner = document.getElementById('announcementsBanner');
-        document.getElementById('announcementText').textContent = items[0].title + ': ' + items[0].message;
-        banner.classList.remove('d-none');
+      if (user) {
+        document.getElementById('userNameNav').textContent = user.name || 'Citizen';
+        const hours = new Date().getHours();
+        const timeGreet = hours < 12 ? 'Good Morning' : (hours < 18 ? 'Good Afternoon' : 'Good Evening');
+        document.getElementById('greetingText').textContent = `${timeGreet}, ${user.name}!`;
       }
-    }).catch(() => {});
 
-    // Load Citizen Complaints
-    async function loadCitizenDashboard() {
-      try {
-        const res = await apiRequest('/complaints/mine?size=5');
-        const items = res.content || [];
+      document.getElementById('logoutBtn').addEventListener('click', logout);
+      document.getElementById('menuLogout').addEventListener('click', logout);
 
-        // Stats
-        document.getElementById('statMyTotal').textContent = res.totalElements || items.length;
-        const pending = items.filter(c => c.status === 'SUBMITTED' || c.status === 'ASSIGNED' || c.status === 'IN_PROGRESS').length;
-        const resolved = items.filter(c => c.status === 'RESOLVED' || c.status === 'CLOSED').length;
-        const upvotes = items.reduce((acc, c) => acc + (c.upvotesCount || 0), 0);
+      // Sidebar Toggle
+      const sb = document.getElementById('cpSidebar');
+      const toggleBtn = document.getElementById('sidebarToggle');
+      if (toggleBtn && sb) {
+        toggleBtn.addEventListener('click', () => sb.classList.toggle('show'));
+      }
 
-        document.getElementById('statMyPending').textContent = pending;
-        document.getElementById('statMyResolved').textContent = resolved;
-        document.getElementById('statMyUpvotes').textContent = upvotes;
-
-        const container = document.getElementById('recentComplaintsList');
-        if (items.length === 0) {
-          container.innerHTML = `
-            <div class="text-center py-5">
-              <i class="bi bi-inbox text-muted display-4"></i>
-              <p class="text-muted mt-2 mb-3">You have not registered any grievances yet.</p>
-              <a href="/citizen/new-complaint.html" class="btn cp-btn-primary rounded-pill btn-sm">Report Your First Grievance</a>
-            </div>
-          `;
-          return;
+      // Load Announcements
+      apiRequest('/public/announcements').then(items => {
+        if (items && items.length > 0) {
+          const banner = document.getElementById('announcementsBanner');
+          document.getElementById('announcementText').textContent = items[0].title + ': ' + items[0].message;
+          banner.classList.remove('d-none');
         }
+      }).catch(() => {});
 
-        container.innerHTML = `
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-              <tr>
-                <th>Code</th>
-                <th>Title & Category</th>
-                <th>Status</th>
-                <th>SLA Due</th>
-                <th>Registered</th>
-                <th class="text-end">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${items.map(c => `
+      // Load Citizen Complaints
+      async function loadCitizenDashboard() {
+        try {
+          const res = await apiRequest('/complaints/mine?size=5');
+          const items = res.content || [];
+
+          // Stats
+          document.getElementById('statMyTotal').textContent = res.totalElements || items.length;
+          const pending = items.filter(c => c.status === 'SUBMITTED' || c.status === 'ASSIGNED' || c.status === 'IN_PROGRESS').length;
+          const resolved = items.filter(c => c.status === 'RESOLVED' || c.status === 'CLOSED').length;
+          const upvotes = items.reduce((acc, c) => acc + (c.upvotesCount || 0), 0);
+
+          document.getElementById('statMyPending').textContent = pending;
+          document.getElementById('statMyResolved').textContent = resolved;
+          document.getElementById('statMyUpvotes').textContent = upvotes;
+
+          const container = document.getElementById('recentComplaintsList');
+          if (items.length === 0) {
+            container.innerHTML = `
+              <div class="text-center py-5">
+                <i class="bi bi-inbox text-muted display-4"></i>
+                <p class="text-muted mt-2 mb-3">You have not registered any grievances yet.</p>
+                <a href="/citizen/new-complaint.html" class="btn cp-btn cp-btn-primary btn-sm">Lodge Your First Grievance</a>
+              </div>
+            `;
+            return;
+          }
+
+          container.innerHTML = `
+            <table class="table cp-table align-middle mb-0" aria-label="Recent Grievances Table">
+              <caption class="visually-hidden">Recent grievances filed by logged-in citizen</caption>
+              <thead>
                 <tr>
-                  <td><span class="cp-mono fw-bold text-primary">${escapeHtml(c.code)}</span></td>
-                  <td>
-                    <div class="fw-semibold">${escapeHtml(c.title)}</div>
-                    <small class="text-muted">${escapeHtml(c.categoryName || 'General')}</small>
-                  </td>
-                  <td>${getStatusChip(c.status)}</td>
-                  <td>${renderSlaRing(c.slaDueAt, c.status)}</td>
-                  <td class="small text-muted">${formatDate(c.createdAt)}</td>
-                  <td class="text-end">
-                    <a href="/citizen/complaint.html?id=${c.id}" class="btn btn-sm btn-outline-primary rounded-pill">
-                      View
-                    </a>
-                  </td>
+                  <th scope="col">Acknowledgement Code</th>
+                  <th scope="col">Grievance Particulars</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">SLA Due</th>
+                  <th scope="col">Registered</th>
+                  <th scope="col" class="text-end">Action</th>
                 </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        `;
-      } catch (err) {
-        document.getElementById('recentComplaintsList').innerHTML = `<div class="p-4 text-center text-danger">Failed to load grievances</div>`;
+              </thead>
+              <tbody>
+                ${items.map(c => `
+                  <tr>
+                    <td><span class="cp-mono fw-bold text-primary">${escapeHtml(c.code)}</span></td>
+                    <td>
+                      <div class="fw-semibold text-navy">${escapeHtml(c.title)}</div>
+                      <small class="text-muted">${escapeHtml(c.categoryName || 'General')}</small>
+                    </td>
+                    <td>${getStatusChip(c.status)}</td>
+                    <td>${renderSlaRing(c.slaDueAt, c.status)}</td>
+                    <td class="small text-muted">${formatDate(c.createdAt)}</td>
+                    <td class="text-end">
+                      <a href="/citizen/complaint.html?id=${c.id}" class="btn btn-sm cp-btn-outline">
+                        View Details
+                      </a>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `;
+        } catch (err) {
+          document.getElementById('recentComplaintsList').innerHTML = `<div class="p-4 text-center text-danger">Failed to load grievances</div>`;
+        }
       }
-    }
 
       loadCitizenDashboard();
     }

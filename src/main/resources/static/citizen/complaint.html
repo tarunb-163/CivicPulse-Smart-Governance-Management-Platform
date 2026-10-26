@@ -3,181 +3,266 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grievance Details — CivicPulse</title>
+  <title>Grievance Details & Action File — CivicPulse Smart Governance Portal</title>
+  <meta name="description" content="View complete grievance redressal dossier, status timeline, officer notes, and photographic evidence.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/base.css">
   <link rel="stylesheet" href="/assets/css/components.css">
-  <link rel="stylesheet" href="/assets/css/animations.css">
 </head>
-<body>
-  <div class="cp-aurora-bg">
-    <div class="cp-blob cp-blob-1"></div>
-    <div class="cp-blob cp-blob-2"></div>
+<body class="d-flex flex-column min-vh-100">
+  <!-- Skip Link -->
+  <a href="#main-content" class="cp-skip-link">Skip to main content</a>
+
+  <!-- National Tricolour Strip -->
+  <div class="cp-tricolour-strip" aria-hidden="true"></div>
+
+  <!-- Top Demo Notice -->
+  <div class="cp-top-notice" role="region" aria-label="Portal Notice">
+    Demonstration project. Not an official Government website.
   </div>
 
-  <div class="cp-app-layout">
-    <aside class="cp-sidebar" id="cpSidebar">
-      <div class="cp-sidebar-header">
-        <a href="/citizen/dashboard.html" class="cp-nav-brand">
-          <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
-          <span class="cp-sidebar-text">Civic<span class="cp-gradient-text">Pulse</span></span>
-        </a>
+  <!-- Utility Bar -->
+  <header class="cp-utility-bar" role="region" aria-label="Accessibility and Language Controls">
+    <a href="/screen-reader.html" class="cp-util-link"><i class="bi bi-eye-fill"></i> Screen Reader Access</a>
+    <div class="cp-util-group">
+      <span class="text-muted small me-1">Text Size:</span>
+      <button type="button" class="cp-text-size-btn" data-size="-" aria-label="Decrease font size">A-</button>
+      <button type="button" class="cp-text-size-btn active" data-size="0" aria-label="Reset font size">A</button>
+      <button type="button" class="cp-text-size-btn" data-size="+" aria-label="Increase font size">A+</button>
+    </div>
+    <div class="cp-util-group">
+      <button type="button" class="cp-contrast-btn" aria-label="Toggle High Contrast Mode"><i class="bi bi-circle-half"></i> Contrast</button>
+      <button type="button" class="cp-contrast-btn cp-theme-toggle" aria-label="Toggle Dark Mode"><i class="bi bi-moon-fill text-primary"></i> Theme</button>
+    </div>
+    <div class="cp-util-group">
+      <label for="langSelect" class="visually-hidden">Select Language</label>
+      <select id="langSelect" class="cp-lang-select" aria-label="Language selection">
+        <option value="en">English</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- Portal Header -->
+  <div class="cp-gov-header">
+    <div class="cp-gov-header-inner">
+      <a href="/citizen/dashboard.html" class="cp-brand-seal" aria-label="CivicPulse Portal Dashboard">
+        <svg class="cp-emblem-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CivicPulse Emblem">
+          <circle cx="32" cy="32" r="30" stroke="#1F3A6E" stroke-width="3" fill="#FFFFFF"/>
+          <circle cx="32" cy="32" r="24" stroke="#D9531E" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M32 12V52M12 32H52M18 18L46 46M18 46L46 18" stroke="#1F3A6E" stroke-width="1.5"/>
+          <circle cx="32" cy="32" r="8" fill="#1F3A6E"/>
+          <circle cx="32" cy="32" r="4" fill="#FF9933"/>
+        </svg>
+        <div class="cp-brand-text">
+          <h1>CivicPulse Smart Governance Portal</h1>
+          <span class="cp-portal-sub">Citizen Grievance Redressal Portal</span>
+        </div>
+      </a>
+      <div class="cp-header-right">
+        <a href="/citizen/my-complaints.html" class="btn cp-btn cp-btn-secondary cp-btn-sm"><i class="bi bi-arrow-left"></i> My Grievances</a>
       </div>
-      <ul class="cp-sidebar-menu">
-        <li class="cp-sidebar-item"><a href="/citizen/dashboard.html" class="cp-sidebar-link"><i class="bi bi-grid-fill"></i><span class="cp-sidebar-text">Dashboard</span></a></li>
-        <li class="cp-sidebar-item"><a href="/citizen/new-complaint.html" class="cp-sidebar-link"><i class="bi bi-plus-circle-fill"></i><span class="cp-sidebar-text">File Complaint</span></a></li>
-        <li class="cp-sidebar-item"><a href="/citizen/my-complaints.html" class="cp-sidebar-link active"><i class="bi bi-collection-fill"></i><span class="cp-sidebar-text">My Grievances</span></a></li>
-        <li class="cp-sidebar-item"><a href="/citizen/profile.html" class="cp-sidebar-link"><i class="bi bi-person-circle"></i><span class="cp-sidebar-text">My Profile</span></a></li>
-      </ul>
-      <div class="p-3 border-top">
-        <button id="logoutBtn" class="cp-btn cp-btn-ghost w-100 justify-content-start text-danger">
-          <i class="bi bi-box-arrow-right me-2"></i><span class="cp-sidebar-text">Sign Out</span>
-        </button>
-      </div>
-    </aside>
-
-    <div class="cp-main-content">
-      <header class="cp-topbar">
-        <div class="d-flex align-items-center gap-2">
-          <button class="btn btn-sm cp-btn-ghost d-lg-none" id="sidebarToggle"><i class="bi bi-list fs-4"></i></button>
-          <a href="/citizen/my-complaints.html" class="btn btn-sm cp-btn-ghost me-2">&larr; Back to List</a>
-          <h5 class="fw-bold mb-0">Complaint Redressal File</h5>
-        </div>
-        <div class="d-flex align-items-center gap-3">
-          <button class="btn btn-sm cp-btn-ghost cp-open-palette" title="Search (Ctrl+K)"><i class="bi bi-search"></i></button>
-          <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
-        </div>
-      </header>
-
-      <div class="cp-page-container">
-        <!-- Top Action Header -->
-        <div class="cp-card p-4 mb-4">
-          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-            <div>
-              <div class="d-flex align-items-center gap-2 mb-1">
-                <span class="cp-mono fw-bold fs-4 text-primary" id="detailCode">Loading...</span>
-                <span id="detailStatusChip"></span>
-              </div>
-              <h4 class="fw-bold mb-0" id="detailTitle"></h4>
-            </div>
-
-            <div class="d-flex align-items-center gap-3">
-              <div id="detailSlaRing"></div>
-              <button class="btn btn-sm btn-outline-danger rounded-pill" id="btnUpvote">
-                <i class="bi bi-heart-fill me-1"></i>Upvote (<span id="upvotesCount">0</span>)
-              </button>
-              <button class="btn btn-sm btn-outline-primary rounded-pill" id="btnDownloadReceipt">
-                <i class="bi bi-file-earmark-pdf me-1"></i>Receipt PDF
-              </button>
-            </div>
-          </div>
-
-          <!-- Reopen & Feedback Notice Banners -->
-          <div id="reopenBanner" class="alert alert-warning mt-3 mb-0 d-none d-flex justify-content-between align-items-center">
-            <div>
-              <i class="bi bi-info-circle-fill me-2"></i>
-              This grievance was <strong>RESOLVED</strong>. You have 7 days to inspect the resolution and reopen if unsatisfied.
-            </div>
-            <button class="btn btn-sm btn-warning rounded-pill" id="btnReopenComplaint">Reopen Ticket</button>
-          </div>
-
-          <div id="feedbackBanner" class="alert alert-success mt-3 mb-0 d-none d-flex justify-content-between align-items-center">
-            <div>
-              <i class="bi bi-star-fill text-warning me-2"></i>
-              How satisfied are you with this resolution? Please leave official feedback.
-            </div>
-            <button class="btn btn-sm btn-success rounded-pill" id="btnOpenFeedbackModal">Give Feedback</button>
-          </div>
-        </div>
-
-        <!-- Two Columns Layout -->
-        <div class="row g-4">
-          <!-- Left Column: Description, Timeline, Public Comments -->
-          <div class="col-lg-7">
-            <div class="cp-card p-4 mb-4">
-              <h5 class="fw-bold mb-3"><i class="bi bi-file-text-fill text-primary me-2"></i>Grievance Statement</h5>
-              <p class="text-muted" id="detailDesc"></p>
-
-              <h6 class="fw-bold mt-4 mb-3"><i class="bi bi-clock-history text-primary me-2"></i>Workflow Timeline</h6>
-              <div class="cp-timeline" id="detailTimeline"></div>
-            </div>
-
-            <!-- Comments Thread -->
-            <div class="cp-card p-4">
-              <h5 class="fw-bold mb-3"><i class="bi bi-chat-left-dots-fill text-primary me-2"></i>Citizen & Officer Conversation</h5>
-              <div class="d-flex flex-column gap-3 mb-4" id="commentsThread" style="max-height: 380px; overflow-y: auto;">
-                <div class="text-center text-muted small py-3">No messages yet.</div>
-              </div>
-
-              <form id="commentForm" class="d-flex gap-2">
-                <input type="text" id="commentInput" class="form-control rounded-pill" placeholder="Write a message..." required autocomplete="off">
-                <button type="submit" class="btn cp-btn-primary rounded-circle cp-btn-icon" style="width: 38px; height: 38px;"><i class="bi bi-send-fill"></i></button>
-              </form>
-            </div>
-          </div>
-
-          <!-- Right Column: Municipal Info, Mini-Map, Evidence Gallery, QR Card -->
-          <div class="col-lg-5">
-            <!-- Assignment Card -->
-            <div class="cp-card p-4 mb-4">
-              <h6 class="fw-bold mb-3"><i class="bi bi-building me-2 text-primary"></i>Municipal Handling</h6>
-              <div class="mb-2">
-                <small class="text-muted d-block">Department</small>
-                <strong id="detailDept">Roads & Infrastructure</strong>
-              </div>
-              <div class="mb-2">
-                <small class="text-muted d-block">Assigned Officer</small>
-                <span id="detailOfficer" class="fw-semibold text-secondary">Awaiting assignment</span>
-              </div>
-              <div class="mb-2">
-                <small class="text-muted d-block">Incident Address</small>
-                <span id="detailAddress" class="small text-muted"></span>
-              </div>
-            </div>
-
-            <!-- Mini Map -->
-            <div class="cp-card p-3 mb-4">
-              <h6 class="fw-bold mb-2"><i class="bi bi-geo-alt-fill text-danger me-2"></i>Incident Location</h6>
-              <div id="miniMap" style="height: 200px; border-radius: var(--r-md); overflow: hidden;"></div>
-            </div>
-
-            <!-- Attachments Gallery -->
-            <div class="cp-card p-4 mb-4">
-              <h6 class="fw-bold mb-3"><i class="bi bi-images text-info me-2"></i>Photographic Evidence</h6>
-              <div class="row g-2" id="attachmentsGallery">
-                <div class="text-muted small col-12">No photos attached.</div>
-              </div>
-            </div>
-
-            <!-- QR Card -->
-            <div id="detailQrCardContainer"></div>
-          </div>
-        </div>
-      </div>
-
-      <footer class="cp-footer-slim">
-        <div>&copy; 2026 CivicPulse Municipal Redressal developed by Tarun B</div>
-      </footer>
     </div>
   </div>
 
-  <!-- Feedback Modal -->
-  <div class="cp-modal-backdrop" id="feedbackModal">
-    <div class="cp-modal-dialog p-4" style="max-width: 480px;">
-      <div class="text-center mb-3">
-        <div class="rounded-circle bg-warning-subtle text-warning mx-auto mb-2 d-flex align-items-center justify-content-center" style="width: 52px; height: 52px; font-size: 1.5rem;">
-          <i class="bi bi-star-fill"></i>
+  <!-- Main Navigation -->
+  <nav class="cp-gov-nav" aria-label="Primary Navigation">
+    <div class="cp-gov-nav-inner">
+      <button class="cp-nav-mobile-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation menu" id="sidebarToggle">
+        <i class="bi bi-list"></i> Menu
+      </button>
+      <ul class="cp-nav-menu" id="cpSidebar">
+        <li class="cp-nav-item"><a href="/citizen/dashboard.html" class="cp-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li class="cp-nav-item"><a href="/citizen/new-complaint.html" class="cp-nav-link"><i class="bi bi-pencil-square"></i> Lodge a Grievance</a></li>
+        <li class="cp-nav-item"><a href="/citizen/my-complaints.html" class="cp-nav-link active"><i class="bi bi-collection-fill"></i> My Grievances</a></li>
+        <li class="cp-nav-item"><a href="/track.html" class="cp-nav-link"><i class="bi bi-search"></i> Track Status</a></li>
+        <li class="cp-nav-item"><a href="/transparency.html" class="cp-nav-link"><i class="bi bi-bar-chart-fill"></i> Public Dashboard</a></li>
+        <li class="cp-nav-item"><a href="/citizen/profile.html" class="cp-nav-link"><i class="bi bi-person-circle"></i> Profile</a></li>
+        <li class="cp-nav-item"><button id="logoutBtn" class="cp-nav-link border-0 bg-transparent text-danger"><i class="bi bi-box-arrow-right"></i> Sign Out</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumbs -->
+  <div class="cp-breadcrumb-bar">
+    <div class="cp-breadcrumb-inner">
+      <ol class="cp-breadcrumb-list">
+        <li><a href="/index.html">Home</a></li>
+        <li class="cp-breadcrumb-sep">/</li>
+        <li><a href="/citizen/my-complaints.html">My Grievances</a></li>
+        <li class="cp-breadcrumb-sep">/</li>
+        <li aria-current="page">Grievance File</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main id="main-content" class="cp-gov-main">
+    <!-- Top Action Header -->
+    <div class="cp-card p-4 mb-4 border-2">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="cp-mono fw-bold fs-4 text-primary" id="detailCode">Loading...</span>
+            <span id="detailStatusChip"></span>
+          </div>
+          <h2 class="h4 fw-bold text-navy mb-0" id="detailTitle">Grievance Title</h2>
         </div>
-        <h5 class="fw-bold mb-1">Rate Municipal Redressal</h5>
-        <p class="text-muted small">Your rating evaluates department performance</p>
+
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+          <div id="detailSlaRing"></div>
+          <button class="btn btn-sm cp-btn-outline" id="btnUpvote">
+            <i class="bi bi-hand-thumbs-up-fill me-1"></i> Upvote (<span id="upvotesCount">0</span>)
+          </button>
+          <button class="btn btn-sm cp-btn-secondary" id="btnDownloadReceipt">
+            <i class="bi bi-printer-fill me-1"></i> Print / PDF Receipt
+          </button>
+        </div>
+      </div>
+
+      <!-- Reopen & Feedback Notice Banners -->
+      <div id="reopenBanner" class="alert alert-warning border mt-3 mb-0 d-none d-flex justify-content-between align-items-center" role="alert">
+        <div>
+          <i class="bi bi-info-circle-fill me-2 text-warning fs-5"></i>
+          This grievance was marked <strong>RESOLVED</strong> by municipal officials. You have 7 days to inspect the site and reopen if remedial work is unsatisfactory.
+        </div>
+        <button class="btn btn-sm cp-btn-secondary" id="btnReopenComplaint">Reopen Ticket</button>
+      </div>
+
+      <div id="feedbackBanner" class="alert alert-success border mt-3 mb-0 d-none d-flex justify-content-between align-items-center" role="alert">
+        <div>
+          <i class="bi bi-star-fill text-warning me-2 fs-5"></i>
+          Please rate the promptness and quality of this municipal redressal.
+        </div>
+        <button class="btn btn-sm cp-btn-saffron" id="btnOpenFeedbackModal">Leave Feedback</button>
+      </div>
+    </div>
+
+    <!-- Two Columns Layout -->
+    <div class="row g-4 mb-4">
+      <!-- Left Column: Description, Timeline, Public Comments -->
+      <div class="col-lg-7">
+        <div class="cp-card p-4 mb-4">
+          <h3 class="h5 fw-bold text-navy border-bottom pb-2 mb-3"><i class="bi bi-file-text-fill text-primary me-2"></i>Official Grievance Description</h3>
+          <p class="text-muted" id="detailDesc" style="line-height: 1.8;"></p>
+
+          <h3 class="h5 fw-bold text-navy border-bottom pb-2 mb-3 mt-4"><i class="bi bi-clock-history text-primary me-2"></i>Workflow Timeline</h3>
+          <div class="cp-timeline" id="detailTimeline"></div>
+        </div>
+
+        <!-- Comments Thread -->
+        <div class="cp-card p-4">
+          <h3 class="h5 fw-bold text-navy border-bottom pb-2 mb-3"><i class="bi bi-chat-left-dots-fill text-primary me-2"></i>Citizen &amp; Officer Communications</h3>
+          <div class="d-flex flex-column gap-3 mb-4" id="commentsThread" style="max-height: 380px; overflow-y: auto;">
+            <div class="text-center text-muted small py-3">No messages logged yet.</div>
+          </div>
+
+          <form id="commentForm" class="d-flex gap-2">
+            <label for="commentInput" class="visually-hidden">Write a message</label>
+            <input type="text" id="commentInput" class="form-control cp-input" placeholder="Type official remark or query..." required autocomplete="off">
+            <button type="submit" class="btn cp-btn cp-btn-primary px-3 text-nowrap"><i class="bi bi-send-fill me-1"></i> Send</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Right Column: Municipal Handling, Map, Evidence Gallery, QR Card -->
+      <div class="col-lg-5">
+        <!-- Assignment Card -->
+        <div class="cp-card p-4 mb-4">
+          <h3 class="h6 fw-bold text-navy border-bottom pb-2 mb-3"><i class="bi bi-building me-2 text-primary"></i>Departmental Assignment</h3>
+          <div class="mb-2">
+            <span class="text-muted small d-block">Jurisdictional Department</span>
+            <strong id="detailDept" class="text-navy">Roads &amp; Civil Infrastructure</strong>
+          </div>
+          <div class="mb-2">
+            <span class="text-muted small d-block">Assigned Nodal Officer</span>
+            <span id="detailOfficer" class="fw-semibold text-secondary">Awaiting officer allocation</span>
+          </div>
+          <div class="mb-0">
+            <span class="text-muted small d-block">Reported Address / Ward</span>
+            <span id="detailAddress" class="small text-muted"></span>
+          </div>
+        </div>
+
+        <!-- Mini Map -->
+        <div class="cp-card p-3 mb-4">
+          <h3 class="h6 fw-bold text-navy border-bottom pb-2 mb-2"><i class="bi bi-geo-alt-fill text-danger me-2"></i>Incident Geographic Coordinates</h3>
+          <div id="miniMap" style="height: 200px; border-radius: var(--cp-radius-sm); border: 1px solid var(--cp-border); overflow: hidden;"></div>
+        </div>
+
+        <!-- Attachments Gallery -->
+        <div class="cp-card p-4 mb-4">
+          <h3 class="h6 fw-bold text-navy border-bottom pb-2 mb-3"><i class="bi bi-images text-primary me-2"></i>Photographic Evidence</h3>
+          <div class="row g-2" id="attachmentsGallery">
+            <div class="text-muted small col-12">No photos attached.</div>
+          </div>
+        </div>
+
+        <!-- QR Card -->
+        <div id="detailQrCardContainer"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 4-Column Government Footer -->
+  <footer class="cp-gov-footer mt-auto" role="contentinfo">
+    <div class="cp-gov-footer-inner">
+      <div class="cp-footer-grid">
+        <div class="cp-footer-col">
+          <h3>About CivicPulse</h3>
+          <p class="small text-light mb-2">CivicPulse Smart Governance Portal is an automated municipal grievance redressal system providing transparent, accountable public service administration.</p>
+          <p class="small text-light mb-0">Demonstration project. Not an official Government website.</p>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Quick Links</h3>
+          <ul class="cp-footer-links">
+            <li><a href="/citizen/new-complaint.html">Lodge a Grievance</a></li>
+            <li><a href="/track.html">Track Grievance Status</a></li>
+            <li><a href="/transparency.html">Public Dashboard</a></li>
+            <li><a href="/help.html">User Guide &amp; FAQs</a></li>
+          </ul>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Policies &amp; Access</h3>
+          <ul class="cp-footer-links">
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms of Use</a></li>
+            <li><a href="/accessibility.html">Accessibility Statement</a></li>
+            <li><a href="/screen-reader.html">Screen Reader Access</a></li>
+            <li><a href="/sitemap.html">Portal Sitemap</a></li>
+          </ul>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Grievance Helpline</h3>
+          <p class="small text-light mb-1"><i class="bi bi-telephone-fill me-1"></i> Toll-Free: <strong>1800-112-233</strong></p>
+          <p class="small text-light mb-1"><i class="bi bi-envelope-fill me-1"></i> grievance@civicpulse.gov.in</p>
+          <p class="small text-light mb-0"><i class="bi bi-clock-fill me-1"></i> 09:00 AM to 06:00 PM (Mon-Sat)</p>
+        </div>
+      </div>
+
+      <div class="cp-footer-bottom">
+        <div>Content owned and maintained by CivicPulse Governance Cell (Demonstration Project).</div>
+        <div>Last updated: October 2026 | Best viewed in latest Chrome, Edge, Firefox, Safari</div>
+        <div>&copy; 2026 CivicPulse Municipal Redressal developed by Tarun B</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Feedback Modal -->
+  <div class="cp-modal-backdrop" id="feedbackModal" role="dialog" aria-modal="true" aria-labelledby="fbModalTitle">
+    <div class="cp-modal-dialog p-4" style="max-width: 480px;">
+      <div class="text-center border-bottom pb-3 mb-3">
+        <h3 class="h5 fw-bold text-navy mb-1" id="fbModalTitle">Rate Municipal Redressal Quality</h3>
+        <p class="text-muted small mb-0">Your rating directly influences departmental accountability metrics</p>
       </div>
 
       <form id="feedbackForm">
         <div class="text-center mb-3">
-          <div class="fs-2 text-muted" id="starRatingGroup" style="cursor: pointer;">
+          <div class="fs-2 text-muted" id="starRatingGroup" style="cursor: pointer;" aria-label="Star rating out of 5">
             <i class="bi bi-star" data-val="1"></i>
             <i class="bi bi-star" data-val="2"></i>
             <i class="bi bi-star" data-val="3"></i>
@@ -187,26 +272,26 @@
           <input type="hidden" id="ratingInput" value="5">
         </div>
 
-        <div class="cp-form-group mb-3">
-          <label class="cp-label">Remarks / Experience</label>
-          <textarea id="feedbackComment" class="form-control" rows="3" placeholder="Tell us about the quality of work..."></textarea>
+        <div class="mb-3">
+          <label class="form-label fw-bold small text-navy" for="feedbackComment">Remarks / Citizen Experience</label>
+          <textarea id="feedbackComment" class="form-control cp-textarea" rows="3" placeholder="Share comments regarding remedial work quality or promptness..."></textarea>
         </div>
 
         <div class="form-check mb-4">
           <input class="form-check-input" type="checkbox" id="satisfiedCheck" checked>
-          <label class="form-check-label small fw-semibold" for="satisfiedCheck">I am satisfied with this resolution</label>
+          <label class="form-check-label small fw-semibold text-navy" for="satisfiedCheck">I am satisfied with this resolution</label>
         </div>
 
-        <div class="d-flex justify-content-end gap-2">
-          <button type="button" class="btn btn-ghost" id="feedbackCancel">Cancel</button>
-          <button type="submit" class="btn cp-btn-primary rounded-pill px-4">Submit Rating</button>
+        <div class="d-flex justify-content-end gap-2 border-top pt-3">
+          <button type="button" class="btn cp-btn cp-btn-secondary" id="feedbackCancel">Cancel</button>
+          <button type="submit" class="btn cp-btn cp-btn-primary px-4">Submit Rating</button>
         </div>
       </form>
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script type="module">
     import { checkRouteGuard } from '/assets/js/core/router-guard.js';
     import { logout } from '/assets/js/core/auth.js';
@@ -217,6 +302,8 @@
     import { initStaticDisplayMap } from '/assets/js/modules/map.js';
     import { renderQrCard } from '/assets/js/modules/qr.js';
     import '/assets/js/core/theme.js';
+    import '/assets/js/core/i18n.js';
+    import '/assets/js/core/gov-ui.js';
     import '/assets/js/ui/palette.js';
     import '/assets/js/ui/bot.js';
 
@@ -243,8 +330,8 @@
         document.getElementById('detailStatusChip').innerHTML = getStatusChip(c.status);
         document.getElementById('detailSlaRing').innerHTML = renderSlaRing(c.slaDueAt, c.status);
         document.getElementById('upvotesCount').textContent = c.upvotesCount || 0;
-        document.getElementById('detailDept').textContent = c.departmentName || 'General';
-        document.getElementById('detailOfficer').textContent = c.assignedOfficerName || 'Assigned Officer';
+        document.getElementById('detailDept').textContent = c.departmentName || 'General Municipal';
+        document.getElementById('detailOfficer').textContent = c.assignedOfficerName || 'Awaiting officer allocation';
         document.getElementById('detailAddress').textContent = c.address || 'Location coordinates saved';
 
         // Reopen banner: if RESOLVED and < 7 days
@@ -268,7 +355,7 @@
             <div class="cp-timeline-node"></div>
             <div class="cp-timeline-content">
               <div class="d-flex justify-content-between align-items-center mb-1">
-                <strong>${escapeHtml(h.toStatus)}</strong>
+                <strong class="text-navy">${escapeHtml(h.toStatus)}</strong>
                 <small class="text-muted">${formatDate(h.createdAt)}</small>
               </div>
               <div class="small text-muted">${escapeHtml(h.remark || 'Status updated')}</div>
@@ -291,7 +378,7 @@
           gallery.innerHTML = files.map(a => `
             <div class="col-4">
               <a href="${a.fileUrl}" target="_blank">
-                <img src="${a.fileUrl}" class="img-thumbnail rounded-3 w-100" style="height: 75px; object-fit: cover;">
+                <img src="${a.fileUrl}" alt="Photographic evidence" class="img-thumbnail rounded w-100" style="height: 75px; object-fit: cover;">
               </a>
             </div>
           `).join('');
@@ -310,13 +397,13 @@
     function renderComments(list) {
       const thread = document.getElementById('commentsThread');
       if (!list || list.length === 0) {
-        thread.innerHTML = `<div class="text-center text-muted small py-3">No messages yet.</div>`;
+        thread.innerHTML = `<div class="text-center text-muted small py-3">No messages logged yet.</div>`;
         return;
       }
       thread.innerHTML = list.map(m => `
-        <div class="p-3 rounded-3 ${m.isInternal ? 'bg-warning-subtle' : 'bg-light'}">
+        <div class="p-3 rounded border ${m.isInternal ? 'bg-warning-subtle' : 'bg-light'}">
           <div class="d-flex justify-content-between align-items-center mb-1">
-            <strong class="small text-primary">${escapeHtml(m.authorName || 'Citizen')}</strong>
+            <strong class="small text-navy">${escapeHtml(m.authorName || 'Citizen')}</strong>
             <small class="text-muted" style="font-size: 0.72rem;">${formatDate(m.createdAt)}</small>
           </div>
           <div class="small">${escapeHtml(m.comment)}</div>
