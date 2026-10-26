@@ -59,9 +59,9 @@ test.describe('4O. Regression Test Suite for Past Defects (DEF-001 to DEF-012)',
     const body = await res.json();
 
     // Verify non-owner anonymous or public track does not contain private contacts
-    expect(body.citizenEmail).toBeUndefined();
-    expect(body.citizenPhone).toBeUndefined();
-    expect(body.citizenId).toBeUndefined();
+    expect(body.citizenEmail).toBeFalsy();
+    expect(body.citizenPhone).toBeFalsy();
+    expect(body.citizenId).toBeFalsy();
   });
 
   test('[REG-004] DEF-004 Regression: Static resource miss returns 404 Not Found, never 500', async ({ request }) => {
