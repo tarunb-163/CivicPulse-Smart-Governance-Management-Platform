@@ -18,7 +18,9 @@ public class CommentResponse {
     private String authorName;
     private String authorRole;
     private String body;
+    private String comment;
     private boolean internal;
+    private boolean isInternal;
     private Instant createdAt;
 
     public static CommentResponse fromEntity(Comment c) {
@@ -29,7 +31,9 @@ public class CommentResponse {
                 .authorName(c.getAuthor() != null ? c.getAuthor().getName() : "Anonymous")
                 .authorRole(c.getAuthor() != null && c.getAuthor().getRole() != null ? c.getAuthor().getRole().name() : "CITIZEN")
                 .body(c.getBody())
+                .comment(c.getBody())
                 .internal(c.isInternal())
+                .isInternal(c.isInternal())
                 .createdAt(c.getCreatedAt())
                 .build();
     }

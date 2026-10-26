@@ -45,3 +45,5 @@ Thumbs.db
 ### Test Run Artifacts ###
 test-results/
 playwright-report/
+tests/e2e/fixtures/*.png
+

@@ -45,7 +45,7 @@ export async function upvoteComplaint(complaintId) {
 export async function addComment(complaintId, text, isInternal = false) {
   return await apiRequest(`/complaints/${complaintId}/comments`, {
     method: 'POST',
-    body: JSON.stringify({ comment: text, isInternal })
+    body: JSON.stringify({ body: text, comment: text, internal: isInternal, isInternal })
   });
 }
 

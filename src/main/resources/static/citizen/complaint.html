@@ -401,12 +401,12 @@
         return;
       }
       thread.innerHTML = list.map(m => `
-        <div class="p-3 rounded border ${m.isInternal ? 'bg-warning-subtle' : 'bg-light'}">
+        <div class="p-3 rounded border ${m.internal || m.isInternal ? 'bg-warning-subtle' : 'bg-light'}">
           <div class="d-flex justify-content-between align-items-center mb-1">
             <strong class="small text-navy">${escapeHtml(m.authorName || 'Citizen')}</strong>
             <small class="text-muted" style="font-size: 0.72rem;">${formatDate(m.createdAt)}</small>
           </div>
-          <div class="small">${escapeHtml(m.comment)}</div>
+          <div class="small">${escapeHtml(m.body || m.comment || '')}</div>
         </div>
       `).join('');
       thread.scrollTop = thread.scrollHeight;
