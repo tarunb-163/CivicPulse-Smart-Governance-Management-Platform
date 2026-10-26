@@ -260,7 +260,7 @@
         return;
       }
       colEl.innerHTML = items.map(c => `
-        <div class="cp-card p-3 border mb-2 bg-white" data-id="${c.id}" style="border-radius: 4px; box-shadow: none;">
+        <div class="cp-card p-3 border mb-2" data-id="${c.id}" style="border-radius: 4px; box-shadow: none; flex-shrink: 0;">
           <div class="d-flex justify-content-between align-items-center mb-1">
             <span class="cp-mono fw-bold text-primary small">${escapeHtml(c.code)}</span>
             ${renderSlaRing(c.slaDueAt, c.status)}
@@ -307,8 +307,8 @@
 
             const remark = prompt(`Enter remark for moving to ${targetStatus}:`);
             if (!remark) {
-              // cancel move
-              evt.from.appendChild(itemEl);
+              // cancel move and revert original column order
+              loadKanban();
               return;
             }
 

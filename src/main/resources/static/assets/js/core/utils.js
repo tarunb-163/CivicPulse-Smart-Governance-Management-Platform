@@ -74,9 +74,12 @@ export function renderSlaRing(slaDueAt, status) {
 
   return `
     <div class="cp-sla-ring" title="${escapeHtml(sla.text)}">
-      <svg viewBox="0 0 44 44">
-        <circle class="cp-sla-ring-bg" cx="22" cy="22" r="18" />
+      <svg viewBox="0 0 44 44" width="32" height="32">
+        <circle class="cp-sla-ring-bg" cx="22" cy="22" r="18" fill="none" stroke-width="3.5" />
         <circle class="cp-sla-ring-progress" cx="22" cy="22" r="18"
+          fill="none"
+          stroke-width="3.5"
+          stroke-linecap="round"
           stroke="${strokeColor}"
           stroke-dasharray="${circumference}"
           stroke-dashoffset="${offset}" />

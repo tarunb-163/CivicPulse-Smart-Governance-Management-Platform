@@ -714,3 +714,73 @@
 .cp-bot-trigger:hover {
   background-color: var(--cp-primary-600);
 }
+
+/* =============================================================
+   19. KANBAN REDRESSAL BOARD
+   ============================================================= */
+.cp-kanban-cards {
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.cp-kanban-cards > .cp-card {
+  flex-shrink: 0 !important;
+  cursor: grab;
+  transition: transform var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out);
+}
+
+.cp-kanban-cards > .cp-card:active {
+  cursor: grabbing;
+}
+
+/* =============================================================
+   20. SLA METRIC RING
+   ============================================================= */
+.cp-sla-ring {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.cp-sla-ring svg {
+  width: 32px;
+  height: 32px;
+  transform: rotate(-90deg);
+  display: block;
+}
+
+.cp-sla-ring-bg {
+  fill: none !important;
+  stroke: var(--cp-border, #E2E8F0);
+  stroke-width: 3.5;
+}
+
+.cp-sla-ring-progress {
+  fill: none !important;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.35s ease;
+}
+
+.cp-sla-ring-text {
+  position: absolute;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  user-select: none;
+}
+
+[data-theme="dark"] .cp-sla-ring-bg {
+  stroke: rgba(255, 255, 255, 0.15);
+}
+
+[data-contrast="high"] .cp-sla-ring-bg {
+  stroke: #FFFFFF;
+}
+

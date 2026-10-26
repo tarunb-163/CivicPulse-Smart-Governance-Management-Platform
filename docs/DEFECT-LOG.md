@@ -24,6 +24,7 @@ This document tracks all defects found during the audit, test, and debug process
 | DEF-014 | S2 | frontend/public | 4G Public Suite (PUB) | FIXED | `transparency.html` schema mismatch (`departmentStats` vs `departmentLeaderboard`) resulted in empty department breakdown table |
 | DEF-015 | S2 | backend/citizen | 4D Citizen Suite (CIT) | FIXED | `CommentCreateRequest` rejected `{ text: ... }` JSON payload from citizen grievance discussion interface |
 | DEF-016 | S3 | frontend/pwa | 4A Smoke Suite (SMK) | FIXED | Missing PWA icon PNG assets (`icon-192.png`, `icon-512.png`) caused 404 console errors on all pages loading `manifest.json` |
+| DEF-017 | S2 | frontend/officer | Visual QA / User Inspection | FIXED | Officer Kanban cards collapsed vertically to 34px due to flexbox shrink, and SLA progress rings rendered as solid black discs |
 
 ---
 
@@ -252,6 +253,30 @@ This document tracks all defects found during the audit, test, and debug process
 - **Fix:** Generated valid PNG icons `icon-192.png` (192x192) and `icon-512.png` (512x512) featuring the official CivicPulse emblem in `src/main/resources/static/assets/icons/`.
 - **Regression Test:** `tests/e2e/suites/01-smoke-crawler.spec.js` (crawls all 28 pages and asserts 0 network failures or console errors).
 - **Status:** `FIXED`
+
+### DEF-017: Officer Kanban Cards Vertical Collapsing and Unstyled SLA SVG Black Circles
+- **ID:** `DEF-017`
+- **Severity:** `S2` (Functional / Visual: Officer workflow pipeline unusable due to collapsed cards and black SVG disks)
+- **Area:** `frontend/officer`
+- **Found by:** Officer Kanban Board Visual QA Inspection
+- **Symptom:**
+  1. In the Officer Kanban Redressal Board (`officer/board.html`), cards in "Assigned" and "In Progress" stages were squashed down to 34px–45px height, hiding grievance subjects, category tags, and action buttons.
+  2. Large solid black circular discs rendered on the right side of every non-resolved grievance card.
+- **Root Cause:**
+  1. The Kanban column containers (`.cp-kanban-cards`) use `d-flex flex-column gap-2` with `max-height: 700px; overflow-y: auto;`. Because `.cp-card` had `overflow: hidden;` and default flexbox item `flex-shrink: 1;`, its computed `min-height` resolved to 0, forcing all cards to shrink into the 700px container rather than expanding to natural height and scrolling.
+  2. The `.cp-sla-ring` circular progress gauge had no CSS rules defined in `components.css`. In the SVG specification, `<circle>` elements without explicit `fill` default to solid black (`rgb(0, 0, 0)`), and SVGs without explicit dimensions in flex layouts expand unpredictably.
+- **Fix:**
+  1. Added CSS rules in `components.css`:
+     - `.cp-kanban-cards > .cp-card { flex-shrink: 0 !important; cursor: grab; }`
+     - `.cp-sla-ring`: explicit 32x32px dimensions, relative positioning, flex centering.
+     - `.cp-sla-ring-bg`: `fill: none !important; stroke: var(--cp-border); stroke-width: 3.5;`
+     - `.cp-sla-ring-progress`: `fill: none !important; stroke-width: 3.5; stroke-linecap: round;`
+     - `.cp-sla-ring-text`: centered absolute positioning with crisp typography and theme support.
+  2. Added fallback presentation attributes `width="32" height="32" fill="none" stroke-width="3.5"` in `renderSlaRing()` within `utils.js`.
+  3. Added `flex-shrink: 0` inline and updated prompt cancellation in `board.html` to smoothly revert column order via `loadKanban()`.
+- **Regression Test:** `tests/e2e/suites/05-officer-flows.spec.js` (`[OFF-03] Officer - Kanban Board Rendering with Columns`) & `tests/e2e/suites/16-second-pass-check.spec.js` (`[OFF-01] Second-Pass: Officer Kanban Board Column Layout`).
+- **Status:** `FIXED`
+
 
 
 
