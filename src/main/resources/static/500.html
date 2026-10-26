@@ -3,24 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>500 Internal Error — CivicPulse</title>
+  <title>500 — Server Error | CivicPulse</title>
+  <meta name="description" content="An internal server error occurred on the CivicPulse Smart Governance Portal.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/base.css">
   <link rel="stylesheet" href="/assets/css/components.css">
 </head>
-<body class="d-flex align-items-center justify-content-center min-vh-100">
-  <div class="cp-aurora-bg">
-    <div class="cp-blob cp-blob-1"></div>
-    <div class="cp-blob cp-blob-3"></div>
+<body class="d-flex flex-column min-vh-100 bg-page">
+  <!-- National Tricolour Strip -->
+  <div class="cp-tricolour-strip" aria-hidden="true"></div>
+
+  <!-- Top Demo Notice -->
+  <div class="cp-top-notice" role="region" aria-label="Portal Notice">
+    Demonstration project. Not an official Government website.
   </div>
-  <div class="cp-card text-center p-5" style="max-width: 480px;">
-    <div class="display-1 fw-bold text-danger mb-2">500</div>
-    <h3 class="fw-bold mb-2">System Error</h3>
-    <p class="text-muted mb-4">An unexpected error occurred while communicating with the civic data service. Our engineering team has been alerted.</p>
-    <a href="/index.html" class="btn cp-btn-primary">Return Home</a>
-  </div>
+
+  <main class="container my-auto py-5" style="max-width: 540px;">
+    <div class="cp-card text-center p-4 p-sm-5 border-2 shadow-sm">
+      <div class="display-3 fw-bold text-danger mb-2">500</div>
+      <h1 class="h4 fw-bold text-navy mb-2">Internal Service Error</h1>
+      <p class="text-muted small mb-4">An unexpected system error occurred while processing your request. The technical cell has been notified. Please try again in a few moments.</p>
+      
+      <div class="d-flex justify-content-center gap-2">
+        <a href="/index.html" class="btn cp-btn cp-btn-primary"><i class="bi bi-house-door-fill me-1"></i> Return to Homepage</a>
+        <a href="/contact.html" class="btn cp-btn cp-btn-secondary"><i class="bi bi-telephone-fill me-1"></i> Help Desk</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="cp-footer-slim">
+    <div>&copy; 2026 CivicPulse Municipal Redressal developed by Tarun B</div>
+    <div class="d-flex gap-3">
+      <a href="/help.html" class="text-decoration-none text-muted">Help</a>
+      <a href="/contact.html" class="text-decoration-none text-muted">Contact</a>
+    </div>
+  </footer>
+
   <script type="module" src="/assets/js/core/theme.js"></script>
 </body>
 </html>

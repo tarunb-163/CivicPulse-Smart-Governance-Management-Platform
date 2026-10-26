@@ -3,154 +3,249 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Public Transparency Dashboard — CivicPulse</title>
+  <title>Public Transparency Dashboard — CivicPulse Smart Governance Portal</title>
+  <meta name="description" content="Live municipal performance metrics, resolution compliance rates, departmental leaderboards, and geo-incident distribution.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/base.css">
   <link rel="stylesheet" href="/assets/css/components.css">
-  <link rel="stylesheet" href="/assets/css/animations.css">
-  <style>
-    .cp-marquee {
-      overflow: hidden;
-      white-space: nowrap;
-      box-sizing: border-box;
-      background: rgba(16, 185, 129, 0.08);
-      border: 1px solid rgba(16, 185, 129, 0.2);
-      border-radius: var(--r-pill);
-      padding: 10px 0;
-    }
-    .cp-marquee-content {
-      display: inline-block;
-      padding-left: 100%;
-      animation: marquee 35s linear infinite;
-    }
-    @keyframes marquee {
-      0%   { transform: translate(0, 0); }
-      100% { transform: translate(-100%, 0); }
-    }
-  </style>
 </head>
-<body class="d-flex flex-column min-vh-100 justify-content-between">
-  <div class="cp-aurora-bg">
-    <div class="cp-blob cp-blob-1"></div>
-    <div class="cp-blob cp-blob-2"></div>
-    <div class="cp-blob cp-blob-3"></div>
+<body class="d-flex flex-column min-vh-100">
+  <!-- Skip Link -->
+  <a href="#main-content" class="cp-skip-link">Skip to main content</a>
+
+  <!-- National Tricolour Strip -->
+  <div class="cp-tricolour-strip" aria-hidden="true"></div>
+
+  <!-- Top Demo Notice -->
+  <div class="cp-top-notice" role="region" aria-label="Portal Notice">
+    Demonstration project. Not an official Government website.
   </div>
 
-  <nav class="cp-navbar d-flex justify-content-between align-items-center mt-3">
-    <a href="/index.html" class="cp-nav-brand">
-      <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
-      <span>Civic<span class="cp-gradient-text">Pulse</span></span>
-    </a>
-    <div class="d-flex align-items-center gap-3">
-      <a href="/index.html" class="cp-nav-link">Home</a>
-      <a href="/track.html" class="cp-nav-link">Track</a>
-      <a href="/transparency.html" class="cp-nav-link active">Transparency</a>
-      <a href="/login.html" class="btn cp-btn-primary cp-btn-sm">Sign In</a>
-      <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
+  <!-- Utility Bar -->
+  <header class="cp-utility-bar" role="region" aria-label="Accessibility and Language Controls">
+    <a href="/screen-reader.html" class="cp-util-link"><i class="bi bi-eye-fill"></i> Screen Reader Access</a>
+    <div class="cp-util-group">
+      <span class="text-muted small me-1">Text Size:</span>
+      <button type="button" class="cp-text-size-btn" data-size="-" aria-label="Decrease font size">A-</button>
+      <button type="button" class="cp-text-size-btn active" data-size="0" aria-label="Reset font size">A</button>
+      <button type="button" class="cp-text-size-btn" data-size="+" aria-label="Increase font size">A+</button>
+    </div>
+    <div class="cp-util-group">
+      <button type="button" class="cp-contrast-btn" aria-label="Toggle High Contrast Mode"><i class="bi bi-circle-half"></i> Contrast</button>
+      <button type="button" class="cp-contrast-btn cp-theme-toggle" aria-label="Toggle Dark Mode"><i class="bi bi-moon-fill text-primary"></i> Theme</button>
+    </div>
+    <div class="cp-util-group">
+      <label for="langSelect" class="visually-hidden">Select Language</label>
+      <select id="langSelect" class="cp-lang-select" aria-label="Language selection">
+        <option value="en">English</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- Portal Header -->
+  <div class="cp-gov-header">
+    <div class="cp-gov-header-inner">
+      <a href="/index.html" class="cp-brand-seal" aria-label="CivicPulse Portal Home">
+        <svg class="cp-emblem-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CivicPulse Emblem">
+          <circle cx="32" cy="32" r="30" stroke="#1F3A6E" stroke-width="3" fill="#FFFFFF"/>
+          <circle cx="32" cy="32" r="24" stroke="#D9531E" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M32 12V52M12 32H52M18 18L46 46M18 46L46 18" stroke="#1F3A6E" stroke-width="1.5"/>
+          <circle cx="32" cy="32" r="8" fill="#1F3A6E"/>
+          <circle cx="32" cy="32" r="4" fill="#FF9933"/>
+        </svg>
+        <div class="cp-brand-text">
+          <h1 data-i18n="brandName">CivicPulse Smart Governance Portal</h1>
+          <span class="cp-portal-sub" data-i18n="portalSub">Citizen Grievance Redressal Portal</span>
+        </div>
+      </a>
+      <div class="cp-header-right">
+        <a href="/citizen/new-complaint.html" class="btn cp-btn cp-btn-saffron cp-btn-sm"><i class="bi bi-pencil-square"></i> Lodge a Grievance</a>
+        <a href="/login.html" class="btn cp-btn cp-btn-secondary cp-btn-sm"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <nav class="cp-gov-nav" aria-label="Primary Navigation">
+    <div class="cp-gov-nav-inner">
+      <button class="cp-nav-mobile-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation menu">
+        <i class="bi bi-list"></i> Menu
+      </button>
+      <ul class="cp-nav-menu">
+        <li class="cp-nav-item"><a href="/index.html" class="cp-nav-link"><i class="bi bi-house-door-fill"></i> Home</a></li>
+        <li class="cp-nav-item"><a href="/citizen/new-complaint.html" class="cp-nav-link">Lodge a Grievance</a></li>
+        <li class="cp-nav-item"><a href="/track.html" class="cp-nav-link">Track Grievance Status</a></li>
+        <li class="cp-nav-item"><a href="/transparency.html" class="cp-nav-link active">Public Dashboard</a></li>
+        <li class="cp-nav-item"><a href="/help.html" class="cp-nav-link">Help & User Guide</a></li>
+        <li class="cp-nav-item"><a href="/contact.html" class="cp-nav-link">Contact Us</a></li>
+      </ul>
     </div>
   </nav>
 
-  <main class="container py-5 my-auto">
-    <!-- Header -->
-    <div class="text-center mb-5" data-reveal>
-      <div class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill mb-3">
-        <i class="bi bi-eye-fill me-1"></i>Open Municipal Governance
-      </div>
-      <h1 class="display-5 fw-bold mb-3">Public Transparency Portal</h1>
-      <p class="text-muted lead mx-auto" style="max-width: 680px;">
-        Real-time municipal performance metrics, resolution rates, department accountability leaderboards, and geo-incident distribution.
-      </p>
+  <!-- Breadcrumbs -->
+  <div class="cp-breadcrumb-bar">
+    <div class="cp-breadcrumb-inner">
+      <ol class="cp-breadcrumb-list">
+        <li><a href="/index.html">Home</a></li>
+        <li class="cp-breadcrumb-sep">/</li>
+        <li aria-current="page">Public Transparency Dashboard</li>
+      </ol>
     </div>
+  </div>
 
-    <!-- Live Resolved Ticker Marquee -->
-    <div class="cp-marquee mb-5" data-reveal>
-      <div class="cp-marquee-content" id="resolvedTicker">
-        <span class="me-4"><i class="bi bi-check-circle-fill text-success me-1"></i> CP-2026-000012: Pothole repaired on PB Road (Ward 7)</span>
-        <span class="me-4"><i class="bi bi-check-circle-fill text-success me-1"></i> CP-2026-000018: Streetlight restored in Mandipet</span>
-        <span class="me-4"><i class="bi bi-check-circle-fill text-success me-1"></i> CP-2026-000025: Pipeline burst fixed in MCC B Block</span>
-        <span class="me-4"><i class="bi bi-check-circle-fill text-success me-1"></i> CP-2026-000031: Garbage clearance verified at Gandhi Circle</span>
-      </div>
+  <!-- Main Content -->
+  <main id="main-content" class="cp-gov-main">
+    <div class="border-bottom pb-3 mb-4">
+      <div class="badge bg-navy text-white px-3 py-1 rounded-1 mb-2">Open Data &amp; Accountability</div>
+      <h2 class="h3 fw-bold text-navy mb-1">Public Municipal Performance Dashboard</h2>
+      <p class="text-muted small mb-0">Auditable, real-time metrics on citizen grievance volumes, departmental resolution turnaround, and geographic incident density.</p>
     </div>
 
     <!-- KPI Cards Strip -->
-    <div class="row g-4 mb-5" data-reveal>
-      <div class="col-sm-6 col-lg-3">
-        <div class="cp-card cp-tilt text-center p-4">
-          <div class="text-primary fs-1 mb-2"><i class="bi bi-card-checklist"></i></div>
-          <div class="display-6 fw-bold" id="statTotal" data-counter="0">0</div>
-          <div class="text-muted small mt-1">Total Grievances Registered</div>
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-md-3">
+        <div class="cp-stat-card">
+          <span class="cp-stat-label">Total Grievances Registered</span>
+          <div class="cp-stat-value text-primary" id="statTotal" data-counter="0">0</div>
+          <span class="cp-stat-help">Auditable recorded filings</span>
         </div>
       </div>
-      <div class="col-sm-6 col-lg-3">
-        <div class="cp-card cp-tilt text-center p-4">
-          <div class="text-success fs-1 mb-2"><i class="bi bi-check-circle-fill"></i></div>
-          <div class="display-6 fw-bold text-success" id="statResolved" data-counter="0">0</div>
-          <div class="text-muted small mt-1">Grievances Resolved</div>
+      <div class="col-6 col-md-3">
+        <div class="cp-stat-card">
+          <span class="cp-stat-label">Verified Redressals</span>
+          <div class="cp-stat-value text-success" id="statResolved" data-counter="0">0</div>
+          <span class="cp-stat-help">Closed with photo proof</span>
         </div>
       </div>
-      <div class="col-sm-6 col-lg-3">
-        <div class="cp-card cp-tilt text-center p-4">
-          <div class="text-info fs-1 mb-2"><i class="bi bi-percent"></i></div>
-          <div class="display-6 fw-bold text-info" id="statRate">0%</div>
-          <div class="text-muted small mt-1">Resolution Compliance Rate</div>
+      <div class="col-6 col-md-3">
+        <div class="cp-stat-card">
+          <span class="cp-stat-label">Compliance Resolution Rate</span>
+          <div class="cp-stat-value text-navy" id="statRate">0%</div>
+          <span class="cp-stat-help">Target benchmark: &ge; 90%</span>
         </div>
       </div>
-      <div class="col-sm-6 col-lg-3">
-        <div class="cp-card cp-tilt text-center p-4">
-          <div class="text-warning fs-1 mb-2"><i class="bi bi-clock-history"></i></div>
-          <div class="display-6 fw-bold" id="statAvgTime">28.4h</div>
-          <div class="text-muted small mt-1">Average Resolution Time</div>
+      <div class="col-6 col-md-3">
+        <div class="cp-stat-card">
+          <span class="cp-stat-label">Average Redressal Time</span>
+          <div class="cp-stat-value text-navy" id="statAvgTime">28.4h</div>
+          <span class="cp-stat-help">SLA target: &le; 48 hours</span>
         </div>
       </div>
     </div>
 
     <!-- Charts & Leaderboard Row -->
-    <div class="row g-4 mb-5">
-      <!-- Category Breakdown Chart -->
+    <div class="row g-4 mb-4">
+      <!-- Category Breakdown Chart & Accessible Table Alternative -->
       <div class="col-lg-6">
-        <div class="cp-card p-4 h-100">
-          <h5 class="fw-bold mb-3"><i class="bi bi-pie-chart-fill text-primary me-2"></i>Grievance Distribution by Category</h5>
-          <div style="height: 320px;">
-            <canvas id="transparencyCatChart"></canvas>
+        <div class="cp-card h-100 p-4">
+          <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
+            <h3 class="h5 fw-bold text-navy mb-0"><i class="bi bi-pie-chart-fill text-primary me-2"></i>Grievances by Category</h3>
+            <button type="button" class="btn btn-sm cp-btn-outline" id="toggleCatTableBtn" aria-expanded="false" aria-controls="catTableFallback">
+              <i class="bi bi-table me-1"></i> View as Table
+            </button>
+          </div>
+
+          <!-- Chart View -->
+          <div id="catChartWrapper" style="height: 320px;">
+            <canvas id="transparencyCatChart" aria-label="Grievance Distribution Chart" role="img"></canvas>
+          </div>
+
+          <!-- Accessible Table View Alternative -->
+          <div id="catTableFallback" class="d-none mt-2">
+            <div class="table-responsive">
+              <table class="table cp-table mb-0" id="catDataTable" aria-label="Grievances Breakdown Table">
+                <caption class="visually-hidden">Tabular breakdown of complaints per municipal category</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Grievance Category</th>
+                    <th scope="col" class="text-end">Registered Count</th>
+                  </tr>
+                </thead>
+                <tbody id="catTableBody">
+                  <tr><td colspan="2" class="text-muted text-center">Loading category counts...</td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Department Leaderboard -->
       <div class="col-lg-6">
-        <div class="cp-card p-4 h-100">
-          <h5 class="fw-bold mb-3"><i class="bi bi-trophy-fill text-warning me-2"></i>Municipal Department Leaderboard</h5>
+        <div class="cp-card h-100 p-4">
+          <div class="border-bottom pb-3 mb-3">
+            <h3 class="h5 fw-bold text-navy mb-0"><i class="bi bi-trophy-fill text-warning me-2"></i>Department Accountability Leaderboard</h3>
+          </div>
           <div class="list-group list-group-flush" id="leaderboardList">
-            <div class="p-4 text-center text-muted"><span class="spinner-border spinner-border-sm me-2"></span>Loading leaderboard...</div>
+            <div class="p-4 text-center text-muted"><span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading municipal department metrics...</div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Geo-Incident Heatmap -->
-    <div class="cp-card p-4" data-reveal>
-      <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="cp-card p-4 mb-4">
+      <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
         <div>
-          <h5 class="fw-bold mb-1"><i class="bi bi-map-fill text-danger me-2"></i>City-Wide Grievance Density Heatmap</h5>
-          <p class="text-muted small mb-0">Visual distribution of municipal incidents reported across Davanagere districts</p>
+          <h3 class="h5 fw-bold text-navy mb-1"><i class="bi bi-map-fill text-primary me-2"></i>City-Wide Grievance Density Heatmap</h3>
+          <p class="text-muted small mb-0">Geographic distribution of citizen complaints across municipal wards</p>
         </div>
-        <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill">Live Geo Data</span>
+        <span class="badge bg-light text-navy border px-3 py-1">Ward Heatmap</span>
       </div>
-      <div id="transparencyMap" style="height: 420px; border-radius: var(--r-md); overflow: hidden;"></div>
+      <div id="transparencyMap" style="height: 420px; border-radius: var(--cp-radius-sm); border: 1px solid var(--cp-border); overflow: hidden;"></div>
     </div>
   </main>
 
-  <footer class="cp-footer-slim">
-    <div>&copy; 2026 CivicPulse Municipal Redressal developed by Tarun B</div>
-    <div class="d-flex gap-3">
-      <a href="/privacy.html" class="text-decoration-none text-muted">Privacy Policy</a>
-      <a href="/terms.html" class="text-decoration-none text-muted">Terms</a>
+  <!-- 4-Column Government Footer -->
+  <footer class="cp-gov-footer mt-auto" role="contentinfo">
+    <div class="cp-gov-footer-inner">
+      <div class="cp-footer-grid">
+        <div class="cp-footer-col">
+          <h3>About CivicPulse</h3>
+          <p class="small text-light mb-2">CivicPulse Smart Governance Portal is an automated municipal grievance redressal system providing transparent, accountable public service administration.</p>
+          <p class="small text-light mb-0">Demonstration project. Not an official Government website.</p>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Quick Links</h3>
+          <ul class="cp-footer-links">
+            <li><a href="/citizen/new-complaint.html">Lodge a Grievance</a></li>
+            <li><a href="/track.html">Track Grievance Status</a></li>
+            <li><a href="/transparency.html">Public Dashboard</a></li>
+            <li><a href="/help.html">User Guide &amp; FAQs</a></li>
+          </ul>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Policies &amp; Access</h3>
+          <ul class="cp-footer-links">
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms of Use</a></li>
+            <li><a href="/accessibility.html">Accessibility Statement</a></li>
+            <li><a href="/screen-reader.html">Screen Reader Access</a></li>
+            <li><a href="/sitemap.html">Portal Sitemap</a></li>
+          </ul>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Grievance Helpline</h3>
+          <p class="small text-light mb-1"><i class="bi bi-telephone-fill me-1"></i> Toll-Free: <strong>1800-112-233</strong></p>
+          <p class="small text-light mb-1"><i class="bi bi-envelope-fill me-1"></i> grievance@civicpulse.gov.in</p>
+          <p class="small text-light mb-0"><i class="bi bi-clock-fill me-1"></i> 09:00 AM to 06:00 PM (Mon-Sat)</p>
+        </div>
+      </div>
+
+      <div class="cp-footer-bottom">
+        <div>Content owned and maintained by CivicPulse Governance Cell (Demonstration Project).</div>
+        <div>Last updated: October 2026 | Best viewed in latest Chrome, Edge, Firefox, Safari</div>
+        <div>&copy; 2026 CivicPulse Municipal Redressal developed by Tarun B</div>
+      </div>
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
@@ -161,9 +256,29 @@
     import { initHeatmap } from '/assets/js/modules/map.js';
     import { animateCounter } from '/assets/js/ui/counter.js';
     import '/assets/js/core/theme.js';
-    import '/assets/js/ui/reveal.js';
-    import '/assets/js/ui/tilt.js';
+    import '/assets/js/core/i18n.js';
+    import '/assets/js/core/gov-ui.js';
     import '/assets/js/ui/bot.js';
+
+    // Accessible "View as Table" toggle
+    const toggleBtn = document.getElementById('toggleCatTableBtn');
+    const chartWrapper = document.getElementById('catChartWrapper');
+    const tableFallback = document.getElementById('catTableFallback');
+
+    toggleBtn.addEventListener('click', () => {
+      const isTable = !tableFallback.classList.contains('d-none');
+      if (isTable) {
+        tableFallback.classList.add('d-none');
+        chartWrapper.classList.remove('d-none');
+        toggleBtn.innerHTML = '<i class="bi bi-table me-1"></i> View as Table';
+        toggleBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        tableFallback.classList.remove('d-none');
+        chartWrapper.classList.add('d-none');
+        toggleBtn.innerHTML = '<i class="bi bi-pie-chart me-1"></i> View as Chart';
+        toggleBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
 
     async function loadTransparencyData() {
       try {
@@ -197,11 +312,11 @@
           lbContainer.innerHTML = lb.map((d, i) => `
             <div class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-bottom py-3">
               <div class="d-flex align-items-center gap-3">
-                <span class="badge ${i === 0 ? 'bg-warning text-dark' : (i === 1 ? 'bg-secondary text-white' : 'bg-light text-dark border')} rounded-circle p-2" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                <span class="badge ${i === 0 ? 'bg-primary text-white' : (i === 1 ? 'bg-secondary text-white' : 'bg-light text-dark border')} rounded-circle p-2" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
                   ${i + 1}
                 </span>
                 <div>
-                  <h6 class="mb-0 fw-bold">${escapeHtml(d.departmentName)}</h6>
+                  <h4 class="h6 mb-0 fw-bold text-navy">${escapeHtml(d.departmentName)}</h4>
                   <small class="text-muted">${d.totalAssigned || 0} assigned · ${d.resolvedCount || 0} resolved</small>
                 </div>
               </div>
@@ -213,12 +328,20 @@
           `).join('');
         }
 
-        // Category Chart
+        // Category Chart & Accessible Table
         const catMap = stats.categoryCounts || {};
         const catLabels = Object.keys(catMap);
         const catCounts = Object.values(catMap);
         if (catLabels.length > 0) {
           renderCategoryChart('transparencyCatChart', catLabels, catCounts);
+
+          const tbody = document.getElementById('catTableBody');
+          tbody.innerHTML = catLabels.map((lbl, idx) => `
+            <tr>
+              <td><strong>${escapeHtml(lbl)}</strong></td>
+              <td class="text-end fw-semibold cp-mono">${catCounts[idx]}</td>
+            </tr>
+          `).join('');
         }
 
         // Heatmap

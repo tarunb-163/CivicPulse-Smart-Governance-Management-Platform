@@ -3,78 +3,183 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terms of Service — CivicPulse</title>
+  <title>Terms of Use & Citizen Charter — CivicPulse Smart Governance Portal</title>
+  <meta name="description" content="Terms of Use, SLA commitments, and Citizen Charter regulations for the CivicPulse Portal.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/base.css">
   <link rel="stylesheet" href="/assets/css/components.css">
-  <link rel="stylesheet" href="/assets/css/animations.css">
 </head>
-<body>
-  <div class="cp-aurora-bg">
-    <div class="cp-blob cp-blob-1"></div>
-    <div class="cp-blob cp-blob-2"></div>
-    <div class="cp-blob cp-blob-3"></div>
+<body class="d-flex flex-column min-vh-100">
+  <!-- Skip Link -->
+  <a href="#main-content" class="cp-skip-link">Skip to main content</a>
+
+  <!-- National Tricolour Strip -->
+  <div class="cp-tricolour-strip" aria-hidden="true"></div>
+
+  <!-- Top Demo Notice -->
+  <div class="cp-top-notice" role="region" aria-label="Portal Notice">
+    Demonstration project. Not an official Government website.
   </div>
 
-  <nav class="cp-navbar d-flex justify-content-between align-items-center mt-3">
-    <a href="/index.html" class="cp-nav-brand">
-      <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
-      <span>Civic<span class="cp-gradient-text">Pulse</span></span>
-    </a>
-    <div class="d-flex align-items-center gap-3">
-      <a href="/index.html" class="cp-nav-link">Home</a>
-      <a href="/track.html" class="cp-nav-link">Track</a>
-      <a href="/transparency.html" class="cp-nav-link">Transparency</a>
-      <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
+  <!-- Utility Bar -->
+  <header class="cp-utility-bar" role="region" aria-label="Accessibility and Language Controls">
+    <a href="/screen-reader.html" class="cp-util-link"><i class="bi bi-eye-fill"></i> Screen Reader Access</a>
+    <div class="cp-util-group">
+      <span class="text-muted small me-1">Text Size:</span>
+      <button type="button" class="cp-text-size-btn" data-size="-" aria-label="Decrease font size">A-</button>
+      <button type="button" class="cp-text-size-btn active" data-size="0" aria-label="Reset font size">A</button>
+      <button type="button" class="cp-text-size-btn" data-size="+" aria-label="Increase font size">A+</button>
+    </div>
+    <div class="cp-util-group">
+      <button type="button" class="cp-contrast-btn" aria-label="Toggle High Contrast Mode"><i class="bi bi-circle-half"></i> Contrast</button>
+      <button type="button" class="cp-contrast-btn cp-theme-toggle" aria-label="Toggle Dark Mode"><i class="bi bi-moon-fill text-primary"></i> Theme</button>
+    </div>
+    <div class="cp-util-group">
+      <label for="langSelect" class="visually-hidden">Select Language</label>
+      <select id="langSelect" class="cp-lang-select" aria-label="Language selection">
+        <option value="en">English</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- Portal Header -->
+  <div class="cp-gov-header">
+    <div class="cp-gov-header-inner">
+      <a href="/index.html" class="cp-brand-seal" aria-label="CivicPulse Portal Home">
+        <svg class="cp-emblem-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CivicPulse Emblem">
+          <circle cx="32" cy="32" r="30" stroke="#1F3A6E" stroke-width="3" fill="#FFFFFF"/>
+          <circle cx="32" cy="32" r="24" stroke="#D9531E" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M32 12V52M12 32H52M18 18L46 46M18 46L46 18" stroke="#1F3A6E" stroke-width="1.5"/>
+          <circle cx="32" cy="32" r="8" fill="#1F3A6E"/>
+          <circle cx="32" cy="32" r="4" fill="#FF9933"/>
+        </svg>
+        <div class="cp-brand-text">
+          <h1 data-i18n="brandName">CivicPulse Smart Governance Portal</h1>
+          <span class="cp-portal-sub" data-i18n="portalSub">Citizen Grievance Redressal Portal</span>
+        </div>
+      </a>
+      <div class="cp-header-right">
+        <a href="/login.html" class="btn cp-btn cp-btn-secondary cp-btn-sm"><i class="bi bi-box-arrow-in-right"></i> Sign In</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <nav class="cp-gov-nav" aria-label="Primary Navigation">
+    <div class="cp-gov-nav-inner">
+      <button class="cp-nav-mobile-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation menu">
+        <i class="bi bi-list"></i> Menu
+      </button>
+      <ul class="cp-nav-menu">
+        <li class="cp-nav-item"><a href="/index.html" class="cp-nav-link"><i class="bi bi-house-door-fill"></i> Home</a></li>
+        <li class="cp-nav-item"><a href="/citizen/new-complaint.html" class="cp-nav-link">Lodge a Grievance</a></li>
+        <li class="cp-nav-item"><a href="/track.html" class="cp-nav-link">Track Grievance Status</a></li>
+        <li class="cp-nav-item"><a href="/transparency.html" class="cp-nav-link">Public Dashboard</a></li>
+        <li class="cp-nav-item"><a href="/help.html" class="cp-nav-link">Help & User Guide</a></li>
+        <li class="cp-nav-item"><a href="/contact.html" class="cp-nav-link">Contact Us</a></li>
+      </ul>
     </div>
   </nav>
 
-  <main class="container py-5" style="max-width: 860px;">
-    <div class="cp-card p-5 mb-4">
-      <div class="badge bg-primary-subtle text-primary border mb-3">Terms of Service (v1.0)</div>
-      <h1 class="fw-bold mb-3">Terms of Service & Citizen Charter</h1>
-      <p class="text-muted">Effective as of October 2026 for all users of the CivicPulse Platform</p>
+  <!-- Breadcrumbs -->
+  <div class="cp-breadcrumb-bar">
+    <div class="cp-breadcrumb-inner">
+      <ol class="cp-breadcrumb-list">
+        <li><a href="/index.html">Home</a></li>
+        <li class="cp-breadcrumb-sep">/</li>
+        <li aria-current="page">Terms of Use</li>
+      </ol>
+    </div>
+  </div>
 
-      <hr class="my-4">
+  <!-- Main Content -->
+  <main id="main-content" class="cp-gov-main">
+    <div class="cp-card p-4 p-sm-5 mb-4">
+      <div class="border-bottom pb-3 mb-4">
+        <div class="badge bg-navy text-white px-3 py-1 rounded-1 mb-2">Citizen Charter (v1.0)</div>
+        <h1 class="h2 fw-bold text-navy mb-1">Terms of Use &amp; Citizen Charter</h1>
+        <p class="text-muted small mb-0">Effective as of October 2026 for all users of the CivicPulse Governance Platform</p>
+      </div>
 
       <section class="mb-4">
-        <h4 class="fw-bold text-primary">1. Acceptable Use</h4>
-        <p>CivicPulse is dedicated to municipal grievance filing, road safety reporting, sanitation tracking, and civic improvements. Citizens agree not to submit fraudulent reports, defamatory statements, or commercial spam. Submitting knowingly false reports may result in account lockout and IP blocking under municipal bylaws.</p>
+        <h2 class="h5 fw-bold text-navy mb-2">1. Acceptable Use of Municipal Portal</h2>
+        <p>CivicPulse is dedicated strictly to municipal grievance filing, public safety reporting, sanitation tracking, and civic improvements. Citizens agree not to submit fraudulent reports, defamatory statements, or commercial spam. Submitting knowingly false reports may result in account lockout under municipal governance regulations.</p>
       </section>
 
       <section class="mb-4">
-        <h4 class="fw-bold text-primary">2. Duplicate Prevention & Community Support</h4>
+        <h2 class="h5 fw-bold text-navy mb-2">2. Proximity Matching &amp; Duplicate Consolidation</h2>
         <p>To avoid clogging administrative queues, the system checks for existing reports within a 300-meter radius. Citizens agree that the municipal administration may merge identical grievances into a parent ticket while preserving your vote, priority score, and notification updates.</p>
       </section>
 
       <section class="mb-4">
-        <h4 class="fw-bold text-primary">3. Service Level Agreements (SLA)</h4>
+        <h2 class="h5 fw-bold text-navy mb-2">3. Service Level Agreements (SLA) &amp; Escalation</h2>
         <p>Resolution timeframes are calculated according to category severity (24 hours for water leaks/hazardous wires, 48 hours for streetlights and garbage, up to 72 hours for road resurfacing). In case of overdue complaints, the platform automatically escalates tickets to the Department Head and Municipal Administrator.</p>
       </section>
 
       <section class="mb-4">
-        <h4 class="fw-bold text-primary">4. Reopen and Feedback Policy</h4>
+        <h2 class="h5 fw-bold text-navy mb-2">4. Reopen and Quality Verification Policy</h2>
         <p>Once an issue is marked RESOLVED by an officer with photo proof, citizens have exactly <strong>7 days</strong> to inspect the work and reopen the complaint if unsatisfied. After 7 days without reopen, the complaint automatically transitions to CLOSED.</p>
       </section>
 
       <section>
-        <h4 class="fw-bold text-primary">5. Governing Law</h4>
-        <p>These terms are governed by the municipal corporation regulations and applicable state e-governance guidelines.</p>
+        <h2 class="h5 fw-bold text-navy mb-2">5. Governing Regulations</h2>
+        <p>These terms are governed by municipal corporation bylaws and applicable state e-governance guidelines.</p>
       </section>
     </div>
   </main>
 
-  <footer class="cp-footer-slim">
-    <div>&copy; 2026 CivicPulse Municipal Redressal developed by Tarun B</div>
-    <div class="d-flex gap-3">
-      <a href="/privacy.html" class="text-decoration-none text-muted">Privacy Policy</a>
-      <a href="/terms.html" class="text-decoration-none text-muted">Terms of Service</a>
-      <a href="/transparency.html" class="text-decoration-none text-muted">Public Transparency</a>
+  <!-- 4-Column Government Footer -->
+  <footer class="cp-gov-footer mt-auto" role="contentinfo">
+    <div class="cp-gov-footer-inner">
+      <div class="cp-footer-grid">
+        <div class="cp-footer-col">
+          <h3>About CivicPulse</h3>
+          <p class="small text-light mb-2">CivicPulse Smart Governance Portal is an automated municipal grievance redressal system providing transparent, accountable public service administration.</p>
+          <p class="small text-light mb-0">Demonstration project. Not an official Government website.</p>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Quick Links</h3>
+          <ul class="cp-footer-links">
+            <li><a href="/citizen/new-complaint.html">Lodge a Grievance</a></li>
+            <li><a href="/track.html">Track Grievance Status</a></li>
+            <li><a href="/transparency.html">Public Dashboard</a></li>
+            <li><a href="/help.html">User Guide &amp; FAQs</a></li>
+          </ul>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Policies &amp; Access</h3>
+          <ul class="cp-footer-links">
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms of Use</a></li>
+            <li><a href="/accessibility.html">Accessibility Statement</a></li>
+            <li><a href="/screen-reader.html">Screen Reader Access</a></li>
+            <li><a href="/sitemap.html">Portal Sitemap</a></li>
+          </ul>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Grievance Helpline</h3>
+          <p class="small text-light mb-1"><i class="bi bi-telephone-fill me-1"></i> Toll-Free: <strong>1800-112-233</strong></p>
+          <p class="small text-light mb-1"><i class="bi bi-envelope-fill me-1"></i> grievance@civicpulse.gov.in</p>
+          <p class="small text-light mb-0"><i class="bi bi-clock-fill me-1"></i> 09:00 AM to 06:00 PM (Mon-Sat)</p>
+        </div>
+      </div>
+
+      <div class="cp-footer-bottom">
+        <div>Content owned and maintained by CivicPulse Governance Cell (Demonstration Project).</div>
+        <div>Last updated: October 2026 | Best viewed in latest Chrome, Edge, Firefox, Safari</div>
+        <div>&copy; 2026 CivicPulse Municipal Redressal developed by Tarun B</div>
+      </div>
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="/assets/js/core/theme.js"></script>
+  <script type="module" src="/assets/js/core/i18n.js"></script>
+  <script type="module" src="/assets/js/core/gov-ui.js"></script>
+  <script type="module" src="/assets/js/ui/bot.js"></script>
 </body>
 </html>

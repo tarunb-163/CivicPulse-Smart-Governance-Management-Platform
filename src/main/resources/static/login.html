@@ -3,133 +3,223 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In — CivicPulse Governance Portal</title>
+  <title>Sign In — CivicPulse Smart Governance Portal</title>
+  <meta name="description" content="Official citizen and departmental officer authentication for CivicPulse Grievance Redressal Portal.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/base.css">
   <link rel="stylesheet" href="/assets/css/components.css">
-  <link rel="stylesheet" href="/assets/css/animations.css">
 </head>
-<body class="d-flex flex-column min-vh-100 justify-content-between">
-  <div class="cp-aurora-bg">
-    <div class="cp-blob cp-blob-1"></div>
-    <div class="cp-blob cp-blob-2"></div>
-    <div class="cp-blob cp-blob-3"></div>
+<body class="d-flex flex-column min-vh-100">
+  <!-- Skip Link -->
+  <a href="#main-content" class="cp-skip-link">Skip to main content</a>
+
+  <!-- National Tricolour Strip -->
+  <div class="cp-tricolour-strip" aria-hidden="true"></div>
+
+  <!-- Top Demo Notice -->
+  <div class="cp-top-notice" role="region" aria-label="Portal Notice">
+    Demonstration project. Not an official Government website.
   </div>
 
-  <nav class="cp-navbar d-flex justify-content-between align-items-center mt-3">
-    <a href="/index.html" class="cp-nav-brand">
-      <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
-      <span>Civic<span class="cp-gradient-text">Pulse</span></span>
-    </a>
-    <div class="d-flex align-items-center gap-3">
-      <a href="/index.html" class="cp-nav-link">Home</a>
-      <a href="/track.html" class="cp-nav-link">Track</a>
-      <a href="/transparency.html" class="cp-nav-link">Transparency</a>
-      <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
+  <!-- Utility Bar -->
+  <header class="cp-utility-bar" role="region" aria-label="Accessibility and Language Controls">
+    <a href="/screen-reader.html" class="cp-util-link"><i class="bi bi-eye-fill"></i> Screen Reader Access</a>
+    <div class="cp-util-group">
+      <span class="text-muted small me-1">Text Size:</span>
+      <button type="button" class="cp-text-size-btn" data-size="-" aria-label="Decrease font size">A-</button>
+      <button type="button" class="cp-text-size-btn active" data-size="0" aria-label="Reset font size">A</button>
+      <button type="button" class="cp-text-size-btn" data-size="+" aria-label="Increase font size">A+</button>
+    </div>
+    <div class="cp-util-group">
+      <button type="button" class="cp-contrast-btn" aria-label="Toggle High Contrast Mode"><i class="bi bi-circle-half"></i> Contrast</button>
+      <button type="button" class="cp-contrast-btn cp-theme-toggle" aria-label="Toggle Dark Mode"><i class="bi bi-moon-fill text-primary"></i> Theme</button>
+    </div>
+    <div class="cp-util-group">
+      <label for="langSelect" class="visually-hidden">Select Language</label>
+      <select id="langSelect" class="cp-lang-select" aria-label="Language selection">
+        <option value="en">English</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- Portal Header -->
+  <div class="cp-gov-header">
+    <div class="cp-gov-header-inner">
+      <a href="/index.html" class="cp-brand-seal" aria-label="CivicPulse Portal Home">
+        <svg class="cp-emblem-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CivicPulse Emblem">
+          <circle cx="32" cy="32" r="30" stroke="#1F3A6E" stroke-width="3" fill="#FFFFFF"/>
+          <circle cx="32" cy="32" r="24" stroke="#D9531E" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M32 12V52M12 32H52M18 18L46 46M18 46L46 18" stroke="#1F3A6E" stroke-width="1.5"/>
+          <circle cx="32" cy="32" r="8" fill="#1F3A6E"/>
+          <circle cx="32" cy="32" r="4" fill="#FF9933"/>
+        </svg>
+        <div class="cp-brand-text">
+          <h1 data-i18n="brandName">CivicPulse Smart Governance Portal</h1>
+          <span class="cp-portal-sub" data-i18n="portalSub">Citizen Grievance Redressal Portal</span>
+        </div>
+      </a>
+      <div class="cp-header-right">
+        <a href="/register.html" class="btn cp-btn cp-btn-saffron cp-btn-sm"><i class="bi bi-person-plus-fill"></i> New Citizen Registration</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <nav class="cp-gov-nav" aria-label="Primary Navigation">
+    <div class="cp-gov-nav-inner">
+      <button class="cp-nav-mobile-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation menu">
+        <i class="bi bi-list"></i> Menu
+      </button>
+      <ul class="cp-nav-menu">
+        <li class="cp-nav-item"><a href="/index.html" class="cp-nav-link"><i class="bi bi-house-door-fill"></i> Home</a></li>
+        <li class="cp-nav-item"><a href="/citizen/new-complaint.html" class="cp-nav-link">Lodge a Grievance</a></li>
+        <li class="cp-nav-item"><a href="/track.html" class="cp-nav-link">Track Grievance Status</a></li>
+        <li class="cp-nav-item"><a href="/transparency.html" class="cp-nav-link">Public Dashboard</a></li>
+        <li class="cp-nav-item"><a href="/help.html" class="cp-nav-link">Help & User Guide</a></li>
+        <li class="cp-nav-item"><a href="/contact.html" class="cp-nav-link">Contact Us</a></li>
+      </ul>
     </div>
   </nav>
 
-  <main class="container my-auto py-5">
-    <div class="row g-4 align-items-center justify-content-center">
-      <!-- Left Hero Column -->
-      <div class="col-lg-5 d-none d-lg-block">
-        <div class="pe-4">
-          <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill mb-3">
-            <i class="bi bi-award-fill me-1"></i>Next-Gen Municipal Redressal
-          </div>
-          <h1 class="display-5 fw-bold mb-4">Empowering Citizens with Transparent Governance</h1>
-          <p class="text-muted lead mb-4">
-            Sign in to track your grievances, receive instant SMS/email resolution updates, and participate directly in municipal accountability.
-          </p>
-          <div class="d-flex align-items-center gap-3 p-3 cp-card">
-            <i class="bi bi-patch-check-fill text-success fs-2"></i>
-            <div>
-              <div class="fw-bold">Fast-Track Resolution</div>
-              <small class="text-muted">Strict SLA tracking and automated escalation to municipal department heads.</small>
-            </div>
-          </div>
-        </div>
+  <!-- Breadcrumbs -->
+  <div class="cp-breadcrumb-bar">
+    <div class="cp-breadcrumb-inner">
+      <ol class="cp-breadcrumb-list">
+        <li><a href="/index.html">Home</a></li>
+        <li class="cp-breadcrumb-sep">/</li>
+        <li aria-current="page">Sign In</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Main Content: Centered Single Card -->
+  <main id="main-content" class="container my-auto py-5" style="max-width: 520px;">
+    <div class="cp-card p-4 p-sm-5 border-2 shadow-sm">
+      <div class="text-center border-bottom pb-3 mb-4">
+        <div class="badge bg-navy text-white px-3 py-1 rounded-1 mb-2">Official Access</div>
+        <h2 class="h4 fw-bold text-navy mb-1">Citizen &amp; Official Sign In</h2>
+        <p class="text-muted small mb-0">Enter registered email and password to access grievance records</p>
       </div>
 
-      <!-- Right Form Column -->
-      <div class="col-md-8 col-lg-5">
-        <div class="cp-card p-4 p-sm-5 shadow-2">
-          <div class="text-center mb-4">
-            <h3 class="fw-bold mb-1">Welcome Back</h3>
-            <p class="text-muted small">Sign in with your registered email and password</p>
+      <div id="loginAlert" class="alert alert-danger d-none py-2 px-3 small d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+        <span class="error-text"></span>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="mb-3">
+          <label class="form-label fw-bold small text-navy" for="email">
+            Email Address <span class="cp-required" aria-hidden="true">*</span>
+            <span class="visually-hidden">(required)</span>
+          </label>
+          <div class="input-group">
+            <span class="input-group-text bg-light text-muted"><i class="bi bi-envelope"></i></span>
+            <input type="email" id="email" class="form-control cp-input" placeholder="name@example.com" required autocomplete="email" aria-required="true">
           </div>
+        </div>
 
-          <div id="loginAlert" class="alert alert-danger d-none py-2 px-3 small" role="alert"></div>
-
-          <form id="loginForm">
-            <div class="cp-form-group mb-3">
-              <label class="cp-label" for="email">Email Address</label>
-              <div class="input-group">
-                <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="bi bi-envelope"></i></span>
-                <input type="email" id="email" class="form-control cp-input border-start-0" placeholder="name@example.com" required autocomplete="email">
-              </div>
-            </div>
-
-            <div class="cp-form-group mb-3">
-              <div class="d-flex justify-content-between">
-                <label class="cp-label" for="password">Password</label>
-                <a href="/forgot-password.html" class="small text-decoration-none text-primary">Forgot password?</a>
-              </div>
-              <div class="input-group">
-                <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="bi bi-lock"></i></span>
-                <input type="password" id="password" class="form-control cp-input border-start-0 border-end-0" placeholder="••••••••" required autocomplete="current-password">
-                <button type="button" class="btn btn-outline-secondary border-start-0 bg-transparent text-muted" id="togglePasswordBtn"><i class="bi bi-eye"></i></button>
-              </div>
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="rememberMe">
-                <label class="form-check-label small text-muted" for="rememberMe">Remember me</label>
-              </div>
-            </div>
-
-            <button type="submit" id="submitBtn" class="btn cp-btn-primary w-100 py-2 mb-3">
-              <span id="btnText">Sign In</span>
-              <span id="btnSpinner" class="spinner-border spinner-border-sm d-none ms-2" role="status"></span>
-            </button>
-
-            <div class="text-center">
-              <span class="small text-muted">Don't have an account? </span>
-              <a href="/register.html" class="small text-decoration-none fw-semibold text-primary">Register as Citizen</a>
-            </div>
-          </form>
-
-          <!-- Quick Demo Accounts helper -->
-          <div class="mt-4 pt-3 border-top">
-            <div class="small fw-bold text-muted mb-2">Demo Quick Sign-In (Click to fill):</div>
-            <div class="d-flex flex-wrap gap-2">
-              <button type="button" class="btn btn-xs btn-outline-primary py-0 px-2 rounded-pill demo-fill" data-email="admin@civicpulse.test" data-pwd="Password@123">Admin</button>
-              <button type="button" class="btn btn-xs btn-outline-success py-0 px-2 rounded-pill demo-fill" data-email="officer.roads@civicpulse.test" data-pwd="Password@123">Officer (Roads)</button>
-              <button type="button" class="btn btn-xs btn-outline-info py-0 px-2 rounded-pill demo-fill" data-email="arun@civicpulse.test" data-pwd="Password@123">Citizen (Arun)</button>
-            </div>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <label class="form-label fw-bold small text-navy mb-0" for="password">
+              Password <span class="cp-required" aria-hidden="true">*</span>
+              <span class="visually-hidden">(required)</span>
+            </label>
+            <a href="/forgot-password.html" class="small text-decoration-none">Forgot Password?</a>
           </div>
+          <div class="input-group">
+            <span class="input-group-text bg-light text-muted"><i class="bi bi-lock"></i></span>
+            <input type="password" id="password" class="form-control cp-input" placeholder="••••••••" required autocomplete="current-password" aria-required="true">
+            <button type="button" class="btn btn-outline-secondary bg-light text-muted" id="togglePasswordBtn" aria-label="Show or hide password"><i class="bi bi-eye"></i></button>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="rememberMe">
+            <label class="form-check-label small text-muted" for="rememberMe">Remember my login on this device</label>
+          </div>
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn cp-btn cp-btn-primary w-100 py-2 mb-3">
+          <span id="btnText">Sign In to Portal</span>
+          <span id="btnSpinner" class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
+        </button>
+
+        <div class="text-center pt-2 border-top">
+          <span class="small text-muted">New citizen? </span>
+          <a href="/register.html" class="small text-decoration-none fw-bold">Register for an Account</a>
+        </div>
+      </form>
+
+      <!-- Quick Demo Accounts helper -->
+      <div class="mt-4 pt-3 border-top bg-light p-3 rounded">
+        <div class="small fw-bold text-navy mb-2"><i class="bi bi-person-check-fill me-1"></i> Quick Demo Sign-In (Click to fill):</div>
+        <div class="d-flex flex-wrap gap-2">
+          <button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 demo-fill" data-email="admin@civicpulse.test" data-pwd="Password@123">Admin</button>
+          <button type="button" class="btn btn-sm btn-outline-success py-0 px-2 demo-fill" data-email="officer.roads@civicpulse.test" data-pwd="Password@123">Officer (Roads)</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2 demo-fill" data-email="arun@civicpulse.test" data-pwd="Password@123">Citizen (Arun)</button>
         </div>
       </div>
     </div>
   </main>
 
-  <footer class="cp-footer-slim">
-    <div>&copy; 2026 CivicPulse Municipal Redressal developed by Tarun B</div>
-    <div class="d-flex gap-3">
-      <a href="/privacy.html" class="text-decoration-none text-muted">Privacy Policy</a>
-      <a href="/terms.html" class="text-decoration-none text-muted">Terms</a>
+  <!-- 4-Column Government Footer -->
+  <footer class="cp-gov-footer mt-auto" role="contentinfo">
+    <div class="cp-gov-footer-inner">
+      <div class="cp-footer-grid">
+        <div class="cp-footer-col">
+          <h3>About CivicPulse</h3>
+          <p class="small text-light mb-2">CivicPulse Smart Governance Portal is an automated municipal grievance redressal system providing transparent, accountable public service administration.</p>
+          <p class="small text-light mb-0">Demonstration project. Not an official Government website.</p>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Quick Links</h3>
+          <ul class="cp-footer-links">
+            <li><a href="/citizen/new-complaint.html">Lodge a Grievance</a></li>
+            <li><a href="/track.html">Track Grievance Status</a></li>
+            <li><a href="/transparency.html">Public Dashboard</a></li>
+            <li><a href="/help.html">User Guide &amp; FAQs</a></li>
+          </ul>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Policies &amp; Access</h3>
+          <ul class="cp-footer-links">
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms of Use</a></li>
+            <li><a href="/accessibility.html">Accessibility Statement</a></li>
+            <li><a href="/screen-reader.html">Screen Reader Access</a></li>
+            <li><a href="/sitemap.html">Portal Sitemap</a></li>
+          </ul>
+        </div>
+        <div class="cp-footer-col">
+          <h3>Grievance Helpline</h3>
+          <p class="small text-light mb-1"><i class="bi bi-telephone-fill me-1"></i> Toll-Free: <strong>1800-112-233</strong></p>
+          <p class="small text-light mb-1"><i class="bi bi-envelope-fill me-1"></i> grievance@civicpulse.gov.in</p>
+          <p class="small text-light mb-0"><i class="bi bi-clock-fill me-1"></i> 09:00 AM to 06:00 PM (Mon-Sat)</p>
+        </div>
+      </div>
+
+      <div class="cp-footer-bottom">
+        <div>Content owned and maintained by CivicPulse Governance Cell (Demonstration Project).</div>
+        <div>Last updated: October 2026 | Best viewed in latest Chrome, Edge, Firefox, Safari</div>
+        <div>&copy; 2026 CivicPulse Municipal Redressal developed by Tarun B</div>
+      </div>
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module">
     import { checkRouteGuard } from '/assets/js/core/router-guard.js';
     import { login, getHomeRouteForRole } from '/assets/js/core/auth.js';
     import { showToast } from '/assets/js/core/toast.js';
     import '/assets/js/core/theme.js';
-    import '/assets/js/ui/magnetic.js';
+    import '/assets/js/core/i18n.js';
+    import '/assets/js/core/gov-ui.js';
+    import '/assets/js/ui/bot.js';
 
     checkRouteGuard();
 
@@ -145,6 +235,7 @@
       const isPwd = pwdInput.type === 'password';
       pwdInput.type = isPwd ? 'text' : 'password';
       togglePwd.querySelector('i').className = isPwd ? 'bi bi-eye-slash' : 'bi bi-eye';
+      togglePwd.setAttribute('aria-label', isPwd ? 'Hide password' : 'Show password');
     });
 
     document.querySelectorAll('.demo-fill').forEach(btn => {
@@ -176,11 +267,14 @@
           window.location.href = getHomeRouteForRole(data.user.role);
         }
       } catch (err) {
-        alertBox.textContent = err.message || 'Invalid credentials or account locked';
+        const msg = err.message || 'Invalid credentials or account locked';
+        const txtEl = alertBox.querySelector('.error-text');
+        if (txtEl) txtEl.textContent = msg;
+        else alertBox.textContent = msg;
         alertBox.classList.remove('d-none');
         submitBtn.disabled = false;
         btnSpinner.classList.add('d-none');
-        btnText.textContent = 'Sign In';
+        btnText.textContent = 'Sign In to Portal';
       }
     });
   </script>
