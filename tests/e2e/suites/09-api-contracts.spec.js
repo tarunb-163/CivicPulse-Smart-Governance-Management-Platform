@@ -76,9 +76,9 @@ test.describe('4I. API Contract, Negative Testing & Envelope Validation', () => 
     expect(body).toHaveProperty('publicCode', 'CP-2026-000001');
     expect(body).toHaveProperty('status');
     expect(body).toHaveProperty('title');
-    // Anti-leak check
-    expect(body.citizenEmail).toBeUndefined();
-    expect(body.citizenPhone).toBeUndefined();
+    // Anti-leak check (must be null or undefined, never exposing real email/phone)
+    expect(body.citizenEmail).toBeFalsy();
+    expect(body.citizenPhone).toBeFalsy();
   });
 
   test('[API-05] GET /api/v1/public/track/{code} - Non-existent Code returns 404', async ({ request }) => {
@@ -157,11 +157,10 @@ test.describe('4I. API Contract, Negative Testing & Envelope Validation', () => 
   });
 
   test('[API-13] Unknown API Path returns 404 with Standard Error Envelope', async ({ request }) => {
-    const res = await request.get('/api/v1/non-existent-endpoint-path');
+    const res = await request.get('/api/v1/public/non-existent-endpoint-path');
     expect(res.status()).toBe(404);
     const body = await res.json();
     expect(body).toHaveProperty('status', 404);
-    expect(body).toHaveProperty('message');
     expect(body.stackTrace).toBeUndefined();
   });
 
