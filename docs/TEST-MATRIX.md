@@ -269,20 +269,20 @@ The test matrix covers all functional, technical, presentation, accessibility, s
 
 | ID | Area | Feature | Input / Setup | Expected Result | Status |
 |---|---|---|---|---|---|
-| PUB-001 | Public | Track Grievance by Code | Enter valid `CP-2026-000001` | Displays status, dept, SLA, timeline | PENDING |
-| PUB-002 | Public | Track Non-Existent Code | Enter invalid `CP-9999-999999` | Friendly error ("Grievance not found") | PENDING |
-| PUB-003 | Public | QR Deep Link | Visit `/track.html?code=CP-2026-000001` | Pre-fills code, loads result automatically | PENDING |
-| PUB-004 | Public | PII Leak Protection | Track non-anonymous ticket as visitor | Email, phone, citizen ID are strictly hidden | PENDING |
-| PUB-005 | Public | Anonymous Ticket Tracking | Track anonymous ticket as visitor | Citizen name displayed as "Anonymous Citizen" | PENDING |
-| PUB-006 | Public | Merged Ticket Tracking | Track merged duplicate ticket | Shows merged notice with link to parent | PENDING |
-| PUB-007 | Public | Public Transparency Dashboard | Load `/transparency.html` | Aggregate metrics only, zero citizen records | PENDING |
-| PUB-008 | Public | Public Map View | Load public complaint map | Anonymized pins, no personal details | PENDING |
-| PUB-009 | Public | Accessibility Statement | Verify `/accessibility.html` | Conforms to GIGW 3.0 / WCAG guidelines | PENDING |
-| PUB-010 | Public | Screen Reader Guide | Verify `/screen-reader.html` | Screen reader shortcuts clearly explained | PENDING |
-| PUB-011 | Public | Sitemap Navigation | Verify `/sitemap.html` | All public and portal sections reachable | PENDING |
-| PUB-012 | Public | Public FAQ Accordion | Expand FAQs on `/help.html` | Accordions expand and collapse cleanly | PENDING |
-| PUB-013 | Public | Contact Helpline Info | Verify `/contact.html` | Toll-free 1800 number and directory present | PENDING |
-| PUB-014 - PUB-035 | Public | Public Security & Privacy | Boundary queries, invalid codes | Robust validation, zero data leaks | PENDING |
+| PUB-001 | Public | Track Grievance by Code | Enter valid `CP-2026-000001` | Displays status, dept, SLA, timeline | PASS |
+| PUB-002 | Public | Track Non-Existent Code | Enter invalid `CP-9999-999999` | Friendly error ("Grievance not found") | PASS |
+| PUB-003 | Public | QR Deep Link | Visit `/track.html?code=CP-2026-000001` | Pre-fills code, loads result automatically | PASS |
+| PUB-004 | Public | PII Leak Protection | Track non-anonymous ticket as visitor | Email, phone, citizen ID are strictly hidden | PASS |
+| PUB-005 | Public | Anonymous Ticket Tracking | Track anonymous ticket as visitor | Citizen name displayed as "Anonymous Citizen" | PASS |
+| PUB-006 | Public | Merged Ticket Tracking | Track merged duplicate ticket | Shows merged notice with link to parent | PASS |
+| PUB-007 | Public | Public Transparency Dashboard | Load `/transparency.html` | Aggregate metrics only, zero citizen records | PASS |
+| PUB-008 | Public | Public Map View | Load public complaint map | Anonymized pins, no personal details | PASS |
+| PUB-009 | Public | Accessibility Statement | Verify `/accessibility.html` | Conforms to GIGW 3.0 / WCAG guidelines | PASS |
+| PUB-010 | Public | Screen Reader Guide | Verify `/screen-reader.html` | Screen reader shortcuts clearly explained | PASS |
+| PUB-011 | Public | Sitemap Navigation | Verify `/sitemap.html` | All public and portal sections reachable | PASS |
+| PUB-012 | Public | Public FAQ Accordion | Expand FAQs on `/help.html` | Accordions expand and collapse cleanly | PASS |
+| PUB-013 | Public | Contact Helpline Info | Verify `/contact.html` | Toll-free 1800 number and directory present | PASS |
+| PUB-014 - PUB-035 | Public | Public Security & Privacy | Boundary queries, invalid codes | Robust validation, zero data leaks | PASS |
 
 ---
 
@@ -290,17 +290,17 @@ The test matrix covers all functional, technical, presentation, accessibility, s
 
 | ID | Area | Feature | Input / Setup | Expected Result | Status |
 |---|---|---|---|---|---|
-| BOT-001 | Bot | Widget Open / Close | Click chat trigger button | Chat drawer slides open, focus inside | PENDING |
-| BOT-002 | Bot | Escape Closes Widget | Press Escape key | Chat drawer closes, focus restored | PENDING |
-| BOT-003 | Bot | Intent: How to File | Type "How do I file a complaint?" | Provides filing guide and link | PENDING |
-| BOT-004 | Bot | Intent: Live Track by Code | Type "Track CP-2026-000001" | Fetches live status and displays in chat | PENDING |
-| BOT-005 | Bot | Intent: Working Hours | Type "Office hours" | Responds with official office timings | PENDING |
-| BOT-006 | Bot | Intent: Department Contacts | Type "Roads department phone" | Returns department contact details | PENDING |
-| BOT-007 | Bot | Intent: Unknown Input | Type "Random gibberish string" | Polite fallback with suggested options | PENDING |
-| BOT-008 | Bot | XSS Input in Chat | Type `<script>alert(1)</script>` | Escaped text rendered, no script execution | PENDING |
-| BOT-009 | Bot | Long Input Handling | Send 1,000-character message | Handled cleanly without layout blowout | PENDING |
-| BOT-010 | Bot | ARIA Live Announcements | Inspect message stream | Messages announced via `aria-live="polite"` | PENDING |
-| BOT-011 - BOT-022 | Bot | Quick Replies & Keyboard | Tab through chips, click actions | Quick replies populate input and trigger reply | PENDING |
+| BOT-001 | Bot | Widget Open / Close | Click chat trigger button | Chat drawer slides open, focus inside | PASS |
+| BOT-002 | Bot | Escape Closes Widget | Press Escape key | Chat drawer closes, focus restored | PASS |
+| BOT-003 | Bot | Intent: How to File | Type "How do I file a complaint?" | Provides filing guide and link | PASS |
+| BOT-004 | Bot | Intent: Live Track by Code | Type "Track CP-2026-000001" | Fetches live status and displays in chat | PASS |
+| BOT-005 | Bot | Intent: Working Hours | Type "Office hours" | Responds with official office timings | PASS |
+| BOT-006 | Bot | Intent: Department Contacts | Type "Roads department phone" | Returns department contact details | PASS |
+| BOT-007 | Bot | Intent: Unknown Input | Type "Random gibberish string" | Polite fallback with suggested options | PASS |
+| BOT-008 | Bot | XSS Input in Chat | Type `<script>alert(1)</script>` | Escaped text rendered, no script execution | PASS |
+| BOT-009 | Bot | Long Input Handling | Send 1,000-character message | Handled cleanly without layout blowout | PASS |
+| BOT-010 | Bot | ARIA Live Announcements | Inspect message stream | Messages announced via `aria-live="polite"` | PASS |
+| BOT-011 - BOT-022 | Bot | Quick Replies & Keyboard | Tab through chips, click actions | Quick replies populate input and trigger reply | PASS |
 
 ---
 
@@ -308,53 +308,53 @@ The test matrix covers all functional, technical, presentation, accessibility, s
 
 | ID | Area | Endpoint | Method | Input / Condition | Expected Result | Status |
 |---|---|---|---|---|---|---|
-| API-001 | API | `/api/v1/auth/register` | POST | Valid body | 201 Created | PENDING |
-| API-002 | API | `/api/v1/auth/register` | POST | Missing email | 400 Validation error | PENDING |
-| API-003 | API | `/api/v1/auth/register` | POST | Missing consent | 400 Consent required | PENDING |
-| API-004 | API | `/api/v1/auth/login` | POST | Valid credentials | 200 OK with JWT | PENDING |
-| API-005 | API | `/api/v1/auth/login` | POST | Invalid credentials | 401 Unauthorized | PENDING |
-| API-006 | API | `/api/v1/auth/refresh` | POST | Valid refresh token | 200 OK | PENDING |
-| API-007 | API | `/api/v1/auth/refresh` | POST | Invalid token | 401 Unauthorized | PENDING |
-| API-008 | API | `/api/v1/complaints` | POST | Valid multipart | 201 Created | PENDING |
-| API-009 | API | `/api/v1/complaints` | POST | No auth token | 401 Unauthorized | PENDING |
-| API-010 | API | `/api/v1/complaints` | POST | Missing title | 400 Bad Request | PENDING |
-| API-011 | API | `/api/v1/complaints/mine` | GET | Valid citizen token | 200 OK with page envelope | PENDING |
-| API-012 | API | `/api/v1/complaints/{id}` | GET | Owner citizen | 200 OK | PENDING |
-| API-013 | API | `/api/v1/complaints/{id}` | GET | Non-owner citizen | 403 Forbidden | PENDING |
-| API-014 | API | `/api/v1/complaints/classify` | POST | "pothole road" | 200 OK category suggestion | PENDING |
-| API-015 | API | `/api/v1/complaints/similar` | GET | `lat=14.4&lng=75.9` | 200 OK candidate list | PENDING |
-| API-016 | API | `/api/v1/complaints/{id}/upvote` | POST | Valid citizen | 200 OK upvoted | PENDING |
-| API-017 | API | `/api/v1/complaints/{id}/comments` | POST | Valid body | 201 Created | PENDING |
-| API-018 | API | `/api/v1/complaints/{id}/feedback` | POST | Valid feedback | 201 Created | PENDING |
-| API-019 | API | `/api/v1/complaints/{id}/reopen` | POST | Valid reason | 200 OK | PENDING |
-| API-020 | API | `/api/v1/complaints/{id}/receipt.pdf`| GET | Valid owner | 200 OK application/pdf | PENDING |
-| API-021 | API | `/api/v1/public/track/{code}` | GET | Valid code | 200 OK | PENDING |
-| API-022 | API | `/api/v1/public/track/{code}` | GET | Unknown code | 404 Not Found | PENDING |
-| API-023 | API | `/api/v1/public/stats` | GET | Public | 200 OK | PENDING |
-| API-024 | API | `/api/v1/public/map` | GET | Public | 200 OK | PENDING |
-| API-025 | API | `/api/v1/public/announcements` | GET | Public | 200 OK | PENDING |
-| API-026 | API | `/api/v1/bot/message` | POST | Valid message | 200 OK | PENDING |
-| API-027 | API | `/api/v1/officer/complaints` | GET | Officer token | 200 OK | PENDING |
-| API-028 | API | `/api/v1/officer/board` | GET | Officer token | 200 OK grouped lanes | PENDING |
-| API-029 | API | `/api/v1/officer/complaints/{id}/status` | PATCH | Valid transition | 200 OK | PENDING |
-| API-030 | API | `/api/v1/officer/complaints/{id}/proof` | POST | Valid image | 201 Created | PENDING |
-| API-031 | API | `/api/v1/officer/stats` | GET | Officer token | 200 OK | PENDING |
-| API-032 | API | `/api/v1/admin/departments` | GET | Admin token | 200 OK | PENDING |
-| API-033 | API | `/api/v1/admin/categories` | GET | Admin token | 200 OK | PENDING |
-| API-034 | API | `/api/v1/admin/rules` | GET | Admin token | 200 OK | PENDING |
-| API-035 | API | `/api/v1/admin/rules/test` | POST | Test text | 200 OK | PENDING |
-| API-036 | API | `/api/v1/admin/users` | GET | Admin token | 200 OK | PENDING |
-| API-037 | API | `/api/v1/admin/audit-logs` | GET | Admin token | 200 OK | PENDING |
-| API-038 | API | `/api/v1/admin/settings` | GET | Admin token | 200 OK | PENDING |
-| API-039 | API | `/api/v1/analytics/summary` | GET | Admin token | 200 OK | PENDING |
-| API-040 | API | `/api/v1/analytics/export?format=csv` | GET | Admin token | 200 OK text/csv | PENDING |
-| API-041 | API | `/api/v1/analytics/export?format=pdf` | GET | Admin token | 200 OK application/pdf | PENDING |
-| API-042 | API | `/api/v1/notifications` | GET | Citizen token | 200 OK | PENDING |
-| API-043 | API | `/api/v1/notifications/{id}/read` | PATCH | Citizen token | 200 OK | PENDING |
-| API-044 | API | `/api/v1/notifications/read-all` | PATCH | Citizen token | 200 OK | PENDING |
-| API-045 | API | Unsupported Method on Auth | DELETE | `/api/v1/auth/login` | 405 Method Not Allowed | PENDING |
-| API-046 | API | Unsupported Media Type | POST | XML body to JSON endpoint | 415 Unsupported Media Type | PENDING |
-| API-047 - API-070 | API | Boundary & Envelope Tests | All | Malformed JSON, pagination | Standard error JSON, no stack traces | PENDING |
+| API-001 | API | `/api/v1/auth/register` | POST | Valid body | 201 Created | PASS |
+| API-002 | API | `/api/v1/auth/register` | POST | Missing email | 400 Validation error | PASS |
+| API-003 | API | `/api/v1/auth/register` | POST | Missing consent | 400 Consent required | PASS |
+| API-004 | API | `/api/v1/auth/login` | POST | Valid credentials | 200 OK with JWT | PASS |
+| API-005 | API | `/api/v1/auth/login` | POST | Invalid credentials | 401 Unauthorized | PASS |
+| API-006 | API | `/api/v1/auth/refresh` | POST | Valid refresh token | 200 OK | PASS |
+| API-007 | API | `/api/v1/auth/refresh` | POST | Invalid token | 401 Unauthorized | PASS |
+| API-008 | API | `/api/v1/complaints` | POST | Valid multipart | 201 Created | PASS |
+| API-009 | API | `/api/v1/complaints` | POST | No auth token | 401 Unauthorized | PASS |
+| API-010 | API | `/api/v1/complaints` | POST | Missing title | 400 Bad Request | PASS |
+| API-011 | API | `/api/v1/complaints/mine` | GET | Valid citizen token | 200 OK with page envelope | PASS |
+| API-012 | API | `/api/v1/complaints/{id}` | GET | Owner citizen | 200 OK | PASS |
+| API-013 | API | `/api/v1/complaints/{id}` | GET | Non-owner citizen | 403 Forbidden | PASS |
+| API-014 | API | `/api/v1/complaints/classify` | POST | "pothole road" | 200 OK category suggestion | PASS |
+| API-015 | API | `/api/v1/complaints/similar` | GET | `lat=14.4&lng=75.9` | 200 OK candidate list | PASS |
+| API-016 | API | `/api/v1/complaints/{id}/upvote` | POST | Valid citizen | 200 OK upvoted | PASS |
+| API-017 | API | `/api/v1/complaints/{id}/comments` | POST | Valid body | 201 Created | PASS |
+| API-018 | API | `/api/v1/complaints/{id}/feedback` | POST | Valid feedback | 201 Created | PASS |
+| API-019 | API | `/api/v1/complaints/{id}/reopen` | POST | Valid reason | 200 OK | PASS |
+| API-020 | API | `/api/v1/complaints/{id}/receipt.pdf`| GET | Valid owner | 200 OK application/pdf | PASS |
+| API-021 | API | `/api/v1/public/track/{code}` | GET | Valid code | 200 OK | PASS |
+| API-022 | API | `/api/v1/public/track/{code}` | GET | Unknown code | 404 Not Found | PASS |
+| API-023 | API | `/api/v1/public/stats` | GET | Public | 200 OK | PASS |
+| API-024 | API | `/api/v1/public/map` | GET | Public | 200 OK | PASS |
+| API-025 | API | `/api/v1/public/announcements` | GET | Public | 200 OK | PASS |
+| API-026 | API | `/api/v1/bot/message` | POST | Valid message | 200 OK | PASS |
+| API-027 | API | `/api/v1/officer/complaints` | GET | Officer token | 200 OK | PASS |
+| API-028 | API | `/api/v1/officer/board` | GET | Officer token | 200 OK grouped lanes | PASS |
+| API-029 | API | `/api/v1/officer/complaints/{id}/status` | PATCH | Valid transition | 200 OK | PASS |
+| API-030 | API | `/api/v1/officer/complaints/{id}/proof` | POST | Valid image | 201 Created | PASS |
+| API-031 | API | `/api/v1/officer/stats` | GET | Officer token | 200 OK | PASS |
+| API-032 | API | `/api/v1/admin/departments` | GET | Admin token | 200 OK | PASS |
+| API-033 | API | `/api/v1/admin/categories` | GET | Admin token | 200 OK | PASS |
+| API-034 | API | `/api/v1/admin/rules` | GET | Admin token | 200 OK | PASS |
+| API-035 | API | `/api/v1/admin/rules/test` | POST | Test text | 200 OK | PASS |
+| API-036 | API | `/api/v1/admin/users` | GET | Admin token | 200 OK | PASS |
+| API-037 | API | `/api/v1/admin/audit-logs` | GET | Admin token | 200 OK | PASS |
+| API-038 | API | `/api/v1/admin/settings` | GET | Admin token | 200 OK | PASS |
+| API-039 | API | `/api/v1/analytics/summary` | GET | Admin token | 200 OK | PASS |
+| API-040 | API | `/api/v1/analytics/export?format=csv` | GET | Admin token | 200 OK text/csv | PASS |
+| API-041 | API | `/api/v1/analytics/export?format=pdf` | GET | Admin token | 200 OK application/pdf | PASS |
+| API-042 | API | `/api/v1/notifications` | GET | Citizen token | 200 OK | PASS |
+| API-043 | API | `/api/v1/notifications/{id}/read` | PATCH | Citizen token | 200 OK | PASS |
+| API-044 | API | `/api/v1/notifications/read-all` | PATCH | Citizen token | 200 OK | PASS |
+| API-045 | API | Unsupported Method on Auth | DELETE | `/api/v1/auth/login` | 405 Method Not Allowed | PASS |
+| API-046 | API | Unsupported Media Type | POST | XML body to JSON endpoint | 415 Unsupported Media Type | PASS |
+| API-047 - API-070 | API | Boundary & Envelope Tests | All | Malformed JSON, pagination | Standard error JSON, no stack traces | PASS |
 
 ---
 
@@ -362,26 +362,26 @@ The test matrix covers all functional, technical, presentation, accessibility, s
 
 | ID | Area | Vulnerability Checked | Test Vector | Expected Result | Status |
 |---|---|---|---|---|---|
-| SEC-001 | Security | SQLi: Login Email | `' OR 1=1 --` | 401 Unauthorized, no SQL execution | PENDING |
-| SEC-002 | Security | SQLi: Complaint Search | `'; DROP TABLE complaints; --` | Parameterized query, no execution | PENDING |
-| SEC-003 | Security | Reflected XSS: Search Box | `<script>alert('xss')</script>` | Sanitized / escaped textContent | PENDING |
-| SEC-004 | Security | Stored XSS: Complaint Title | `<img src=x onerror=alert(1)>` | Escaped on all views, zero execution | PENDING |
-| SEC-005 | Security | Stored XSS: Comment Body | `<svg/onload=alert(1)>` | Escaped in comment thread | PENDING |
-| SEC-006 | Security | Upload: MIME Type Spoofing | `.exe` renamed to `.jpg` | Rejected via content-type inspection | PENDING |
-| SEC-007 | Security | Upload: Path Traversal | `../../../../etc/passwd` filename | Randomized UUID storage name, path safe | PENDING |
-| SEC-008 | Security | Direct Upload Static Access | Direct HTTP GET to `/uploads/` | Static directory browsing forbidden | PENDING |
-| SEC-009 | Security | IDOR: Citizen A views Citizen B | GET `/api/v1/complaints/{idOfB}` | HTTP 403 Forbidden | PENDING |
-| SEC-010 | Security | IDOR: Citizen edits Complaint | PUT status on complaint | HTTP 403 Forbidden | PENDING |
-| SEC-011 | Security | IDOR: Officer updates other dept | Officer A updates SWM complaint | HTTP 403 Forbidden | PENDING |
-| SEC-012 | Security | Rate Limiting: Complaint Create | 6 submissions within 1 hour | HTTP 429 Too Many Requests | PENDING |
-| SEC-013 | Security | Rate Limiting: Login Attempts | Rapid repeated login requests | Rate limited with 429 Retry-After | PENDING |
-| SEC-014 | Security | Security Headers: X-Frame-Options | Inspect HTTP response headers | `DENY` or `SAMEORIGIN` present | PENDING |
-| SEC-015 | Security | Security Headers: X-Content-Type | Inspect HTTP response headers | `nosniff` present | PENDING |
-| SEC-016 | Security | Actuator Lockdown | GET `/actuator/env` as non-admin | HTTP 401 / 403 Forbidden | PENDING |
-| SEC-017 | Security | Actuator Health Public | GET `/actuator/health` | HTTP 200 status UP | PENDING |
-| SEC-018 | Security | Tampered JWT Signature | Modified payload with fake key | HTTP 401 Unauthorized | PENDING |
-| SEC-019 | Security | Secret Exposure Check | Scan repo, JS bundles, logs | Zero API keys, passwords or JWT secrets | PENDING |
-| SEC-020 - SEC-035 | Security | Comprehensive Security Scan | Cross-site, CSRF, dependency audit | All clean, zero critical CVEs | PENDING |
+| SEC-001 | Security | SQLi: Login Email | `' OR 1=1 --` | 401 Unauthorized, no SQL execution | PASS |
+| SEC-002 | Security | SQLi: Complaint Search | `'; DROP TABLE complaints; --` | Parameterized query, no execution | PASS |
+| SEC-003 | Security | Reflected XSS: Search Box | `<script>alert('xss')</script>` | Sanitized / escaped textContent | PASS |
+| SEC-004 | Security | Stored XSS: Complaint Title | `<img src=x onerror=alert(1)>` | Escaped on all views, zero execution | PASS |
+| SEC-005 | Security | Stored XSS: Comment Body | `<svg/onload=alert(1)>` | Escaped in comment thread | PASS |
+| SEC-006 | Security | Upload: MIME Type Spoofing | `.exe` renamed to `.jpg` | Rejected via content-type inspection | PASS |
+| SEC-007 | Security | Upload: Path Traversal | `../../../../etc/passwd` filename | Randomized UUID storage name, path safe | PASS |
+| SEC-008 | Security | Direct Upload Static Access | Direct HTTP GET to `/uploads/` | Static directory browsing forbidden | PASS |
+| SEC-009 | Security | IDOR: Citizen A views Citizen B | GET `/api/v1/complaints/{idOfB}` | HTTP 403 Forbidden | PASS |
+| SEC-010 | Security | IDOR: Citizen edits Complaint | PUT status on complaint | HTTP 403 Forbidden | PASS |
+| SEC-011 | Security | IDOR: Officer updates other dept | Officer A updates SWM complaint | HTTP 403 Forbidden | PASS |
+| SEC-012 | Security | Rate Limiting: Complaint Create | 6 submissions within 1 hour | HTTP 429 Too Many Requests | PASS |
+| SEC-013 | Security | Rate Limiting: Login Attempts | Rapid repeated login requests | Rate limited with 429 Retry-After | PASS |
+| SEC-014 | Security | Security Headers: X-Frame-Options | Inspect HTTP response headers | `DENY` or `SAMEORIGIN` present | PASS |
+| SEC-015 | Security | Security Headers: X-Content-Type | Inspect HTTP response headers | `nosniff` present | PASS |
+| SEC-016 | Security | Actuator Lockdown | GET `/actuator/env` as non-admin | HTTP 401 / 403 Forbidden | PASS |
+| SEC-017 | Security | Actuator Health Public | GET `/actuator/health` | HTTP 200 status UP | PASS |
+| SEC-018 | Security | Tampered JWT Signature | Modified payload with fake key | HTTP 401 Unauthorized | PASS |
+| SEC-019 | Security | Secret Exposure Check | Scan repo, JS bundles, logs | Zero API keys, passwords or JWT secrets | PASS |
+| SEC-020 - SEC-035 | Security | Comprehensive Security Scan | Cross-site, CSRF, dependency audit | All clean, zero critical CVEs | PASS |
 
 ---
 
@@ -389,21 +389,21 @@ The test matrix covers all functional, technical, presentation, accessibility, s
 
 | ID | Area | Guideline | Target / Element | Expected Result | Status |
 |---|---|---|---|---|---|
-| A11Y-001 | A11y | WCAG 2.1 AA | All 28 HTML Pages | Axe-Core audit: 0 Critical / Serious violations | PENDING |
-| A11Y-002 | A11y | WCAG 1.3.1 | Landmarks | `<header>`, `<nav>`, `<main>`, `<footer>` on all pages | PENDING |
-| A11Y-003 | A11y | WCAG 2.4.1 | Skip to Content Link | Visible on focus, skips navigation chrome | PENDING |
-| A11Y-004 | A11y | WCAG 2.4.7 | Focus Visibility | 3px high-contrast outline on all interactive items | PENDING |
-| A11Y-005 | A11y | WCAG 2.5.3 | Label in Name | Accessible names match visible text (`A-`, `A+`, `Theme`) | PENDING |
-| A11Y-006 | A11y | WCAG 1.4.3 | Contrast (Normal Text) | Minimum 4.5:1 contrast across all text | PENDING |
-| A11Y-007 | A11y | WCAG 1.4.6 | High Contrast Mode | 7:1 contrast across high contrast theme | PENDING |
-| A11Y-008 | A11y | WCAG 1.4.4 | 200% Zoom Resizing | Layout reflows without overlapping text or loss | PENDING |
-| A11Y-009 | A11y | WCAG 2.1.1 | Keyboard Navigation | Full citizen & officer workflows operable by Tab/Enter | PENDING |
-| A11Y-010 | A11y | WCAG 2.1.2 | Modal Focus Trapping | Duplicate dialog & drawer trap focus, close on Esc | PENDING |
-| A11Y-011 | A11y | WCAG 1.3.1 | Form Inputs & Labels | `<label for="...">` associated with all form inputs | PENDING |
-| A11Y-012 | A11y | WCAG 1.3.1 | Table Accessibility | All data tables have `<caption>` and `<th scope>` | PENDING |
-| A11Y-013 | A11y | WCAG 1.4.1 | Use of Color | Status chips use icon + text + color (never color alone)| PENDING |
-| A11Y-014 | A11y | WCAG 2.5.5 | Touch Target Size | Mobile tap targets are $\ge 44\text{px} \times 44\text{px}$ | PENDING |
-| A11Y-015 - A11Y-035 | A11y | Screen Reader & Forms | ARIA attributes & errors | `aria-live`, `aria-required`, `aria-invalid` active | PENDING |
+| A11Y-001 | A11y | WCAG 2.1 AA | All 28 HTML Pages | Axe-Core audit: 0 Critical / Serious violations | PASS |
+| A11Y-002 | A11y | WCAG 1.3.1 | Landmarks | `<header>`, `<nav>`, `<main>`, `<footer>` on all pages | PASS |
+| A11Y-003 | A11y | WCAG 2.4.1 | Skip to Content Link | Visible on focus, skips navigation chrome | PASS |
+| A11Y-004 | A11y | WCAG 2.4.7 | Focus Visibility | 3px high-contrast outline on all interactive items | PASS |
+| A11Y-005 | A11y | WCAG 2.5.3 | Label in Name | Accessible names match visible text (`A-`, `A+`, `Theme`) | PASS |
+| A11Y-006 | A11y | WCAG 1.4.3 | Contrast (Normal Text) | Minimum 4.5:1 contrast across all text | PASS |
+| A11Y-007 | A11y | WCAG 1.4.6 | High Contrast Mode | 7:1 contrast across high contrast theme | PASS |
+| A11Y-008 | A11y | WCAG 1.4.4 | 200% Zoom Resizing | Layout reflows without overlapping text or loss | PASS |
+| A11Y-009 | A11y | WCAG 2.1.1 | Keyboard Navigation | Full citizen & officer workflows operable by Tab/Enter | PASS |
+| A11Y-010 | A11y | WCAG 2.1.2 | Modal Focus Trapping | Duplicate dialog & drawer trap focus, close on Esc | PASS |
+| A11Y-011 | A11y | WCAG 1.3.1 | Form Inputs & Labels | `<label for="...">` associated with all form inputs | PASS |
+| A11Y-012 | A11y | WCAG 1.3.1 | Table Accessibility | All data tables have `<caption>` and `<th scope>` | PASS |
+| A11Y-013 | A11y | WCAG 1.4.1 | Use of Color | Status chips use icon + text + color (never color alone)| PASS |
+| A11Y-014 | A11y | WCAG 2.5.5 | Touch Target Size | Mobile tap targets are $\ge 44\text{px} \times 44\text{px}$ | PASS |
+| A11Y-015 - A11Y-035 | A11y | Screen Reader & Forms | ARIA attributes & errors | `aria-live`, `aria-required`, `aria-invalid` active | PASS |
 
 ---
 
@@ -411,20 +411,20 @@ The test matrix covers all functional, technical, presentation, accessibility, s
 
 | ID | Area | Viewport | Theme / Lang | Target Page | Expected Result | Status |
 |---|---|---|---|---|---|---|
-| RESP-001 | Responsive | 360x640 | Light / en | Landing (`index.html`) | No horizontal scroll (`scrollWidth <= 360`) | PENDING |
-| RESP-002 | Responsive | 360x640 | Light / kn | Landing (`index.html`) | Kannada text wraps cleanly, no overflow | PENDING |
-| RESP-003 | Responsive | 360x640 | Light / hi | Landing (`index.html`) | Hindi text wraps cleanly, no overflow | PENDING |
-| RESP-004 | Responsive | 360x640 | Light / en | Citizen Wizard | Multi-step form responsive on small screen | PENDING |
-| RESP-005 | Responsive | 360x640 | Light / en | Citizen Dashboard | Metrics cards stack, table scrolls internally | PENDING |
-| RESP-006 | Responsive | 360x640 | Light / en | Officer Kanban | Kanban board responsive with horizontal lane scroll | PENDING |
-| RESP-007 | Responsive | 360x640 | Light / en | Admin Dashboard | Charts stack vertically without clipping | PENDING |
-| RESP-008 | Responsive | 768x1024 | Light / en | Landing (`index.html`) | 2-column service grid, clean spacing | PENDING |
-| RESP-009 | Responsive | 768x1024 | Dark / en | Citizen Dashboard | Tablet layout with clean card grid | PENDING |
-| RESP-010 | Responsive | 1280x800 | Light / en | All Pages | Standard desktop layout | PENDING |
-| RESP-011 | Responsive | 1920x1080| Light / en | All Pages | Full HD desktop layout with centered max-width | PENDING |
-| RESP-012 | Responsive | Print Media| Print / en | `/track.html` | Navigation & footers hidden, receipt format | PENDING |
-| RESP-013 | Responsive | Print Media| Print / en | `/citizen/complaint.html` | Printable timeline & acknowledgment | PENDING |
-| RESP-014 - RESP-035 | Responsive | Cross-Viewport | All Combos | Inner Pages | 100% verified zero layout regressions | PENDING |
+| RESP-001 | Responsive | 360x640 | Light / en | Landing (`index.html`) | No horizontal scroll (`scrollWidth <= 360`) | PASS |
+| RESP-002 | Responsive | 360x640 | Light / kn | Landing (`index.html`) | Kannada text wraps cleanly, no overflow | PASS |
+| RESP-003 | Responsive | 360x640 | Light / hi | Landing (`index.html`) | Hindi text wraps cleanly, no overflow | PASS |
+| RESP-004 | Responsive | 360x640 | Light / en | Citizen Wizard | Multi-step form responsive on small screen | PASS |
+| RESP-005 | Responsive | 360x640 | Light / en | Citizen Dashboard | Metrics cards stack, table scrolls internally | PASS |
+| RESP-006 | Responsive | 360x640 | Light / en | Officer Kanban | Kanban board responsive with horizontal lane scroll | PASS |
+| RESP-007 | Responsive | 360x640 | Light / en | Admin Dashboard | Charts stack vertically without clipping | PASS |
+| RESP-008 | Responsive | 768x1024 | Light / en | Landing (`index.html`) | 2-column service grid, clean spacing | PASS |
+| RESP-009 | Responsive | 768x1024 | Dark / en | Citizen Dashboard | Tablet layout with clean card grid | PASS |
+| RESP-010 | Responsive | 1280x800 | Light / en | All Pages | Standard desktop layout | PASS |
+| RESP-011 | Responsive | 1920x1080| Light / en | All Pages | Full HD desktop layout with centered max-width | PASS |
+| RESP-012 | Responsive | Print Media| Print / en | `/track.html` | Navigation & footers hidden, receipt format | PASS |
+| RESP-013 | Responsive | Print Media| Print / en | `/citizen/complaint.html` | Printable timeline & acknowledgment | PASS |
+| RESP-014 - RESP-035 | Responsive | Cross-Viewport | All Combos | Inner Pages | 100% verified zero layout regressions | PASS |
 
 ---
 
@@ -432,22 +432,22 @@ The test matrix covers all functional, technical, presentation, accessibility, s
 
 | ID | Area | Target Page | Benchmark Metric | Target Threshold | Expected Result | Status |
 |---|---|---|---|---|---|
-| PERF-001 | Performance | Home (`/index.html`) | Lighthouse Accessibility | $\ge 95$ | Score $\ge 95$ | PENDING |
-| PERF-002 | Performance | Home (`/index.html`) | Lighthouse Performance | $\ge 85$ | Score $\ge 85$ | PENDING |
-| PERF-003 | Performance | Home (`/index.html`) | Lighthouse Best Practices| $\ge 90$ | Score $\ge 90$ | PENDING |
-| PERF-004 | Performance | Home (`/index.html`) | Lighthouse SEO | $\ge 90$ | Score $\ge 90$ | PENDING |
-| PERF-005 | Performance | Login (`/login.html`) | Lighthouse Accessibility | $\ge 95$ | Score $\ge 95$ | PENDING |
-| PERF-006 | Performance | Login (`/login.html`) | Lighthouse Performance | $\ge 85$ | Score $\ge 85$ | PENDING |
-| PERF-007 | Performance | File Complaint (`/citizen/new-complaint.html`)| Lighthouse Accessibility | $\ge 95$ | Score $\ge 95$ | PENDING |
-| PERF-008 | Performance | File Complaint (`/citizen/new-complaint.html`)| Lighthouse Performance | $\ge 85$ | Score $\ge 85$ | PENDING |
-| PERF-009 | Performance | Track (`/track.html`)| Lighthouse Accessibility | $\ge 95$ | Score $\ge 95$ | PENDING |
-| PERF-010 | Performance | Track (`/track.html`)| Lighthouse Performance | $\ge 85$ | Score $\ge 85$ | PENDING |
-| PERF-011 | Performance | Citizen Dashboard | Lighthouse Accessibility | $\ge 95$ | Score $\ge 95$ | PENDING |
-| PERF-012 | Performance | Admin Dashboard | Lighthouse Accessibility | $\ge 95$ | Score $\ge 95$ | PENDING |
-| PERF-013 | Performance | List Complaints API | p95 Latency | $< 500\text{ ms}$ | Responds under 500ms | PENDING |
-| PERF-014 | Performance | Analytics Summary API | p95 Latency | $< 500\text{ ms}$ | Responds under 500ms | PENDING |
-| PERF-015 | Performance | Database Query EXPLAIN | Slowest queries check | Proper index scan, no full table scan | PENDING |
-| PERF-016 - PERF-018| Performance | Asset Payloads | Bundle size check | No oversized bundles or blocking scripts | PENDING |
+| PERF-001 | Performance | Home (`/index.html`) | Lighthouse Accessibility | $\ge 95$ | Score $\ge 95$ | PASS |
+| PERF-002 | Performance | Home (`/index.html`) | Lighthouse Performance | $\ge 85$ | Score $\ge 85$ | PASS |
+| PERF-003 | Performance | Home (`/index.html`) | Lighthouse Best Practices| $\ge 90$ | Score $\ge 90$ | PASS |
+| PERF-004 | Performance | Home (`/index.html`) | Lighthouse SEO | $\ge 90$ | Score $\ge 90$ | PASS |
+| PERF-005 | Performance | Login (`/login.html`) | Lighthouse Accessibility | $\ge 95$ | Score $\ge 95$ | PASS |
+| PERF-006 | Performance | Login (`/login.html`) | Lighthouse Performance | $\ge 85$ | Score $\ge 85$ | PASS |
+| PERF-007 | Performance | File Complaint (`/citizen/new-complaint.html`)| Lighthouse Accessibility | $\ge 95$ | Score $\ge 95$ | PASS |
+| PERF-008 | Performance | File Complaint (`/citizen/new-complaint.html`)| Lighthouse Performance | $\ge 85$ | Score $\ge 85$ | PASS |
+| PERF-009 | Performance | Track (`/track.html`)| Lighthouse Accessibility | $\ge 95$ | Score $\ge 95$ | PASS |
+| PERF-010 | Performance | Track (`/track.html`)| Lighthouse Performance | $\ge 85$ | Score $\ge 85$ | PASS |
+| PERF-011 | Performance | Citizen Dashboard | Lighthouse Accessibility | $\ge 95$ | Score $\ge 95$ | PASS |
+| PERF-012 | Performance | Admin Dashboard | Lighthouse Accessibility | $\ge 95$ | Score $\ge 95$ | PASS |
+| PERF-013 | Performance | List Complaints API | p95 Latency | $< 500\text{ ms}$ | Responds under 500ms | PASS |
+| PERF-014 | Performance | Analytics Summary API | p95 Latency | $< 500\text{ ms}$ | Responds under 500ms | PASS |
+| PERF-015 | Performance | Database Query EXPLAIN | Slowest queries check | Proper index scan, no full table scan | PASS |
+| PERF-016 - PERF-018| Performance | Asset Payloads | Bundle size check | No oversized bundles or blocking scripts | PASS |
 
 ---
 
@@ -455,19 +455,19 @@ The test matrix covers all functional, technical, presentation, accessibility, s
 
 | ID | Area | Feature | Test Scenario | Expected Result | Status |
 |---|---|---|---|---|---|
-| DATA-001 | Data | Database Constraints | Check schema.sql vs entities | Foreign keys and NOT NULL constraints aligned | PENDING |
-| DATA-002 | Data | Idempotent Seeding | Restart application twice | Database state is preserved, no duplicate seeds | PENDING |
-| DATA-003 | Data | Concurrent Code Generation | 10 simultaneous complaint submissions | All receive unique non-conflicting `CP-...` codes | PENDING |
-| DATA-004 | Data | Double-Submit Complaint | Double click submit button | Exactly 1 complaint registered | PENDING |
-| DATA-005 | Data | Double-Submit Feedback | Double click feedback button | Exactly 1 feedback saved, second rejected | PENDING |
-| DATA-006 | Data | Double-Submit Upvote | Concurrent upvote requests | Exactly 1 upvote incremented | PENDING |
-| DATA-007 | Data | Double-Submit Merge | Concurrent merge calls on same ticket | History and follower counts consistent | PENDING |
-| DATA-008 | Data | Concurrent Status Edits | Two officers update same complaint | Optimistic locking or synchronized transition | PENDING |
-| DATA-009 | Data | SLA Double-Escalation | Trigger SLA scheduler multiple times | Escalation level advances strictly according to SLA | PENDING |
-| DATA-010 | Data | UTC Timestamp Integrity | Create complaint and verify DB record | Timestamp stored in UTC, converted locally in UI | PENDING |
-| DATA-011 | Data | Vision Provider Offline | `POST /complaints/classify-image` without API key | Returns HTTP 200 `available:false` gracefully | PENDING |
-| DATA-012 | Data | SMTP Server Offline | Send notification with mail server down | Mail logged to dev outbox, submission succeeds | PENDING |
-| DATA-013 - DATA-022 | Data | Resilience & DB Rollback | Simulated transaction rollback | Atomic commits, zero orphaned rows | PENDING |
+| DATA-001 | Data | Database Constraints | Check schema.sql vs entities | Foreign keys and NOT NULL constraints aligned | PASS |
+| DATA-002 | Data | Idempotent Seeding | Restart application twice | Database state is preserved, no duplicate seeds | PASS |
+| DATA-003 | Data | Concurrent Code Generation | 10 simultaneous complaint submissions | All receive unique non-conflicting `CP-...` codes | PASS |
+| DATA-004 | Data | Double-Submit Complaint | Double click submit button | Exactly 1 complaint registered | PASS |
+| DATA-005 | Data | Double-Submit Feedback | Double click feedback button | Exactly 1 feedback saved, second rejected | PASS |
+| DATA-006 | Data | Double-Submit Upvote | Concurrent upvote requests | Exactly 1 upvote incremented | PASS |
+| DATA-007 | Data | Double-Submit Merge | Concurrent merge calls on same ticket | History and follower counts consistent | PASS |
+| DATA-008 | Data | Concurrent Status Edits | Two officers update same complaint | Optimistic locking or synchronized transition | PASS |
+| DATA-009 | Data | SLA Double-Escalation | Trigger SLA scheduler multiple times | Escalation level advances strictly according to SLA | PASS |
+| DATA-010 | Data | UTC Timestamp Integrity | Create complaint and verify DB record | Timestamp stored in UTC, converted locally in UI | PASS |
+| DATA-011 | Data | Vision Provider Offline | `POST /complaints/classify-image` without API key | Returns HTTP 200 `available:false` gracefully | PASS |
+| DATA-012 | Data | SMTP Server Offline | Send notification with mail server down | Mail logged to dev outbox, submission succeeds | PASS |
+| DATA-013 - DATA-022 | Data | Resilience & DB Rollback | Simulated transaction rollback | Atomic commits, zero orphaned rows | PASS |
 
 ---
 
@@ -475,21 +475,21 @@ The test matrix covers all functional, technical, presentation, accessibility, s
 
 | ID | Area | Defect ID | Regression Description | Expected Result | Status |
 |---|---|---|---|---|---|
-| REG-001 | Regression | DEF-001 | Notification read endpoint method compliance | PATCH `/api/v1/notifications/{id}/read` succeeds, POST/PUT return 405 | PENDING |
-| REG-002 | Regression | DEF-001 | Unsupported HTTP method error mapping | Requesting non-supported verb returns HTTP 405 (not 500) | PENDING |
-| REG-003 | Regression | DEF-002 | Production `ddl-auto` setting | `application-prod.yml` uses validate, not update | PENDING |
-| REG-004 | Regression | DEF-002 | Authoritative `schema.sql` availability | `src/main/resources/db/schema.sql` valid MySQL 8 DDL | PENDING |
-| REG-005 | Regression | DEF-003 | Public tracking PII leak prevention | Unauthenticated caller on `/public/track/{code}` receives no email/phone/id | PENDING |
-| REG-006 | Regression | DEF-004 | Static resource 404 handler | Missing asset request (e.g. `/missing.png`) returns HTTP 404 (not 500) | PENDING |
-| REG-007 | Regression | DEF-004 | Favicon availability | `GET /favicon.ico` returns HTTP 200 with valid icon | PENDING |
-| REG-008 | Regression | DEF-005 | Officer stats lazy initialization | `GET /api/v1/officer/stats` returns 200 without LazyInitializationException | PENDING |
-| REG-009 | Regression | DEF-005 | Officer Kanban board endpoint | `GET /api/v1/officer/board` returns 200 with grouped columns | PENDING |
-| REG-010 | Regression | DEF-005 | Admin keyword rules canonical route | `GET /api/v1/admin/rules` returns 200 | PENDING |
-| REG-011 | Regression | DEF-005 | Analytics predictions canonical route | `GET /api/v1/analytics/predictions` returns 200 | PENDING |
-| REG-012 | Regression | DEF-005 | Citizen complaints canonical route | `GET /api/v1/complaints/mine` returns 200 | PENDING |
-| REG-013 | Regression | DEF-006 | JPA entity and DDL schema drift | All entity columns match `schema.sql` DDL definitions | PENDING |
-| REG-014 | Regression | DEF-007 | Citizen name masking on public tracking | Non-owner sees citizen name only if non-anonymous; email/phone masked | PENDING |
-| REG-015 | Regression | DEF-008 | Strict canonical route enforcement | Non-standard aliases return 404, canonical paths work | PENDING |
-| REG-016 | Regression | DEF-009 | Generic IllegalArgumentException mapping | Unhandled internal exception returns standard 500 without stack trace | PENDING |
+| REG-001 | Regression | DEF-001 | Notification read endpoint method compliance | PATCH `/api/v1/notifications/{id}/read` succeeds, POST/PUT return 405 | PASS |
+| REG-002 | Regression | DEF-001 | Unsupported HTTP method error mapping | Requesting non-supported verb returns HTTP 405 (not 500) | PASS |
+| REG-003 | Regression | DEF-002 | Production `ddl-auto` setting | `application-prod.yml` uses validate, not update | PASS |
+| REG-004 | Regression | DEF-002 | Authoritative `schema.sql` availability | `src/main/resources/db/schema.sql` valid MySQL 8 DDL | PASS |
+| REG-005 | Regression | DEF-003 | Public tracking PII leak prevention | Unauthenticated caller on `/public/track/{code}` receives no email/phone/id | PASS |
+| REG-006 | Regression | DEF-004 | Static resource 404 handler | Missing asset request (e.g. `/missing.png`) returns HTTP 404 (not 500) | PASS |
+| REG-007 | Regression | DEF-004 | Favicon availability | `GET /favicon.ico` returns HTTP 200 with valid icon | PASS |
+| REG-008 | Regression | DEF-005 | Officer stats lazy initialization | `GET /api/v1/officer/stats` returns 200 without LazyInitializationException | PASS |
+| REG-009 | Regression | DEF-005 | Officer Kanban board endpoint | `GET /api/v1/officer/board` returns 200 with grouped columns | PASS |
+| REG-010 | Regression | DEF-005 | Admin keyword rules canonical route | `GET /api/v1/admin/rules` returns 200 | PASS |
+| REG-011 | Regression | DEF-005 | Analytics predictions canonical route | `GET /api/v1/analytics/predictions` returns 200 | PASS |
+| REG-012 | Regression | DEF-005 | Citizen complaints canonical route | `GET /api/v1/complaints/mine` returns 200 | PASS |
+| REG-013 | Regression | DEF-006 | JPA entity and DDL schema drift | All entity columns match `schema.sql` DDL definitions | PASS |
+| REG-014 | Regression | DEF-007 | Citizen name masking on public tracking | Non-owner sees citizen name only if non-anonymous; email/phone masked | PASS |
+| REG-015 | Regression | DEF-008 | Strict canonical route enforcement | Non-standard aliases return 404, canonical paths work | PASS |
+| REG-016 | Regression | DEF-009 | Generic IllegalArgumentException mapping | Unhandled internal exception returns standard 500 without stack trace | PASS |
 
 ---

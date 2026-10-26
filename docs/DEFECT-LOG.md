@@ -20,6 +20,10 @@ This document tracks all defects found during the audit, test, and debug process
 | DEF-005 | S2 | backend/frontend | Phase D Frontend Audit | FIXED | Controller endpoint and DTO mismatches on `/officer/stats` (LazyInit), `/officer/kanban`, `/admin/keyword-rules`, `/analytics/hotspots`, and `/complaints/my` |
 | DEF-011 | S1 | security/backend | 4A Smoke Suite (SMK) | FIXED | Public documentation, error, and info pages returned 401 Unauthorized due to omission from `SecurityConfig` static resource `permitAll()` |
 | DEF-012 | S2 | frontend/a11y | 4A Smoke Suite (SMK) | FIXED | `citizen/profile.html` called `/users/profile` instead of `/users/me` and informational pages contained duplicate `<h1>` headers violating single `<h1>` hierarchy |
+| DEF-013 | S2 | frontend/admin | 4F Admin Suite (ADM) | FIXED | `admin/settings.html` and `admin.js` field mismatch (`settingKey`/`settingValue` vs `key`/`value`) prevented settings table rendering and modal updates |
+| DEF-014 | S2 | frontend/public | 4G Public Suite (PUB) | FIXED | `transparency.html` schema mismatch (`departmentStats` vs `departmentLeaderboard`) resulted in empty department breakdown table |
+| DEF-015 | S2 | backend/citizen | 4D Citizen Suite (CIT) | FIXED | `CommentCreateRequest` rejected `{ text: ... }` JSON payload from citizen grievance discussion interface |
+| DEF-016 | S3 | frontend/pwa | 4A Smoke Suite (SMK) | FIXED | Missing PWA icon PNG assets (`icon-192.png`, `icon-512.png`) caused 404 console errors on all pages loading `manifest.json` |
 
 ---
 
@@ -197,7 +201,58 @@ This document tracks all defects found during the audit, test, and debug process
   1. Updated `citizen/profile.html` to invoke `/users/me`, and added `@GetMapping({"/me", "/profile"})` and `@PutMapping({"/me", "/profile"})` aliases to `UserController.java`.
   2. Updated subpages to use `<span class="cp-brand-title">` in the header seal and styled `.cp-brand-title` identically in `base.css`, leaving the page title as the unique `<h1>`.
 - **Regression Test:** `tests/e2e/suites/01-smoke-crawler.spec.js` (all 33 tests pass with 0 console errors and 1 `<h1>` per page).
+### DEF-013: Admin System Settings Field Name Discrepancy and Modal Callback Signature
+- **ID:** `DEF-013`
+- **Severity:** `S2` (Functional: System configuration UI parameter rendering and mutation failure)
+- **Area:** `frontend/admin`
+- **Found by:** 4F Admin Operations Suite (`06-admin-flows.spec.js` - ADM-11)
+- **Symptom:** Admin System Settings table failed to render setting keys/values, and clicking "Update Setting" in the modal failed with a JavaScript error.
+- **Root Cause:**
+  1. `SystemSetting.java` JPA entity exposes `settingKey` and `settingValue`. `admin/settings.html` expected `s.key` and `s.value` and lacked `class="cp-mono"` on parameter key cells.
+  2. `updateSetting` in `admin.js` expected an object argument `{ key, value }`, whereas `admin/settings.html` modal submission handler passed positional arguments `(key, value)`.
+- **Fix:**
+  1. Updated `admin/settings.html` to map `s.settingKey || s.key` and `s.settingValue || s.value`, and added `class="cp-mono"` on parameter key cells.
+  2. Updated `updateSetting` in `admin.js` to accept both object and positional arguments: `if (typeof settingOrKey === 'object') { ... } else { key = settingOrKey; value = val; }`.
+- **Regression Test:** `tests/e2e/suites/06-admin-flows.spec.js` (`[ADM-11] Admin - System Settings and Duplicate Thresholds`).
 - **Status:** `FIXED`
+
+### DEF-014: Public Transparency Leaderboard DTO Schema Mismatch and Fallback Table Toggle
+- **ID:** `DEF-014`
+- **Severity:** `S2` (Functional / Web: Empty department breakdown table on public transparency dashboard)
+- **Area:** `frontend/public`
+- **Found by:** 4G Public Flows Suite (`07-public-flows.spec.js` - PUB-06)
+- **Symptom:** Public transparency dashboard (`transparency.html`) failed to populate the department performance leaderboard table, and the category breakdown table alternative was hidden.
+- **Root Cause:**
+  1. Backend `PublicStatsResponse` returns `departmentStats`, `totalGrievances`, and `resolvedGrievances`, whereas `transparency.html` expected `departmentLeaderboard`, `totalComplaints`, and `resolvedComplaints`.
+  2. Category breakdown table was set to `d-none` initially without an explicit toggle mechanism in test.
+- **Fix:**
+  1. Updated `transparency.html` to normalize stats response attributes (`stats.departmentStats || stats.departmentLeaderboard`, `stats.totalGrievances || stats.totalComplaints`, `stats.resolvedGrievances || stats.resolvedComplaints`).
+  2. Added toggle handler for `#toggleCatTableBtn` in `transparency.html` and aligned `07-public-flows.spec.js` to click toggle button.
+- **Regression Test:** `tests/e2e/suites/07-public-flows.spec.js` (`[PUB-06] Public Dashboard - Department Breakdown Table Present`).
+- **Status:** `FIXED`
+
+### DEF-015: Grievance Comment DTO Compatibility with Multiple JSON Property Names
+- **ID:** `DEF-015`
+- **Severity:** `S2` (Functional: Citizen discussion thread comment submission failure)
+- **Area:** `backend/citizen`
+- **Found by:** 4D Citizen Flows Suite (`04-citizen-flows.spec.js` - CIT-07)
+- **Symptom:** Posting a comment on a grievance details page returned HTTP 400 Bad Request due to validation on `comment` field.
+- **Root Cause:** Frontend `complaint.html` sent payload `{ text: commentInput.value }`, while backend `CommentCreateRequest.java` expected field name `comment`.
+- **Fix:** Added Jackson `@JsonAlias({"text", "content"})` to the `comment` field in `CommentCreateRequest.java`, allowing seamless deserialization whether the client sends `comment`, `text`, or `content`.
+- **Regression Test:** `tests/e2e/suites/04-citizen-flows.spec.js` (`[CIT-07] Citizen - Add Public Comment to Grievance`).
+- **Status:** `FIXED`
+
+### DEF-016: Missing PWA PNG Icons Causing Console 404 Errors on All Portal Pages
+- **ID:** `DEF-016`
+- **Severity:** `S3` (Cosmetic & Progressive Web App: Static resource 404 errors in browser console)
+- **Area:** `frontend/pwa`
+- **Found by:** 4A Every Page Smoke Suite (`01-smoke-crawler.spec.js`)
+- **Symptom:** Browser console displayed `GET /assets/icons/icon-192.png 404 (Not Found)` and `icon-512.png 404 (Not Found)` when loading any page linking `manifest.json`.
+- **Root Cause:** Icons referenced in `manifest.json` did not exist on the file system in `src/main/resources/static/assets/icons/`.
+- **Fix:** Generated valid PNG icons `icon-192.png` (192x192) and `icon-512.png` (512x512) featuring the official CivicPulse emblem in `src/main/resources/static/assets/icons/`.
+- **Regression Test:** `tests/e2e/suites/01-smoke-crawler.spec.js` (crawls all 28 pages and asserts 0 network failures or console errors).
+- **Status:** `FIXED`
+
 
 
 
