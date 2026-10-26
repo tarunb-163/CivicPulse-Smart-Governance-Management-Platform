@@ -3,157 +3,297 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Executive Analytics — CivicPulse</title>
+  <title>Executive Governance Analytics — CivicPulse Smart Governance Portal</title>
+  <meta name="description" content="Municipal administration analytics dashboard, predictive incident hotspot alerts, and service level compliance monitors.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/base.css">
   <link rel="stylesheet" href="/assets/css/components.css">
-  <link rel="stylesheet" href="/assets/css/animations.css">
 </head>
-<body>
-  <div class="cp-aurora-bg">
-    <div class="cp-blob cp-blob-1"></div>
-    <div class="cp-blob cp-blob-2"></div>
-    <div class="cp-blob cp-blob-3"></div>
+<body class="d-flex flex-column min-vh-100">
+  <!-- Skip Link -->
+  <a href="#main-content" class="cp-skip-link">Skip to main content</a>
+
+  <!-- National Tricolour Strip -->
+  <div class="cp-tricolour-strip" aria-hidden="true"></div>
+
+  <!-- Top Demo Notice -->
+  <div class="cp-top-notice" role="region" aria-label="Portal Notice">
+    Demonstration project. Not an official Government website.
   </div>
 
-  <div class="cp-app-layout">
-    <!-- Sidebar -->
-    <aside class="cp-sidebar" id="cpSidebar">
-      <div class="cp-sidebar-header">
-        <a href="/admin/dashboard.html" class="cp-nav-brand">
-          <div class="cp-brand-logo"><i class="bi bi-shield-check"></i></div>
-          <span class="cp-sidebar-text">Civic<span class="cp-gradient-text">Pulse</span></span>
-        </a>
+  <!-- Utility Bar -->
+  <header class="cp-utility-bar" role="region" aria-label="Accessibility and Language Controls">
+    <a href="/screen-reader.html" class="cp-util-link"><i class="bi bi-eye-fill"></i> Screen Reader Access</a>
+    <div class="cp-util-group">
+      <span class="text-muted small me-1">Text Size:</span>
+      <button type="button" class="cp-text-size-btn" data-size="-" aria-label="Decrease font size">A-</button>
+      <button type="button" class="cp-text-size-btn active" data-size="0" aria-label="Reset font size">A</button>
+      <button type="button" class="cp-text-size-btn" data-size="+" aria-label="Increase font size">A+</button>
+    </div>
+    <div class="cp-util-group">
+      <button type="button" class="cp-contrast-btn" aria-label="Toggle High Contrast Mode"><i class="bi bi-circle-half"></i> Contrast</button>
+      <button type="button" class="cp-contrast-btn cp-theme-toggle" aria-label="Toggle Dark Mode"><i class="bi bi-moon-fill text-primary"></i> Theme</button>
+    </div>
+    <div class="cp-util-group">
+      <label for="langSelect" class="visually-hidden">Select Language</label>
+      <select id="langSelect" class="cp-lang-select" aria-label="Language selection">
+        <option value="en">English</option>
+        <option value="kn">ಕನ್ನಡ</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- Portal Header -->
+  <div class="cp-gov-header">
+    <div class="cp-gov-header-inner">
+      <a href="/admin/dashboard.html" class="cp-brand-seal" aria-label="CivicPulse Portal Dashboard">
+        <svg class="cp-emblem-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CivicPulse Emblem">
+          <circle cx="32" cy="32" r="30" stroke="#1F3A6E" stroke-width="3" fill="#FFFFFF"/>
+          <circle cx="32" cy="32" r="24" stroke="#D9531E" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <path d="M32 12V52M12 32H52M18 18L46 46M18 46L46 18" stroke="#1F3A6E" stroke-width="1.5"/>
+          <circle cx="32" cy="32" r="8" fill="#1F3A6E"/>
+          <circle cx="32" cy="32" r="4" fill="#FF9933"/>
+        </svg>
+        <div class="cp-brand-text">
+          <h1>CivicPulse Smart Governance Portal</h1>
+          <span class="cp-portal-sub">Municipal Administration &amp; Executive Analytics</span>
+        </div>
+      </a>
+      <div class="cp-header-right">
+        <span class="badge bg-danger text-white px-3 py-2 fw-semibold">Super Administrator</span>
       </div>
-      <ul class="cp-sidebar-menu">
-        <li class="cp-sidebar-item"><a href="/admin/dashboard.html" class="cp-sidebar-link active"><i class="bi bi-speedometer2"></i><span class="cp-sidebar-text">Analytics</span></a></li>
-        <li class="cp-sidebar-item"><a href="/admin/departments.html" class="cp-sidebar-link"><i class="bi bi-building"></i><span class="cp-sidebar-text">Departments</span></a></li>
-        <li class="cp-sidebar-item"><a href="/admin/categories.html" class="cp-sidebar-link"><i class="bi bi-tags"></i><span class="cp-sidebar-text">Categories</span></a></li>
-        <li class="cp-sidebar-item"><a href="/admin/rules.html" class="cp-sidebar-link"><i class="bi bi-cpu"></i><span class="cp-sidebar-text">Keyword Rules</span></a></li>
-        <li class="cp-sidebar-item"><a href="/admin/users.html" class="cp-sidebar-link"><i class="bi bi-people"></i><span class="cp-sidebar-text">User Control</span></a></li>
-        <li class="cp-sidebar-item"><a href="/admin/sla.html" class="cp-sidebar-link"><i class="bi bi-stopwatch"></i><span class="cp-sidebar-text">SLA Policies</span></a></li>
-        <li class="cp-sidebar-item"><a href="/admin/audit.html" class="cp-sidebar-link"><i class="bi bi-journal-text"></i><span class="cp-sidebar-text">Audit Logs</span></a></li>
-        <li class="cp-sidebar-item"><a href="/admin/settings.html" class="cp-sidebar-link"><i class="bi bi-gear"></i><span class="cp-sidebar-text">Settings</span></a></li>
-        <li class="cp-sidebar-item"><a href="/admin/outbox.html" class="cp-sidebar-link"><i class="bi bi-envelope-paper"></i><span class="cp-sidebar-text">Dev Outbox</span></a></li>
-      </ul>
-      <div class="p-3 border-top">
-        <button id="logoutBtn" class="cp-btn cp-btn-ghost w-100 justify-content-start text-danger">
-          <i class="bi bi-box-arrow-right me-2"></i><span class="cp-sidebar-text">Sign Out</span>
-        </button>
-      </div>
-    </aside>
-
-    <div class="cp-main-content">
-      <header class="cp-topbar">
-        <div class="d-flex align-items-center gap-2">
-          <button class="btn btn-sm cp-btn-ghost d-lg-none" id="sidebarToggle"><i class="bi bi-list fs-4"></i></button>
-          <h5 class="fw-bold mb-0">City Executive Dashboard</h5>
-        </div>
-        <div class="d-flex align-items-center gap-3">
-          <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-outline-success rounded-pill" id="btnExportCsv"><i class="bi bi-file-earmark-spreadsheet me-1"></i>Export CSV</button>
-            <button class="btn btn-sm btn-outline-danger rounded-pill" id="btnExportPdf"><i class="bi bi-file-earmark-pdf me-1"></i>Export PDF</button>
-          </div>
-          <button class="btn btn-sm cp-btn-ghost cp-open-palette" title="Search (Ctrl+K)"><i class="bi bi-search"></i></button>
-          <button class="btn btn-sm cp-btn-ghost cp-theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars"></i></button>
-        </div>
-      </header>
-
-      <div class="cp-page-container">
-        <!-- Hotspot AI Prediction Alerts -->
-        <div class="row g-3 mb-4" id="hotspotAlertsContainer"></div>
-
-        <!-- KPI Strip -->
-        <div class="row g-3 mb-4">
-          <div class="col-sm-6 col-xl-3">
-            <div class="cp-card cp-tilt p-3 d-flex align-items-center gap-3">
-              <div class="rounded-circle bg-primary-subtle text-primary p-3 fs-4"><i class="bi bi-collection"></i></div>
-              <div>
-                <div class="text-muted small">Total Complaints</div>
-                <h3 class="fw-bold mb-0" id="kpiTotal">0</h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="cp-card cp-tilt p-3 d-flex align-items-center gap-3">
-              <div class="rounded-circle bg-success-subtle text-success p-3 fs-4"><i class="bi bi-check2-all"></i></div>
-              <div>
-                <div class="text-muted small">Resolved</div>
-                <h3 class="fw-bold mb-0 text-success" id="kpiResolved">0</h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="cp-card cp-tilt p-3 d-flex align-items-center gap-3">
-              <div class="rounded-circle bg-warning-subtle text-warning p-3 fs-4"><i class="bi bi-hourglass-split"></i></div>
-              <div>
-                <div class="text-muted small">Pending Work</div>
-                <h3 class="fw-bold mb-0 text-warning" id="kpiPending">0</h3>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="cp-card cp-tilt p-3 d-flex align-items-center gap-3">
-              <div class="rounded-circle bg-danger-subtle text-danger p-3 fs-4"><i class="bi bi-alarm"></i></div>
-              <div>
-                <div class="text-muted small">Overdue SLA</div>
-                <h3 class="fw-bold mb-0 text-danger" id="kpiOverdue">0</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Charts Grid -->
-        <div class="row g-4 mb-4">
-          <!-- Daily Grievance Trends -->
-          <div class="col-lg-8">
-            <div class="cp-card p-4 h-100">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="fw-bold mb-0"><i class="bi bi-graph-up text-primary me-2"></i>Daily Filing Trend</h5>
-                <span class="badge bg-secondary-subtle text-muted">Last 30 Days</span>
-              </div>
-              <div style="height: 280px;">
-                <canvas id="trendChart"></canvas>
-              </div>
-            </div>
-          </div>
-
-          <!-- Category Breakdown Doughnut -->
-          <div class="col-lg-4">
-            <div class="cp-card p-4 h-100">
-              <h5 class="fw-bold mb-3"><i class="bi bi-pie-chart text-info me-2"></i>Top Categories</h5>
-              <div style="height: 280px;">
-                <canvas id="categoryChart"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Department Performance Bar Chart -->
-        <div class="cp-card p-4 mb-4">
-          <h5 class="fw-bold mb-3"><i class="bi bi-bar-chart-line text-success me-2"></i>Departmental Redressal Compliance</h5>
-          <div style="height: 320px;">
-            <canvas id="departmentChart"></canvas>
-          </div>
-        </div>
-
-        <!-- Heatmap -->
-        <div class="cp-card p-4">
-          <h5 class="fw-bold mb-2"><i class="bi bi-geo-alt-fill text-danger me-2"></i>Davanagere Incident Heatmap</h5>
-          <p class="text-muted small mb-3">High-density areas flag repeat infrastructure failures requiring capital intervention.</p>
-          <div id="adminHeatmap" style="height: 380px; border-radius: var(--r-md); overflow: hidden;"></div>
-        </div>
-      </div>
-
-      <footer class="cp-footer-slim">
-        <div>&copy; 2026 CivicPulse Municipal Redressal developed by Tarun B</div>
-      </footer>
     </div>
   </div>
 
+  <!-- Main Navigation -->
+  <nav class="cp-gov-nav" aria-label="Primary Navigation">
+    <div class="cp-gov-nav-inner">
+      <button class="cp-nav-mobile-toggle" type="button" aria-expanded="false" aria-label="Toggle navigation menu" id="sidebarToggle">
+        <i class="bi bi-list"></i> Menu
+      </button>
+      <ul class="cp-nav-menu" id="cpSidebar">
+        <li class="cp-nav-item"><a href="/admin/dashboard.html" class="cp-nav-link active"><i class="bi bi-speedometer2"></i> Analytics</a></li>
+        <li class="cp-nav-item"><a href="/admin/departments.html" class="cp-nav-link"><i class="bi bi-building"></i> Departments</a></li>
+        <li class="cp-nav-item"><a href="/admin/categories.html" class="cp-nav-link"><i class="bi bi-tags"></i> Categories</a></li>
+        <li class="cp-nav-item"><a href="/admin/rules.html" class="cp-nav-link"><i class="bi bi-cpu"></i> Routing Rules</a></li>
+        <li class="cp-nav-item"><a href="/admin/users.html" class="cp-nav-link"><i class="bi bi-people"></i> Users</a></li>
+        <li class="cp-nav-item"><a href="/admin/sla.html" class="cp-nav-link"><i class="bi bi-stopwatch"></i> SLA Policies</a></li>
+        <li class="cp-nav-item"><a href="/admin/audit.html" class="cp-nav-link"><i class="bi bi-journal-text"></i> Audit Logs</a></li>
+        <li class="cp-nav-item"><a href="/admin/settings.html" class="cp-nav-link"><i class="bi bi-gear"></i> Settings</a></li>
+        <li class="cp-nav-item"><a href="/admin/outbox.html" class="cp-nav-link"><i class="bi bi-envelope-paper"></i> Outbox</a></li>
+        <li class="cp-nav-item"><button id="logoutBtn" class="cp-nav-link border-0 bg-transparent text-danger"><i class="bi bi-box-arrow-right"></i> Sign Out</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumbs -->
+  <div class="cp-breadcrumb-bar">
+    <div class="cp-breadcrumb-inner">
+      <ol class="cp-breadcrumb-list">
+        <li><a href="/index.html">Home</a></li>
+        <li class="cp-breadcrumb-sep">/</li>
+        <li><a href="/admin/dashboard.html">Admin Console</a></li>
+        <li class="cp-breadcrumb-sep">/</li>
+        <li aria-current="page">Executive Analytics</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main id="main-content" class="cp-gov-main flex-grow-1">
+    <div class="d-flex flex-wrap justify-content-between align-items-center pb-3 mb-4 border-bottom gap-2">
+      <div>
+        <h2 class="h4 fw-bold text-navy mb-1">Municipal Governance Analytics</h2>
+        <p class="text-muted small mb-0">City-wide grievance trends, department compliance ratings, and early anomaly detection.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-sm btn-outline-success" id="btnExportCsv"><i class="bi bi-file-earmark-spreadsheet me-1"></i> Export CSV</button>
+        <button class="btn btn-sm btn-outline-danger" id="btnExportPdf"><i class="bi bi-file-earmark-pdf me-1"></i> Export PDF</button>
+      </div>
+    </div>
+
+    <!-- Hotspot AI Prediction Alerts -->
+    <div class="row g-3 mb-4" id="hotspotAlertsContainer"></div>
+
+    <!-- Flat Sarkari KPI Strip -->
+    <div class="row g-3 mb-4">
+      <div class="col-sm-6 col-xl-3">
+        <div class="cp-card p-3 border">
+          <div class="d-flex align-items-center gap-3">
+            <div class="p-2 bg-light text-navy rounded border"><i class="bi bi-collection fs-4"></i></div>
+            <div>
+              <div class="text-muted small">Total Complaints</div>
+              <h3 class="fw-bold mb-0 text-navy" id="kpiTotal">0</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <div class="cp-card p-3 border">
+          <div class="d-flex align-items-center gap-3">
+            <div class="p-2 bg-light text-success rounded border"><i class="bi bi-check2-all fs-4"></i></div>
+            <div>
+              <div class="text-muted small">Resolved Successfully</div>
+              <h3 class="fw-bold mb-0 text-success" id="kpiResolved">0</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <div class="cp-card p-3 border">
+          <div class="d-flex align-items-center gap-3">
+            <div class="p-2 bg-light text-warning rounded border"><i class="bi bi-hourglass-split fs-4"></i></div>
+            <div>
+              <div class="text-muted small">Pending Redressal</div>
+              <h3 class="fw-bold mb-0 text-warning-emphasis" id="kpiPending">0</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+        <div class="cp-card p-3 border">
+          <div class="d-flex align-items-center gap-3">
+            <div class="p-2 bg-light text-danger rounded border"><i class="bi bi-alarm fs-4"></i></div>
+            <div>
+              <div class="text-muted small">Overdue SLA</div>
+              <h3 class="fw-bold mb-0 text-danger" id="kpiOverdue">0</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Grid -->
+    <div class="row g-4 mb-4">
+      <!-- Daily Grievance Trends -->
+      <div class="col-lg-8">
+        <div class="cp-card p-4 h-100 border">
+          <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+            <h3 class="h5 fw-bold text-navy mb-0"><i class="bi bi-graph-up text-primary me-2"></i>Daily Filing Trend</h3>
+            <span class="badge bg-light text-muted border">30-Day Window</span>
+          </div>
+          <div style="height: 280px;">
+            <canvas id="trendChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Breakdown Doughnut -->
+      <div class="col-lg-4">
+        <div class="cp-card p-4 h-100 border">
+          <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+            <h3 class="h5 fw-bold text-navy mb-0"><i class="bi bi-pie-chart text-info me-2"></i>Top Categories</h3>
+            <button class="btn btn-xs btn-outline-secondary py-0 px-2" id="toggleCategoryTableBtn" type="button" aria-expanded="false">View as table</button>
+          </div>
+          <div id="categoryChartContainer" style="height: 280px;">
+            <canvas id="categoryChart"></canvas>
+          </div>
+          <div id="categoryTableContainer" class="d-none" style="max-height: 280px; overflow-y: auto;">
+            <table class="table table-sm table-bordered cp-table mb-0" id="categoryAccessibleTable">
+              <caption class="visually-hidden">Complaints Distribution by Category</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Category</th>
+                  <th scope="col" class="text-end">Count</th>
+                </tr>
+              </thead>
+              <tbody id="categoryTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Department Performance Bar Chart -->
+    <div class="cp-card p-4 mb-4 border">
+      <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+        <h3 class="h5 fw-bold text-navy mb-0"><i class="bi bi-bar-chart-line text-success me-2"></i>Departmental Redressal Compliance</h3>
+        <button class="btn btn-xs btn-outline-secondary py-0 px-2" id="toggleDeptTableBtn" type="button" aria-expanded="false">View as table</button>
+      </div>
+      <div id="deptChartContainer" style="height: 320px;">
+        <canvas id="departmentChart"></canvas>
+      </div>
+      <div id="deptTableContainer" class="d-none" style="max-height: 320px; overflow-y: auto;">
+        <table class="table table-sm table-bordered cp-table mb-0" id="deptAccessibleTable">
+          <caption class="visually-hidden">Department Grievance Redressal Performance</caption>
+          <thead>
+            <tr>
+              <th scope="col">Department</th>
+              <th scope="col" class="text-end">Resolved</th>
+              <th scope="col" class="text-end">Pending</th>
+            </tr>
+          </thead>
+          <tbody id="deptTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Heatmap -->
+    <div class="cp-card p-4 border">
+      <h3 class="h5 fw-bold text-navy mb-1"><i class="bi bi-geo-alt-fill text-danger me-2"></i>Municipal Incident Heatmap</h3>
+      <p class="text-muted small mb-3">Spatial density of municipal complaints flagging recurring ward infrastructure failure zones.</p>
+      <div id="adminHeatmap" style="height: 380px; border-radius: 4px; overflow: hidden; border: 1px solid var(--border-color);"></div>
+    </div>
+  </main>
+
+  <!-- Standard Government Footer -->
+  <footer class="cp-gov-footer" role="contentinfo">
+    <div class="cp-gov-footer-inner">
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <h2 class="cp-footer-title">About CivicPulse</h2>
+          <p class="cp-footer-desc">
+            CivicPulse is an automated municipal grievance redressal system providing seamless civic service monitoring, officer resolution tracking, and SLA enforcement.
+          </p>
+        </div>
+        <div class="col-lg-2 col-md-6">
+          <h2 class="cp-footer-title">Navigation</h2>
+          <ul class="cp-footer-links">
+            <li><a href="/index.html">Portal Home</a></li>
+            <li><a href="/admin/dashboard.html">Admin Dashboard</a></li>
+            <li><a href="/admin/departments.html">Departments</a></li>
+            <li><a href="/transparency.html">Public Dashboard</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <h2 class="cp-footer-title">Statutory &amp; Policies</h2>
+          <ul class="cp-footer-links">
+            <li><a href="/accessibility.html">Accessibility Statement</a></li>
+            <li><a href="/screen-reader.html">Screen Reader Access</a></li>
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms of Service</a></li>
+            <li><a href="/sitemap.html">Sitemap</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <h2 class="cp-footer-title">Help &amp; Support</h2>
+          <ul class="cp-footer-links">
+            <li><a href="/help.html">User Manual &amp; FAQs</a></li>
+            <li><a href="/contact.html">Contact Nodal Officer</a></li>
+          </ul>
+          <div class="cp-footer-contact mt-3">
+            <div><strong>Toll-Free Helpline:</strong> 1800-111-999</div>
+            <div><strong>Email:</strong> support@civicpulse.gov.in.demo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-footer-bottom">
+        <div class="cp-footer-copy">
+          &copy; 2026 CivicPulse Municipal Redressal developed by Tarun B
+        </div>
+        <div class="cp-footer-notice">
+          Demonstration project. Not an official Government website. Best viewed in latest Chrome, Edge, Firefox, Safari.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
@@ -166,7 +306,7 @@
     import { renderTrendChart, renderCategoryChart, renderDepartmentChart } from '/assets/js/modules/charts.js';
     import { initHeatmap } from '/assets/js/modules/map.js';
     import '/assets/js/core/theme.js';
-    import '/assets/js/ui/spotlight.js';
+    import '/assets/js/ui/gov-ui.js';
     import '/assets/js/ui/palette.js';
     import '/assets/js/ui/bot.js';
 
@@ -195,12 +335,12 @@
             const ratio = h.spikeRatio ?? h.ratio ?? 0;
             return `
             <div class="col-md-6">
-              <div class="alert alert-danger d-flex align-items-center gap-3 p-3 shadow-sm border-danger-subtle rounded-3 mb-0">
+              <div class="alert alert-danger d-flex align-items-center gap-3 p-3 border rounded mb-0">
                 <i class="bi bi-graph-up-arrow fs-3 text-danger"></i>
                 <div class="w-100">
                   <div class="d-flex justify-content-between align-items-center mb-1">
                     <strong class="text-danger">Spike Warning: ${escapeHtml(h.categoryName)}</strong>
-                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle">${ratio}x Surge</span>
+                    <span class="badge bg-danger text-white">${ratio}x Surge</span>
                   </div>
                   <div class="small text-muted mb-1">${current} reports this week vs 4-wk average of ${avg}</div>
                   <div class="small text-dark fw-medium"><i class="bi bi-info-circle me-1 text-danger"></i>${escapeHtml(h.recommendation || 'Action required')}</div>
@@ -212,7 +352,7 @@
         } else {
           hsCont.innerHTML = `
             <div class="col-12">
-              <div class="alert alert-success d-flex align-items-center gap-3 p-3 shadow-sm border-success-subtle rounded-3 mb-0">
+              <div class="alert alert-success d-flex align-items-center gap-3 p-3 border rounded mb-0">
                 <i class="bi bi-check-circle fs-3 text-success"></i>
                 <div>
                   <strong class="d-block text-success">All Clear: No Incident Spikes Detected</strong>
@@ -235,12 +375,35 @@
         const cCounts = (cats || []).map(x => x.count);
         renderCategoryChart('categoryChart', cLabels, cCounts);
 
+        // Populate Accessible Category Table
+        const catTbody = document.getElementById('categoryTableBody');
+        if (catTbody) {
+          catTbody.innerHTML = (cats || []).map(c => `
+            <tr>
+              <td>${escapeHtml(c.categoryName)}</td>
+              <td class="text-end fw-bold">${c.count}</td>
+            </tr>
+          `).join('');
+        }
+
         // Department Bar
         const depts = await apiRequest('/analytics/by-department');
         const dNames = (depts || []).map(x => x.departmentName);
         const dResolved = (depts || []).map(x => x.resolvedCount);
         const dPending = (depts || []).map(x => x.pendingCount);
         renderDepartmentChart('departmentChart', dNames, dResolved, dPending);
+
+        // Populate Accessible Department Table
+        const deptTbody = document.getElementById('deptTableBody');
+        if (deptTbody) {
+          deptTbody.innerHTML = (depts || []).map(d => `
+            <tr>
+              <td>${escapeHtml(d.departmentName)}</td>
+              <td class="text-end text-success fw-bold">${d.resolvedCount || 0}</td>
+              <td class="text-end text-warning-emphasis fw-bold">${d.pendingCount || 0}</td>
+            </tr>
+          `).join('');
+        }
 
         // Heatmap
         const points = await apiRequest('/analytics/heatmap');
@@ -250,6 +413,44 @@
         console.error('Failed to load admin analytics', err);
       }
     }
+
+    // Toggle Category Table
+    document.getElementById('toggleCategoryTableBtn').addEventListener('click', () => {
+      const chartC = document.getElementById('categoryChartContainer');
+      const tableC = document.getElementById('categoryTableContainer');
+      const btn = document.getElementById('toggleCategoryTableBtn');
+      const isTable = !tableC.classList.contains('d-none');
+      if (isTable) {
+        tableC.classList.add('d-none');
+        chartC.classList.remove('d-none');
+        btn.textContent = 'View as table';
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        chartC.classList.add('d-none');
+        tableC.classList.remove('d-none');
+        btn.textContent = 'View as chart';
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    // Toggle Dept Table
+    document.getElementById('toggleDeptTableBtn').addEventListener('click', () => {
+      const chartC = document.getElementById('deptChartContainer');
+      const tableC = document.getElementById('deptTableContainer');
+      const btn = document.getElementById('toggleDeptTableBtn');
+      const isTable = !tableC.classList.contains('d-none');
+      if (isTable) {
+        tableC.classList.add('d-none');
+        chartC.classList.remove('d-none');
+        btn.textContent = 'View as table';
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        chartC.classList.add('d-none');
+        tableC.classList.remove('d-none');
+        btn.textContent = 'View as chart';
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
 
     // CSV & PDF Exports
     document.getElementById('btnExportCsv').addEventListener('click', async () => {
