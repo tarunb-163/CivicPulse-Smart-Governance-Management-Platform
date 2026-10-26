@@ -20,7 +20,7 @@ RUN addgroup -S civicgroup \
   && mkdir -p /app/uploads \
   && chown -R civicpulse:civicgroup /app
 
-COPY --from=builder --chown=civicpulse:civicgroup /app/target/*.jar /app/app.jar
+COPY --from=builder --chown=civicpulse:civicgroup /app/target/civicpulse-1.0.0.jar /app/app.jar
 
 ENV SPRING_PROFILES_ACTIVE=prod
 ENV UPLOAD_DIR=/app/uploads
