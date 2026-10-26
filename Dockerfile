@@ -1,31 +1,34 @@
-# Stage 1: Build application JAR
+
+# Stage 1: Build the Spring Boot application
 FROM maven:3.9.8-eclipse-temurin-21-alpine AS builder
+
 WORKDIR /app
+
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
+
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Stage 2: Runtime image
+# Stage 2: Run the application
 FROM eclipse-temurin:21-jre-alpine
+
 WORKDIR /app
 
-# Create non-root user
-RUN addgroup -S civicgroup && adduser -S civicpulse -G civicgroup
+RUN addgroup -S civicgroup \
+  && adduser -S civicpulse -G civicgroup \
+  && mkdir -p /app/uploads \
+  && chown -R civicpulse:civicgroup /app
 
-# Create directory for uploads
-RUN mkdir -p /app/uploads && chown -R civicpulse:civicgroup /app
-
-USER civicpulse:civicgroup
-
-COPY --from=builder --chown=civicpulse:civicgroup /app/target/civicpulse-*.jar app.jar
+COPY --from=builder --chown=civicpulse:civicgroup /app/target/*.jar /app/app.jar
 
 ENV SPRING_PROFILES_ACTIVE=prod
 ENV UPLOAD_DIR=/app/uploads
 
-EXPOSE 8080
+USER civicpulse
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1
+# Vercel routes container traffic to port 80 by default.
+# Use PORT when Vercel provides a different port.
+EXPOSE 80
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "exec java -Djava.security.egd=file:/dev/./urandom -Dserver.port=${PORT:-80} -jar /app/app.jar"]
